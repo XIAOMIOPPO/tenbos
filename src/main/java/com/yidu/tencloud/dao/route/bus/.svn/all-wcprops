@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/dangdang/!svn/ver/1660/bos/tenbos/src/main/java/com/yidu/tencloud/dao/route/bus
+END
+BusLineMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/dangdang/!svn/ver/1660/bos/tenbos/src/main/java/com/yidu/tencloud/dao/route/bus/BusLineMapper.java
+END
+BusStationMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/dangdang/!svn/ver/1561/bos/tenbos/src/main/java/com/yidu/tencloud/dao/route/bus/BusStationMapper.java
+END
+BusLineMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/dangdang/!svn/ver/1660/bos/tenbos/src/main/java/com/yidu/tencloud/dao/route/bus/BusLineMapper.xml
+END
+BusStationMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/dangdang/!svn/ver/1561/bos/tenbos/src/main/java/com/yidu/tencloud/dao/route/bus/BusStationMapper.xml
+END

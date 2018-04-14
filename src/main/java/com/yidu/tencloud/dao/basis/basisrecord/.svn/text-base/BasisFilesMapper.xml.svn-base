@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.tencloud.dao.basis.basisrecord.BasisFilesMapper">
+	<!-- 查找基础档案总记录数 -->
+	<select id="countBasisFiles" parameterType="hashmap" resultType="int">
+		select count(*) from t_basis_files where 1=1
+		<!-- 判断名字不为空 -->
+		<if test="recordName!=null">
+			and recordName like '%${recordName}%'
+		</if>
+		and classification != '1'
+	</select>
+	<!-- 查找所有基础档案并分页 -->
+	<select id="findAllBasisFiles" parameterType="hashmap"
+		resultType="BasisFiles">
+		select * from t_basis_files where 1=1
+		<if test="recordName!=null and recordName!='' ">
+			and recordName like '%${recordName}%'
+		</if>
+		and classification != '1'
+		<if test="offset !=null and limit !=null">
+			limit #{offset},#{limit}
+		</if>
+	</select>
+	<!-- 添加基础档案 -->
+	<insert id="addBasisFiles" parameterType="BasisFiles">
+		insert into
+		t_basis_files(recordId,recordName,classification,remarlk)
+		values(#{recordId},#{recordName},'0',#{remarlk})
+	</insert>
+	<!-- 根据名字查找 -->
+	<select id="findBasisFilesByRecordName" parameterType="String"
+		resultType="BasisFiles">
+		select * from t_basis_files where recordName =
+		#{recordName}
+	</select>
+	<!-- 修改基础档案 -->
+	<update id="updateBasisFiles" parameterType="BasisFiles">
+		update t_basis_files
+		set recordName = #{recordName},remarlk=#{remarlk} where recordId =
+		#{recordId}
+	</update>
+	<!-- 查找所有辅助档案总记录数 -->
+	<select id="countHelpFiles" parameterType="hashmap" resultType="int">
+		select count(*) from t_help_files where 1=1 and isUse != '0'
+		<if test="recordId!=null and recordId!='' ">
+			and recordId = #{recordId}
+		</if>
+		<if test="fileName!=null and fileName!='' ">
+			and fileName like '%${fileName}%'
+		</if>
+		<if test="mnemonicCode!=null and mnemonicCode!='' ">
+			and mnemonicCode like '%${mnemonicCode}%'
+		</if>
+
+	</select>
+	<!--查找所有辅助档案并分页 -->
+	<select id="findAllHelpFiles" parameterType="hashmap"
+		resultType="HelpFiles">
+		select * from t_help_files where 1=1 and isUse != '0'
+		<if test="recordId!=null and recordId!='' ">
+			and recordId = #{recordId}
+		</if>
+		<if test="fileName!=null and fileName!='' ">
+			and fileName like '%${fileName}%'
+		</if>
+		<if test="mnemonicCode!=null and mnemonicCode!='' ">
+			and mnemonicCode like '%${mnemonicCode}%'
+		</if>
+		<if test="offset !=null and limit !=null">
+			limit #{offset},#{limit}
+		</if>
+	</select>
+	<!-- 根据名字,Id查找到所有基础档案 -->
+	<select id="findAllRecordName" resultType="BasisFiles">
+		select
+		recordId,recordName from t_basis_files where classification != '1'
+	</select>
+	<!-- 添加辅助档案 -->
+	<insert id="addHelpFiles" parameterType="HelpFiles">
+		insert into
+		t_help_files(fileId,fileName,recordId,recordName,mnemonicCode,isUse,remake)
+		values(#{fileId},#{fileName},#{recordId},#{recordName},#{mnemonicCode},'1',#{remake}
+		)
+	</insert>
+	<!-- 根据名字查找 -->
+	<select id="findHelpFilesByFileName" parameterType="String"
+		resultType="HelpFiles">
+		select * from t_help_files where fileName = #{fileName}
+	</select>
+	<!-- 修改辅助档案 -->
+	<update id="updateHelpFiles" parameterType="HelpFiles">
+		update t_help_files
+		set fileName =
+		#{fileName},mnemonicCode=#{mnemonicCode},remake=#{remake} where fileId
+		= #{fileId}
+	</update>
+
+	<!-- 删除基础档案表 -->
+	<update id="deleteBasisFiles" parameterType="String">
+		update t_basis_files
+		set classification = '1' where recordId =#{recordId}
+	</update>
+	<!-- 删除辅助档案表 -->
+	<update id="deleteHelpFiles" parameterType="hashmap">
+		update t_help_files set isUse = '0'
+		<if test="fileId !='' ">
+			where fileId =#{fileId}
+		</if>
+		<if test="recordId !='' ">
+			where recordId =#{recordId}
+		</if>
+	</update>
+	<!-- 根据备注查找基础档案 -->
+	<select id="selectFileByParentName" parameterType="string"
+		resultType="HelpFiles">
+		select * from t_help_files where recordId=(select recordId
+		from t_basis_files where remarlk=#{remarlk})
+	</select>
+</mapper>

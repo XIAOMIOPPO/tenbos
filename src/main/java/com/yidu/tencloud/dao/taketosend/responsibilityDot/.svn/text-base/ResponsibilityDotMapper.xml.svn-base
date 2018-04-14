@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.yidu.tencloud.dao.taketosend.responsibilityDot.ResponsibilityDotMapper">
+  <!-- 查询责任网点的记录总数 -->
+  <select id="countResponsibilityDot" parameterType="hashmap" resultType="int">
+   select count(*) from t_responsibility_dot
+  </select>
+  
+  <!-- 通过组织结构Id查询组织结构 -->
+  <select id="findOrganizationWithOrgId" resultType="string">
+    select orgId from t_organization 
+  </select>
+  
+  <!-- 普通分页查询 -->
+  <select id="findResponsibilityDotQuery" parameterType="hashmap" resultType="ResponsibilityDot"> 
+     select * from t_responsibility_dot limit #{offset},#{limit}
+  </select>
+  
+  <!-- 带条件的分页查询，如果条件为空，就是查询所有用户，并做分页 -->
+  <select id="findResponsibilityDotQueryWithCriteria" parameterType="hashmap" resultType="ResponsibilityDot">
+   <choose>
+    <otherwise>
+      select * from t_responsibility_dot where 1=1
+    </otherwise>
+   </choose>
+    <if test="responsibilityDotId!=null">
+      and responsibilityDotId like '%${responsibilityDotId}%'
+    </if>
+    <if test="franchiseeCode!=null">
+     and franchiseeCode like '%${franchiseeCode}%'
+    </if>
+     <if test="franchisee!=null">
+     and franchisee like '%${franchisee}%'
+    </if>
+    <if test="lateStandard!=null">
+     and lateStandard like '%${lateStandard}%'
+    </if>
+    <if test="cancelSign!=null">
+     and failureTime like '%${failureTime}%'
+    </if>
+    <if test="operator!=null">
+     and operator like '%${operator}%'
+    </if>
+    <if test="operatingTime!=null">
+     and operatingTime like '%${operatingTime}%'
+    </if>
+    <choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when> 
+		</choose>
+  </select>
+  
+  <!-- 查询符合条件的总记录数 -->
+  <select id="countResponsibilityDotWithCriteria" resultType="int">
+   select count(*) from t_responsibility_dot where 1=1
+   <if test="responsibilityLateId!=null">
+      and responsibilityDotId like '%${responsibilityDotId}%'
+    </if>
+    <if test="franchiseeCode!=null">
+     and franchiseeCode like '%${franchiseeCode}%'
+    </if>
+     <if test="franchisee!=null">
+     and franchisee like '%${franchisee}%'
+    </if>
+    <if test="lateStandard!=null">
+     and lateStandard like '%${lateStandard}%'
+    </if>
+    <if test="cancelSign!=null">
+     and failureTime like '%${failureTime}%'
+    </if>
+    <if test="operator!=null">
+     and operator like '%${operator}%'
+    </if>
+    <if test="operatingTime!=null">
+     and operatingTime like '%${operatingTime}%'
+    </if>
+  </select>
+  
+  <!-- 模糊查询责任网点设置 -->
+  <select id="fuzzyfindResponsibilityDot" parameterType="hashmap" resultType="ResponsibilityDot">
+   select * from t_responsibility_dot where publicityOutline = #{publicityOutline} and releaseTime = #{releaseTime} and failureTime = #{failureTime}
+   and status = #{status}
+  </select>
+  
+  <!-- 添加责任网点设置 -->
+  <insert id="addResponsibilityDot" parameterType="ResponsibilityDot">
+   insert into t_responsibility_dot (responsibilityDotId,franchiseeCode,franchisee,lateStandard,cancelSign,operator,operatingTime)values
+   (#{responsibilityDotId},#{franchiseeCode},#{franchisee},#{lateStandard},#{cancelSign},#{operator},#{operatingTime});
+  </insert>
+  
+	
+  <!-- 修改责任网点设置 -->
+  <update id="updateResponsibilityDot" parameterType="hashMap">
+  update t_responsibility_dot 
+  set franchiseeCode = #{franchiseeCode},
+  franchisee = #{franchisee},
+  lateStandard = #{lateStandard},
+  cancelSign = #{cancelSign},
+  operator = #{operator},
+  operatingTime = #{operatingTime}
+  where   responsibilityLateId = #{responsibilityLateId}
+  </update>
+  
+  <!-- 设置责任网点设置 -->
+  <delete id="deleteResponsibilityDot" parameterType="ResponsibilityDot">
+  delete from t_responsibility_dot where responsibilityDotId = #{responsibilityDotId}
+  </delete>
+</mapper>

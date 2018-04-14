@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.yidu.tencloud.dao.system.clientdao.ClientMapper">
+     <!-- 查询总条数 -->
+    <select id="countCilent" resultType="int">
+		select count(*) from t_client
+	</select>
+	<!-- 分页查询 -->
+	<select id="findCilentPagenation" parameterType="hashmap" resultType="Client">
+	  select * from t_client limit #{offset},#{limit}
+	</select>
+	<!-- 带条件的分页查询，如果是条件为空，就是查询所有的用户，并做分页 -->
+	<select id="findCilentPagenationWithCriteria" parameterType="hashmap" resultType="Client">
+		select * from t_client where 1=1
+		<if test="clientName!=null">
+			and clientName like '%${clientName}%'
+		</if>
+		<if test="clientType!=null">
+			and clientType like '%${clientType}%'
+		</if>
+		<if test="phoneNum!=null">
+			and phoneNum like '%${phoneNum}%'
+		</if>
+		<choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when>
+		</choose>
+	</select>
+	<!-- 查询满足条件的总条数 -->
+	<select id="countClientWithCriteria" resultType="int">
+		select count(*) from t_client where 1=1
+		<if test="clientName!=null">
+			and clientName like '%${clientName}%'
+		</if>
+		<if test="clientType!=null">
+			and clientType like '%${clientType}%'
+		</if>
+		<if test="phoneNum!=null">
+			and phoneNum like '%${phoneNum}%'
+		</if>
+	</select>
+	
+	
+	<select id="countCilent1" resultType="int">
+		select count(*) from t_client t1,t_client_fixed_area t2 where t1.clientId=t2.clientId and t2.fixedAreaId is null
+	</select>
+	<!-- 分页查询 -->
+	<select id="findCilentPagenation1" parameterType="hashmap" resultType="Client">
+	  select t1.* from t_client t1,t_client_fixed_area t2 where t1.clientId=t2.clientId and t2.fixedAreaId is null limit #{offset},#{limit}
+	</select>
+	<!-- 带条件的分页查询，如果是条件为空，就是查询所有的用户，并做分页 -->
+	<select id="findCilentPagenationWithCriteria1" parameterType="hashmap" resultType="Client">
+		select t1.* from t_client t1,t_client_fixed_area t2 where t1.clientId=t2.clientId 
+		<if test="clientName!=null">
+			and t1.clientName like '%${clientName}%'
+		</if>
+		<if test="clientType!=null">
+			and t1.clientType like '%${clientType}%'
+		</if>
+		and t2.fixedAreaId is null
+		<choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when>
+		</choose>
+	</select>
+	<!-- 查询满足条件的总条数 -->
+	<select id="countClientWithCriteria1" resultType="int">
+		select count(*) from t_client t1,t_client_fixed_area t2 where t1.clientId=t2.clientId
+		<if test="clientName!=null">
+			and t1.clientName like '%${clientName}%'
+		</if>
+		<if test="clientType!=null">
+			and t1.clientType like '%${clientType}%'
+		</if>
+		and t2.fixedAreaId is null
+		
+	</select>
+	
+	<!-- 添加 -->
+	<insert id="addClient" parameterType="Client">
+		insert into t_client(clientNum,clientId,clientName,sex,phoneNum,clientType,clientAddress,newFrom)
+		values(#{clientNum},#{clientId},#{clientName},#{sex},#{phoneNum},#{clientType},#{clientAddress},#{newFrom})
+	</insert>
+	<!-- 修改 -->
+    <update id="updateClient" parameterType="Client">
+  			update t_client
+  			<set>
+  			    <if test="clientNum !=null and clientNum !='' ">
+  			        clientNum=#{clientNum},
+  			    </if>
+  				<if test="clientName !=null and clientName !='' ">
+  					clientName=#{clientName},
+  				</if>
+  				<if test="sex !=null and sex !='' ">
+  					sex=#{sex},
+  				</if>
+  				<if test="clientType !=null and clientType !='' ">
+  					clientType=#{clientType},
+  				</if>
+  				<if test="phoneNum !=null and phoneNum !='' ">
+  					phoneNum=#{phoneNum},
+  				</if>
+  				<if test="clientAddress !=null and clientAddress !='' ">
+  					clientAddress=#{clientAddress},
+  				</if>
+  				<if test="newFrom !=null and newFrom !='' ">
+  					newFrom=#{newFrom}
+  				</if>
+  			</set>
+  			where clientName=#{clientName}
+  		</update>
+  		<!-- 删除 -->
+	    <delete id="deleteClient" parameterType="list">
+			delete from t_client
+			<where>
+				clientId
+			    <foreach collection="list" separator="," close=")" open="in (" index="index" item="item"> '${item}' </foreach>
+			
+			</where>						
+		</delete>
+
+  </mapper>

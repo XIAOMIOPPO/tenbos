@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.tencloud.dao.transitshipment.sort.RepertoryDao">
+	<!-- 分页查询 -->
+	<select id="findRepertoryPagenation" parameterType="hashmap"
+		resultType="Repertory">
+		select * from t_repertory where 1=1  ORDER BY stockTime limit #{offset},#{limit}
+	</select>
+	<!-- 查询总条数 -->
+	<select id="outRepertorycount" resultType="int">
+		select count(*) from
+		t_repertory where 1=1  ORDER BY stockTime
+	</select>
+
+     <!-- 带条件的分页查询，如果是条件为空，就是查询所有的用户，并做分页 -->
+   
+	<select id="findRepertoryPagenationWithCriteria" parameterType="hashmap" resultType="Repertory">
+		select * from t_repertory where 1=1 
+		<if test="jobNo!=null and jobNo!='' ">
+			and jobNo =#{jobNo}
+		</if>
+		<if test="arrival!=null  and arrival!=''" >
+			and arrival like '%${arrival}%'
+		</if>
+		<if test="operationUnit!=null and operationUnit!=''">
+			and operationUnit = #{operationUnit}
+		</if>
+
+		<if test="warehouseTime_w!=null  and warehouseTime_w!=''" >
+			and warehouseTime &gt;= #{warehouseTime_w}
+		</if>
+		<if test="warehouseTime_t!=null  and warehouseTime_t!=''" >
+			and warehouseTime &lt;= #{warehouseTime_t}
+		</if>
+		<if test="warningTime!=null and warningTime!=''">
+			and warningTime =#{warningTime}
+		</if>
+		
+		<choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when>
+		</choose>
+	</select>
+	<!-- 查询满足条件的总条数 -->
+	<select id="reperTorycountWithCriteria" resultType="int">
+		select count(*) from t_repertory where 1=1
+			<if test="jobNo!=null and jobNo!='' ">
+			and jobNo =#{jobNo}
+		</if>
+		<if test="arrival!=null  and arrival!=''" >
+			and arrival like '%${arrival}%'
+		</if>
+		<if test="operationUnit!=null and operationUnit!=''">
+			and operationUnit = #{operationUnit}
+		</if>
+
+		<if test="warehouseTime_w!=null  and warehouseTime_w!=''" >
+			and warehouseTime &gt;= #{warehouseTime_w}
+		</if>
+		<if test="warehouseTime_t!=null  and warehouseTime_t!=''" >
+			and warehouseTime &lt;= #{warehouseTime_t}
+		</if>
+		<if test="warningTime!=null and warningTime!=''">
+			and warningTime =#{warningTime}
+		</if>
+	</select>
+	<!-- <select id="" resultType="" parameterType="">
+	
+	select * from t_repertory where 
+	</select>
+ -->
+
+
+
+
+
+
+
+
+
+</mapper>

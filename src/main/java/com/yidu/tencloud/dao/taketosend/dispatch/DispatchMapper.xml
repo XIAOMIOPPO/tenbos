@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.taketosend.dispatch.DispatchMapper">
+	<!-- 带条件的分页查询,如果条件为空,就是查询所有,并做分页 -->
+	<select id="dispatchPageQuery" parameterType="hashmap"
+		resultType="Dispatch">
+		select * from t_dispatch d,t_businessrecsipt b,t_workorder
+		w,t_applygoods a
+		where d.businessRecsiptId = b.businessRecsiptId
+		and
+		d.workOrderId = w.workOrderId
+		and d.applicationId = a.applicationId
+		<!-- 受理单位 -->
+		<if test="acceptingUnit != null">
+			and b.acceptingUnit like '%${acceptingUnit}%'
+		</if>
+		<!-- 取件员 -->
+		<if test="empName != null">
+			and w.empName like '%${empName}%'
+		</if>
+		<!-- 开始记录数,该页总记录数 -->
+		<if test="offset != null and limit != null">
+			limit #{pageNumber},#{pageSize}
+		</if>
+	</select>
+
+	<!-- 查询总记录数 -->
+	<select id="dispatchCountPageQuery" resultType="int">
+		select count(*)
+		from t_dispatch
+	</select>
+</mapper>

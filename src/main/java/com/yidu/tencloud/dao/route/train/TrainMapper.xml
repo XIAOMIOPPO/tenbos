@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace = "com.yidu.tencloud.dao.route.train.TrainMapper">
+  	<!-- 查找总记录数 -->
+  	<select id="countTrain" resultType = "int">
+  		select count(*) from t_station where status=0
+		<if test="name!=null and name !=''">
+			and name like '%${name}%'
+		</if>
+		<if test="code!=null and code !=''">
+			and code like '%${code}%'
+		</if>
+  		<if test="city!=null and city !=''">
+			and city like '%${city}%'
+		</if>
+		<if test="address!=null and address !=''">
+			and address like '%${address}%'
+		</if>
+  	</select>
+  	
+  	<!-- 查找所有的汽车站并分页 -->
+  	<select id="findAllTrain" parameterType = "hashMap" resultType = "Station">
+  		select * from t_station where status=0
+  		<if test="name!=null and name !=''">
+			and name like '%${name}%'
+		</if>
+		<if test="code!=null and code !=''">
+			and code like '%${code}%'
+		</if>
+  		<if test="city!=null and city !=''">
+			and city like '%${city}%'
+		</if>
+		<if test="address!=null and address !=''">
+			and address like '%${address}%'
+		</if>
+  		limit #{offset},#{limit}
+  	</select>
+  	
+  	<!-- 添加火车线路 -->
+  	<insert id="addTrain" parameterType="Station">
+  		insert into t_station(stationId,city,code,name,address,phone,remark,status,drawerName,drawerCompany,drawerTime,supplementName,supplementTime) 
+  		values(#{stationId},#{city},#{code},#{name},#{address},#{phone},#{remark},'0',#{drawerName},#{drawerCompany},#{drawerTime},#{supplementName},#{supplementTime})
+  	</insert>
+  	
+  	<update id="updateTrain" parameterType="Station">
+  	    update t_station
+  	    <set>
+  	    <if test="city!=null and city !=''">
+			city =#{city},
+		</if>
+		<if test="code!=null and code !=''">
+			code =#{code},
+		</if>
+		<if test="name!=null and name !=''">
+			name =#{name},
+		</if>
+		<if test="address!=null and address !=''">
+			address =#{address},
+		</if>
+		<if test="status!=null and status !=''">
+			status =#{status},
+		</if>
+		<if test="supplementName!=null and supplementName !=''">
+			supplementName =#{supplementName},
+		</if>
+		<if test="supplementTime!=null and supplementTime !=''">
+			supplementTime =#{supplementTime},
+		</if>
+  		</set>
+  		where stationId=#{stationId}
+  	 </update>
+  </mapper>

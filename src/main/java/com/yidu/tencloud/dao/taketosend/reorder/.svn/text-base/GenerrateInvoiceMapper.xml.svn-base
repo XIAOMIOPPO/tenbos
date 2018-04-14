@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.taketosend.reorder.GenerrateInvoiceMapper">
+	
+	<!-- 连表分页查询 -->
+	<select id="findGenerrateInvoicePagenation" resultType="GenerrateInvoiceUtil" parameterType="hashmap">
+		select w.workSheetNo,a.inputTime,a.status,w.customerListNo,s.senderName,d.drawerTime,
+			   s.senderCompany,r.productAmount,g.volume,w.destination,w.customerListNo,r.productName,w.product,r.PaymentArrival,
+			   r.replaceReceivables,w.empName,wo.takeTime,w.pickup,r.importantTips,r.actualWeight
+		
+		from t_worksheet w left join t_rule r on w.workSheetNo=r.workSheetNo
+			left join t_businessrecsipt b on w.businessNoticeNo=b.businessRecsiptNo
+			left join t_drawer d on w.workSheetNo=d.workSheetNo
+			left join t_userpack g on w.workSheetNo=g.ordId
+			left join t_sender s on w.workSheetNo=s.workSheetNo
+			left join t_applygoods a on w.workSheetNo=a.jobNo
+			left join t_workorder wo on wo.businessRecsiptNo=b.businessRecsiptNo
+		and w.pickup
+				<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+					#{item}
+				</foreach>
+		
+		limit #{offset},#{limit}
+	</select>
+	
+	<!-- 连表查询总记录数 -->
+	<select id="countGenerrateInvoice" resultType="int">
+		select count(*) 
+		from t_worksheet w left join t_rule r on w.workSheetNo=r.workSheetNo
+			left join t_businessrecsipt b on w.businessNoticeNo=b.businessRecsiptNo
+			left join t_drawer d on w.workSheetNo=d.workSheetNo
+			left join t_userpack g on w.workSheetNo=g.ordId
+			left join t_sender s on w.workSheetNo=s.workSheetNo
+			left join t_applygoods a on w.workSheetNo=a.jobNo
+			left join t_workorder wo on wo.businessRecsiptNo=b.businessRecsiptNo
+	</select>
+	
+	<!-- 带条件连表分页查询 -->
+	<select id="findGenerrateInvoicePagenationWithCriteria" parameterType="hashmap" resultType="GenerrateInvoiceUtil">
+		select w.workSheetNo,a.inputTime,a.status,w.customerListNo,s.senderName,d.drawerTime,
+			   s.senderCompany,r.productAmount,g.volume,w.destination,w.customerListNo,r.productName,w.product,r.PaymentArrival,
+			   r.replaceReceivables,w.empName,wo.takeTime,w.pickup,r.importantTips,r.actualWeight
+		
+		from t_worksheet w left join t_rule r on w.workSheetNo=r.workSheetNo
+			left join t_businessrecsipt b on w.businessNoticeNo=b.businessRecsiptNo
+			left join t_drawer d on w.workSheetNo=d.workSheetNo
+			left join t_userpack g on w.workSheetNo=g.ordId
+			left join t_sender s on w.workSheetNo=s.workSheetNo
+			left join t_applygoods a on w.workSheetNo=a.jobNo
+			left join t_workorder wo on wo.businessRecsiptNo=b.businessRecsiptNo
+		 <where> 
+		 	<!-- 工作单号 -->
+		 	<if test="workSheetNo!=null and workSheetNo!=''">
+		 		w.workSheetNo=#{workSheetNo}
+		 	</if>
+		 	<!-- 开单时间 -->
+		 	<if test="lowdrawerTime!=null and lowdrawerTime!=''">
+		 		and d.drawerTime &gt;=#{lowdrawerTime}
+		 	</if>
+		 	<if test="highdrawerTime!=null and highdrawerTime!=''">
+		 		and d.drawerTime &lt;=#{highdrawerTime}
+		 	</if>
+		 	<!-- 异常时间 -->
+		 	<if test="lowinputTime!=null and lowinputTime!=''">
+		 		and a.inputTime&gt;=#{lowinputTime}
+		 	</if>
+		 	<if test="highinputTime!=null and highinputTime!=''">
+		 		and a.inputTime&lt;=#{highinputTime}
+		 	</if>
+		 	<!-- 受理单位（收件人单位） -->
+		 	<if test="senderCompany!=null and senderCompany!=''">
+		 		and s.senderCompany=#{senderCompany}
+		 	</if>
+		 	<!-- 状态（返货执行状态） -->
+		 	<if test="astatus=!null and astatus!=''">
+		 		and a.status=#{astatus}
+		 	</if>
+		 </where>
+		and w.pickup
+				<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+					#{item}
+				</foreach>
+		 limit #{offset},#{limit}
+	</select>
+	
+	<!-- 带条件连表查询数据的总记录数 -->
+	<select id="countGenerrateInvoiceWithCriteria" resultType="int">
+		select count(*)
+		from t_worksheet w left join t_rule r on w.workSheetNo=r.workSheetNo
+			left join t_businessrecsipt b on w.businessNoticeNo=b.businessRecsiptNo
+			left join t_drawer d on w.workSheetNo=d.workSheetNo
+			left join t_userpack g on w.workSheetNo=g.ordId
+			left join t_sender s on w.workSheetNo=s.workSheetNo
+			left join t_applygoods a on w.workSheetNo=a.jobNo
+			left join t_workorder wo on wo.businessRecsiptNo=b.businessRecsiptNo
+		 <where>
+		 	<!-- 工作单号 -->
+		 	<if test="workSheetNo!=null and workSheetNo!=''">
+		 		w.workSheetNo=#{workSheetNo}
+		 	</if>
+		 	<!-- 开单时间 -->
+		 	<if test="lowdrawerTime!=null and lowdrawerTime!=''">
+		 		and d.drawerTime &gt;=#{lowdrawerTime}
+		 	</if>
+		 	<if test="highdrawerTime!=null and highdrawerTime!=''">
+		 		and d.drawerTime &lt;=#{highdrawerTime}
+		 	</if>
+		 	<!-- 异常时间 -->
+		 	<if test="lowinputTime!=null and lowinputTime!=''">
+		 		and a.inputTime&gt;=#{lowinputTime}
+		 	</if>
+		 	<if test="highinputTime!=null and highinputTime!=''">
+		 		and a.inputTime&lt;=#{highinputTime}
+		 	</if>
+		 	<!-- 受理单位（收件人单位） -->
+		 	<if test="senderCompany=!null and senderCompany!=''">
+		 		and s.senderCompany=#{senderCompany}
+		 	</if>     
+		 	<!-- 状态（返货执行状态） --> 
+		 	<if test="astatus=!null and astatus!=''">
+		 		and a.status=#{astatus}
+		 		
+		 	</if>
+		 </where>
+	</select>
+	
+	<!-- 根据工作单号获得相关信息 -->
+	<select id="findGenByWorkNo" resultType="GenerrateInvoiceUtil" parameterType="GenerrateInvoiceUtil">
+		select w.workSheetNo,a.inputTime,a.status,w.customerListNo,s.senderName,d.drawerTime,
+			   s.senderCompany,r.productAmount,g.volume,w.destination,w.customerListNo,r.productName,w.product,r.PaymentArrival,
+			   r.replaceReceivables,w.empName,wo.takeTime,w.pickup,r.importantTips,r.actualWeight,r.serviceTimeLimit
+		
+		from t_worksheet w left join t_rule r on w.workSheetNo=r.workSheetNo
+			left join t_businessrecsipt b on w.businessNoticeNo=b.businessRecsiptNo
+			left join t_drawer d on w.workSheetNo=d.workSheetNo
+			left join t_userpack g on w.workSheetNo=g.ordId
+			left join t_sender s on w.workSheetNo=s.workSheetNo
+			left join t_applygoods a on w.workSheetNo=a.jobNo
+			left join t_workorder wo on wo.businessRecsiptNo=b.businessRecsiptNo
+		
+		where w.workSheetNo=#{workSheetNo}
+	</select>
+	
+	<!-- 工作单号查询寄件人信息 -->
+	<select id="findSenderByWorkSheetNo" parameterType="string" resultType="Sender">
+		select * from t_sender where workSheetNo=#{workSheetNo}
+	</select>	
+	
+	<!-- 根据工作单号查询收件人信息 -->
+	<select id="findAddressesByWorkSheetNo" parameterType="string" resultType="Addresses">
+		select * from t_addresses where workSheetNo=#{workSheetNo}
+	</select>	
+	
+	<!-- 根据工作单号查询开单信息 -->
+	<select id="findDrawerByWorkSheetNo" parameterType="string" resultType="Drawer">
+		select * from t_drawer where workSheetNo=#{workSheetNo}
+	</select>	
+	
+	<!-- 根据工作单号查询规则表 -->
+	<select id="findRuleByWorkSheetNo" parameterType="string" resultType="Rule">
+		select * from t_rule where workSheetNo=#{workSheetNo}
+	</select>	
+	
+	<!-- 作废 -->
+	<delete id="deleteGenerrateInvoice" parameterType="list">
+		delete 
+		from t_generrateinvoice
+		<where>
+			workSheetNo
+			<foreach item="item" index="index"  open="in (" close=")" separator="," collection="list">
+				#{item}
+			</foreach>
+		
+		</where>
+	</delete>
+	
+	<!-- 生成返单 -->
+	<insert id="addGenerrateInvoice" parameterType="GenerrateInvoice">
+		insert into t_generrateinvoice values (#{generateInvoiceId},#{workSheetNo},#{product},#{settlementMode},#{productName},#{originalPacking},#{actualWeight},#{destination},#{volume},#{stowageRequirement},#{serviceTimeLimit},#{senderName},#{senderFax},#{senderAddress},#{senderPhone},#{senderNo},#{addressesName},#{addressesCompany},#{addressesFax},#{addressesAddress},#{addressesPhone},#{addressesNo},#{destinationCode},#{insuranceType},#{insurancePremium},#{declaredValue},#{importantTips},#{paymentArrival},#{replaceReceivables},#{packagingRequirements},#{drawerTime},#{isPrint},#{customerListNo},#{billingWeight},#{drawerName},#{operationUnit},#{pickup})
+	</insert>
+	
+	<!-- 转移 -->
+	<update id="updateReceiverByNo" parameterType="int">
+		update t_applygoods set receiver=#{receiver} from jobNo=#{workSheetNo}
+	</update>
+	
+	<!-- 高级查询 -->
+	<select id="findGenerrateInvoiceUtilByWith" resultType="GenerrateInvoiceUtil" parameterType="hashmap">
+		select w.workSheetNo,a.inputTime,a.status,w.customerListNo,s.senderName,d.drawerTime,
+			   s.senderCompany,r.productAmount,g.volume,w.destination,w.customerListNo,r.productName,w.product,r.PaymentArrival,
+			   r.replaceReceivables,w.empName,wo.takeTime,w.pickup,r.importantTips,r.actualWeight,r.serviceTimeLimit
+		
+		from t_worksheet w left join t_rule r on w.workSheetNo=r.workSheetNo
+			left join t_businessrecsipt b on w.businessNoticeNo=b.businessRecsiptNo
+			left join t_drawer d on w.workSheetNo=d.workSheetNo
+			left join t_userpack g on w.workSheetNo=g.ordId
+			left join t_sender s on w.workSheetNo=s.workSheetNo
+			left join t_applygoods a on w.workSheetNo=a.jobNo
+			left join t_workorder wo on wo.businessRecsiptNo=b.businessRecsiptNo
+		<where>
+			<if test="lowproductAmount!=null and lowproductAmount!=''">
+				and r.productAmount &gt;=#{lowproductAmount}
+		 	</if>
+		 	<if test="highproductAmount!=null and highproductAmount!=''">
+		 		and r.productAmount &lt;=#{highproductAmount}
+			</if>
+			<if test="lowactualWeight!=null and lowactualWeight!=''">
+				and r.actualWeight &gt;=#{lowactualWeight}
+		 	</if>
+		 	<if test="highactualWeight!=null and highactualWeight!=''">
+		 		and r.actualWeight &lt;=#{highactualWeight}
+			</if>
+			<if test="lowPaymentArrival!=null and lowPaymentArrival!=''">
+				and r.PaymentArrival &gt;=#{lowPaymentArrival}
+		 	</if>
+		 	<if test="highPaymentArrival!=null and highPaymentArrival!=''">
+		 		and r.PaymentArrival &lt;=#{highPaymentArrival}
+			</if>
+			<if test="lowreplaceReceivables!=null and lowreplaceReceivables!=''">
+				and r.replaceReceivables &gt;=#{lowreplaceReceivables}
+		 	</if>
+		 	<if test="highreplaceReceivables!=null and highreplaceReceivables!=''">
+		 		and r.replaceReceivables &lt;=#{highreplaceReceivables}
+			</if>
+		</where>
+		 limit #{offset},#{limit}
+	</select>
+	
+	<!-- 高级查询 -->
+	<select id="countGenerrateInvoiceUtilByWith" resultType="int">
+		select count(*)
+		
+		from t_worksheet w left join t_rule r on w.workSheetNo=r.workSheetNo
+			left join t_businessrecsipt b on w.businessNoticeNo=b.businessRecsiptNo
+			left join t_drawer d on w.workSheetNo=d.workSheetNo
+			left join t_userpack g on w.workSheetNo=g.ordId
+			left join t_sender s on w.workSheetNo=s.workSheetNo
+			left join t_applygoods a on w.workSheetNo=a.jobNo
+			left join t_workorder wo on wo.businessRecsiptNo=b.businessRecsiptNo
+		<where>
+			<if test="lowproductAmount!=null and lowproductAmount!=''">
+				and r.productAmount &gt;=#{lowproductAmount}
+		 	</if>
+		 	<if test="highproductAmount!=null and highproductAmount!=''">
+		 		and r.productAmount &lt;=#{highproductAmount}
+			</if>
+			<if test="lowactualWeight!=null and lowactualWeight!=''">
+				and r.actualWeight &gt;=#{lowactualWeight}
+		 	</if>
+		 	<if test="highactualWeight!=null and highactualWeight!=''">
+		 		and r.actualWeight &lt;=#{highactualWeight}
+			</if>
+			<if test="lowPaymentArrival!=null and lowPaymentArrival!=''">
+				and r.PaymentArrival &gt;=#{lowPaymentArrival}
+		 	</if>
+		 	<if test="highPaymentArrival!=null and highPaymentArrival!=''">
+		 		and r.PaymentArrival &lt;=#{highPaymentArrival}
+			</if>
+			<if test="lowreplaceReceivables!=null and lowreplaceReceivables!=''">
+				and r.replaceReceivables &gt;=#{lowreplaceReceivables}
+		 	</if>
+		 	<if test="highreplaceReceivables!=null and highreplaceReceivables!=''">
+		 		and r.replaceReceivables &lt;=#{highreplaceReceivables}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询所有申请返货 -->
+	<select id="findAllApplyGoods" parameterType="hashmap" resultType="ApplyGoods">
+		select * from t_applygoods
+		<where>
+			<if test="status!=null and status!=''">
+				and status=#{status}
+			</if>
+		</where>
+	</select>
+	
+	<!--  -->
+	<select id="countApplyGoodsByStatus" resultType="int">
+		select COUNT(*) from t_applygoods 
+		where TO_DAYS(inputTime) = TO_DAYS(NOW()) 
+		and status = #{status}
+	</select>
+</mapper>

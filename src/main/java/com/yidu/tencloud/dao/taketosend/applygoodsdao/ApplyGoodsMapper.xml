@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.yidu.tencloud.dao.taketosend.applygoodsdao.ApplyGoodsMapper">
+     <!-- 查询总条数 -->
+    <select id="applyGoodscount" resultType="int">
+		select count(*) from t_applygoods where invalidSign=1
+	</select>
+	<!-- 分页查询 -->
+	<select id="findApplyGoodsPagenation" parameterType="hashmap" resultType="ApplyGoods">
+	  select * from t_applygoods where invalidSign=1 limit #{offset},#{limit} 
+	</select>
+	<!-- 返货单位接口 -->
+	<select id="findOrgNameById" parameterType="string" resultType="string" >
+	select orgName from t_organization where orgId=#{orgName}
+	</select>
+	<!-- 录入单位接口 -->
+	<select id="findworkSheetByNo" parameterType="string" resultType="string" >
+	select workSheetNo from  t_sender where senderPhone=#{senderPhone}
+	</select>
+	<!-- 带条件的分页查询，如果是条件为空，就是查询所有的用户，并做分页 -->
+	<select id="findApplyGoodsPagenationWithCriteria" parameterType="hashmap" resultType="ApplyGoods">
+		select * from t_applygoods where 1=1
+		<if test="entryPerson!=null and entryPerson!='' ">
+			and entryPerson =#{entryPerson}
+		</if>
+		<if test="lowinputTime!=null  and lowinputTime!=''" >
+			and inputTime &gt;= #{lowinputTime}
+		</if>
+		<if test="highinputTime!=null  and highinputTime!=''" >
+			and inputTime &lt;= #{highinputTime}
+		</if>
+		<if test="status!=null and status!=''">
+			and status = #{status}
+		</if>
+		<if test="inputUnit!=null and inputUnit!=''">
+			and inputUnit =#{inputUnit}
+		</if>
+		<if test="returningUnit!=null and returningUnit!=''">
+			and returningUnit =#{returningUnit}
+		</if>
+		<if test="cargoType!=null and cargoType!=''">
+			and cargoType =#{cargoType}
+		</if>
+		<if test="statusGoogs!=null and statusGoogs!=''">
+			and statusGoogs =#{statusGoogs}
+		</if>
+		<if test="receiver!=null and receiver!=''">
+			and receiver =#{receiver}
+		</if>
+		<if test="invalidSign!=null and invalidSign!=''">
+			and invalidSign= #{invalidSign}
+		</if>
+		<if test="inputUnit!=null and inputUnit=''">
+			and inputUnit=#{inputUnit}
+		</if>
+		<choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when>
+		</choose>
+	</select>
+	<!-- 查询满足条件的总条数 -->
+	<select id="countapplyGoodsWithCriteria" resultType="int">
+		select count(*) from t_applygoods where invalidSign=1
+		<if test="entryPerson!=null and entryPerson!=''">
+			and entryPerson =#{entryPerson}
+		</if>
+		<if test="inputTime!=null and inputTime!=''">
+			and inputTime =#{inputTime}
+		</if>
+		<if test="status!=null and status!=''">
+			and status =#{status}
+		</if>
+		<if test="inputUnit!=null and inputUnit!=''">
+			and inputUnit =#{inputUnit}
+		</if>
+		<if test="returningUnit!=null and returningUnit!=''">
+			and returningUnit =#{returningUnit}
+		</if>
+		<if test="cargoType!=null and cargoType!=''">
+			and cargoType =#{cargoType}
+		</if>
+		<if test="statusGoogs!=null and statusGoods!=''">
+			and statusGoogs =#{statusGoogs}
+		</if>
+		<if test="receiver!=null and receiver !=''">
+			and receiver =#{receiver}
+		</if>
+		<if test="invalidSign!=null and invalidSign!=''">
+			and invalidSign = #{invalidSign}
+		</if>
+		<if test="inputUnit!=null and inputUnit=''">
+			and inputUnit=#{inputUnit}
+		</if>
+	</select>
+
+     <!-- 添加 -->
+	<insert id="addApplyGoods" parameterType="ApplyGoods">
+		insert into t_applygoods(applicationId,applicationNo,jobNo,cargoType,piecesNumber,enrat,receiver,invalidSign,returningUnit,inputTime,inputUnit,entryPerson,acknowledgindUnit,verifier,status,statusGoogs,SIGN,handlingSuggestion,typeofRejection)
+		values(#{applicationId},#{applicationNo},#{jobNo},#{cargoType},#{piecesNumber},#{enrat},#{receiver},#{invalidSign},#{returningUnit},#{inputTime},#{inputUnit},#{entryPerson},#{acknowledgindUnit},#{verifier},#{status},#{statusGoogs},#{sign},#{handlingSuggestion},#{typeofRejection})
+	</insert>
+	<!-- 修改作废 -->
+	<update id="updateApplyGoods" parameterType="ApplyGoods">
+	 update t_applygoods
+	 <set>
+	     <if test="invalidSign !=null and invalidSign !=''">
+	         invalidSign=#{invalidSign}
+	     </if>
+	 </set>
+	 where applicationId=#{applicationId}
+	</update>
+	<!-- 修改返货 -->
+	<update id="updateIApplyGoods" parameterType="ApplyGoods">
+	update t_applygoods
+	<set>
+	    <if test="applicationNo !=null and applicationNo!=''">
+	        applicationNo=#{applicationNo},
+	    </if>
+	    <if test="jobNo!=null and jobNo!=''">
+	        jobNo=#{jobNo},
+	    </if>
+	    <if test="cargoType !=null and cargoType!=''">
+	        cargoType=#{cargoType},
+	    </if>
+	    <if test="piecesNumber !=null and piecesNumber!=''">
+	        piecesNumber=#{piecesNumber},
+	    </if>
+	    <if test="enrat !=null and enrat!=''">
+	        enrat=#{enrat},
+	    </if>
+	    <if test="receiver !=null and receiver!=''">
+	        receiver=#{receiver},
+	    </if>
+	    <if test="invalidSign !=null and invalidSign!=''">
+	        invalidSign=#{invalidSign},
+	    </if>
+	    <if test="returningUnit !=null and returningUnit!=''">
+	        returningUnit=#{returningUnit},
+	    </if>
+	    <if test="inputTime !=null and inputTime!=''">
+	        inputTime=#{inputTime},
+	    </if>
+	    <if test="inputUnit !=null and inputUnit!=''">
+	        inputUnit=#{inputUnit},
+	    </if>
+	    <if test="entryPerson !=null and entryPerson!=''">
+	        entryPerson=#{entryPerson},
+	    </if>
+	    <if test="acknowledgindUnit !=null and acknowledgindUnit!=''">
+	        acknowledgindUnit=#{acknowledgindUnit},
+	    </if>
+	    <if test="verifier !=null and verifier!=''">
+	        verifier=#{verifier},
+	    </if>
+	    <if test="status !=null and status!=''">
+	        status=#{status},
+	    </if>
+	    <if test="statusGoogs !=null and statusGoogs!=''">
+	        statusGoogs=#{statusGoogs},
+	    </if>
+	    <if test="sign !=null and sign!=''">
+	        sign=#{sign},
+	    </if>
+	    <if test="handlingSuggestion !=null and handlingSuggestion!=''">
+	        handlingSuggestion=#{handlingSuggestion},
+	    </if>
+	    <if test="typeofRejection !=null and typeofRejection!=''">
+	        typeofRejection=#{typeofRejection}
+	    </if>
+	</set>
+	 where applicationId=#{applicationId}
+	</update>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+  </mapper>

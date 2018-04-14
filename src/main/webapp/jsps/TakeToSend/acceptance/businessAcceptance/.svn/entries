@@ -1,0 +1,85 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/webapp/jsps/TakeToSend/acceptance/businessAcceptance
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-18T02:37:21.043699Z
+1701
+paopao
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+ConfirmPick.jsp
+file
+
+
+
+
+2017-12-20T02:56:05.670000Z
+786e3375a54892de05019b8bd315b9f7
+2017-12-19T08:18:51.614471Z
+1102
+paopao
+
+Consult.jsp
+file
+
+
+
+
+2017-12-20T02:56:06.944000Z
+21e7dc417f97919bc6d7efe184cea7cc
+2017-12-19T07:05:43.738082Z
+1091
+paopao
+
+businessAcceptance.jsp
+file
+
+
+
+
+2017-12-25T01:49:54.305000Z
+1cd7cf303d4371d808e4c563dccec124
+2017-12-21T07:51:16.674276Z
+1240
+paopao
+
+css
+dir
+
+img
+dir
+
+js
+dir
+
+reception.js
+file
+
+
+
+
+2018-01-20T02:34:04.471000Z
+99028e85efe6375cdded63ec48028687
+2018-01-18T02:37:21.043699Z
+1701
+paopao
+

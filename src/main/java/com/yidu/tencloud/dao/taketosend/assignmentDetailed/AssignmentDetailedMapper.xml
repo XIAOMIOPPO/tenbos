@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.yidu.tencloud.dao.taketosend.assignmentDetailed.AssignmentDetailedMapper">
+  <select id="countAssignmentDetailed" parameterType="hashmap" resultType="int">
+   select count(*) from  t_worksheet w
+   join t_rule r on w.workSheetNo=r.workSheetNo
+   join t_addresses a on w.workSheetNo=a.workSheetNo
+   where w.pickup=#{pickup}
+  </select>
+  <!-- 普通分页查询 -->
+  <select id="findAssignmentDetailedQuery" parameterType="hashmap" resultType="AssignmentDetailed"> 
+    select * from t_worksheet w
+     join t_rule r on w.workSheetNo=r.workSheetNo
+     join t_addresses a on w.workSheetNo=a.workSheetNo
+     where w.pickup='Tencloud江西加盟商'
+      limit #{offset},#{limit}
+  </select>
+  
+  <!-- 带条件的分页查询，如果条件为空，就是查询所有用户，并做分页 -->
+  <select id="findAssignmentDetailedQueryWithCriteria" parameterType="hashmap" resultType="AssignmentDetailed">
+   select * from t_worksheet w
+     join t_rule r on w.workSheetNo=r.workSheetNo
+     join t_addresses a on w.workSheetNo=a.workSheetNo
+     where w.pickup='Tencloud江西加盟商'
+      limit #{offset},#{limit}
+  </select>
+  
+  <select id="countAssignmentDetailedWithCriteria" resultType="int">
+   select count(*) from  t_worksheet w
+     join t_rule r on w.workSheetNo=r.workSheetNo
+     join t_addresses a on w.workSheetNo=a.workSheetNo
+     where w.pickup='Tencloud江西加盟商'
+      limit #{offset},#{limit}
+  </select>
+  
+  <select id="PrintAssignmentDetailed" parameterType="hashmap" resultType="AssignmentDetailed">
+   select * from  t_worksheet w
+     join t_rule r on w.workSheetNo=r.workSheetNo
+     join t_addresses a on w.workSheetNo=a.workSheetNo
+     where w.workSheetNo = #{workSheetNo}
+  </select>
+</mapper>

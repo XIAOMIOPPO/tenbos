@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.transitshipment.anomaly.AnomalyMapper">
+	
+	<insert id="addAnomaly" parameterType="Anomaly">
+		INSERT INTO `t_abnormal_handling`(exceptionId,exceptionType,exceptionItem,
+						exceptionRemark,status,carriageTo,disposeTo,automaticMarker,
+						takeInOrgType,secondOrgTo,entering,enteringOrg,enteringTime,enteringNum)
+ 		VALUES (#{exceptionId}, #{exceptionType}, #{exceptionItem}, #{exceptionRemark}, 
+				#{status}, #{carriageTo}, #{disposeTo},#{automaticMarker}, #{takeInOrgType},
+				#{secondOrgTo}, #{entering}, #{enteringOrg}, #{enteringTime}, #{enteringNum})
+	</insert>
+	
+	
+	<select id="findAllAnomaly" resultType="Anomaly">
+		select * from t_abnormal_handling order by enteringTime desc
+	</select>
+	
+	
+	<select id="findAllAnomalyByPage" resultType="Anomaly" parameterType="hashmap">
+		select * from t_abnormal_handling 
+		order by enteringTime desc
+		limit ${offset},${limit}
+	</select>
+	
+	
+	<update id="deleteAnomalyById" parameterType="string">
+		update t_abnormal_handling set status = '是' where exceptionId = #{exceptionId}
+	</update>
+	
+	<select id="findAllExceptionNo" resultType="string">
+		select exceptionNo from t_abnormal_handling
+	</select>
+	
+	
+	<select id="findAllExceptionType" resultType="string">
+		select exceptionType from t_abnormal_handling
+	</select>
+	
+	
+</mapper>

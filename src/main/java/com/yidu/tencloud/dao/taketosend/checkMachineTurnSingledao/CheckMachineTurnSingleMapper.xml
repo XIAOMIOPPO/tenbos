@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.taketosend.checkMachineTurnSingledao.CheckMachineTurnSingleMapper">
+	
+	<!-- 查台 -->
+	<select id="find" resultType="CheckMachineTurnSingle" parameterType="hashmap">
+		select w.*,b.serveAddress,b.contacts,b.telephone,b.operatorOrg from t_businessrecsipt b,t_workorder w
+		<where>
+		w.empNum = #{empNum} and w.workOrderTime=#{workOrderTime} and w.businessRecsiptId = b.businessRecsiptId
+			<if test="noteNum != null and noteNum != ''">
+				and w.noteNum = #{noteNum}
+			</if>	
+			<if test="businessRecsiptNo != null and businessRecsiptNo != ''">
+				and w.businessRecsiptNo = #{businessRecsiptNo}
+			</if>
+		</where> 
+	</select>
+	
+	<!-- 通过员工号和密码查询员工 -->
+	<select id="findEmpByEmpNumAndPwd" resultType="Emp" parameterType="hashmap">
+		select * from t_employee where empNum = #{empNum} and empPassword = #{empPassword}
+	</select>
+	
+	<!-- 通过员工号查询员工 -->
+	<select id="findEmpByEmpNum" resultType="Emp" parameterType="String">
+		select * from t_employee where empNum = #{empNum}
+	</select>
+	
+	<!-- 查询新工单 -->
+	<select id="findNewWorkOrder" resultType="WorkOrder" parameterType="hashmap">
+		select * from t_workorder where empNum = #{empNum} and workOrderTime= #{workOrderTime}
+	</select>
+	
+	<!-- 查询所有定区编号 -->
+	<select id="findAllFixedAreaNum" resultType="FixedArea">
+		select * from t_fixed_area
+	</select>
+	
+	<!-- 查询所有员工号 -->
+	<select id="findAllEmpNum" resultType="Emp">
+		select * from t_employee
+	</select>
+	
+	<!-- 查询所有组织结构名 -->
+	<select id="findAllOrgName" resultType="Organization">
+		select * from t_organization
+	</select>
+	
+	<!-- 查询销工单 -->
+	<select id="findOldWorkOrder" resultType="OldWorkOrder" parameterType="hashmap">
+		select * from t_oldWorkOrder where oldEmpNum = #{oldEmpNum} and oldWorkOrderTime= #{oldWorkOrderTime}
+	</select>
+	
+	<!-- 添加销工单 -->
+	<insert id="addOldWorkOrder" parameterType="OldWorkOrder">
+		insert into t_oldWorkOrder values(#{oldWorkOrderNo},#{oldWorkOrderType},#{oldWstatus},#{oldNoteNum},#{oldWorkOrderTime},#{oldTraceNum},#{oldEmpNum},#{oldTakeOrgName},#{oldTakeTime},#{oldSortingCode})
+	</insert>
+	
+	<!-- 修改工单 -->
+	<update id="updateWorkOrder" parameterType="hashmap">
+		update t_workorder
+		<set>
+			<if test="empNum != null and empNum != ''">
+				empNum = #{empNum},
+				empId = #{empId},
+				empName = #{empName},
+			</if>
+			<if test="takeOrgName != null and takeOrgName != ''">
+				takeOrgName = #{takeOrgName},
+			</if>
+			<if test="sortingCode != null and sortingCode != ''">
+				sortingCode = #{sortingCode}
+			</if>
+		</set>
+		where workOrderNo = #{workOrderNo}
+	</update>
+
+</mapper>

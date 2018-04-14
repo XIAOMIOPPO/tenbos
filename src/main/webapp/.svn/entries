@@ -1,0 +1,71 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/webapp
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-20T01:45:23.827642Z
+1841
+cyj
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+Excel
+dir
+
+WEB-INF
+dir
+
+
+
+delete
+
+jsps
+dir
+
+login.jsp
+file
+
+
+
+
+2018-01-18T07:14:49.331000Z
+90be1dffe290996995f00a468cfc2ece
+2018-01-18T07:15:07.687977Z
+1738
+youngboy
+
+login2.jsp
+file
+
+
+
+
+2017-12-19T08:08:43.692000Z
+705987663015cdbcd9124978725f29a8
+2017-12-19T08:16:20.896601Z
+1097
+youngboy
+
+shiro
+dir
+
+static
+dir
+

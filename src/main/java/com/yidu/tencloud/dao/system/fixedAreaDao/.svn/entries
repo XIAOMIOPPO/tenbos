@@ -1,0 +1,52 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/java/com/yidu/tencloud/dao/system/fixedAreaDao
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-05T11:54:41.741990Z
+1482
+ct
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+FixedAreaMapper.java
+file
+
+
+
+
+2018-01-08T10:41:45.799000Z
+3c3621ea09e3437efe5ecacd53663034
+2018-01-05T11:54:41.741990Z
+1482
+ct
+
+FixedAreaMapper.xml
+file
+
+
+
+
+2018-01-08T10:41:45.815000Z
+e1a0ab6737a5c3e1f4adb5f47deb9111
+2018-01-05T11:54:41.741990Z
+1482
+ct
+

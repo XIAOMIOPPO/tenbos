@@ -1,0 +1,34 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/webapp/jsps/TakeToSend/acceptance
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-18T02:37:21.043699Z
+1701
+paopao
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+businessAcceptance
+dir
+
+createWorkOrder
+dir
+

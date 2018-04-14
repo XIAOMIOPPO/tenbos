@@ -1,0 +1,52 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/java/com/yidu/tencloud/dao/system/logdao
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-20T02:01:34.016935Z
+1842
+dzm
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+LogMapper.java
+file
+
+
+
+
+2018-01-08T10:41:45.954000Z
+26c3f97e9988e826a7db2a204661ffe9
+2018-01-04T06:17:26.927896Z
+1394
+dzm
+
+LogMapper.xml
+file
+
+
+
+
+2018-01-20T02:33:56.966000Z
+1ed4cd4980485f231338d73b29eb8e8f
+2018-01-20T02:01:34.016935Z
+1842
+dzm
+

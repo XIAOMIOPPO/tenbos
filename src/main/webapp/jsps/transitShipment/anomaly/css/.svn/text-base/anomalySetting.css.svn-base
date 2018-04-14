@@ -1,0 +1,8 @@
+#anomalyDesc{
+	resize : none;
+}
+
+#exceptionType{
+	width: 300px;
+	display: block;
+}

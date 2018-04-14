@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/dangdang/!svn/ver/1580/bos/tenbos/src/main/webapp/jsps/transitShipment/anomaly
+END
+anomalySetting.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/dangdang/!svn/ver/1534/bos/tenbos/src/main/webapp/jsps/transitShipment/anomaly/anomalySetting.jsp
+END
+freightCollectAccept.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/dangdang/!svn/ver/1368/bos/tenbos/src/main/webapp/jsps/transitShipment/anomaly/freightCollectAccept.jsp
+END
+freightCollectEntering.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/dangdang/!svn/ver/1580/bos/tenbos/src/main/webapp/jsps/transitShipment/anomaly/freightCollectEntering.jsp
+END
+anomalyDispose.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/dangdang/!svn/ver/1566/bos/tenbos/src/main/webapp/jsps/transitShipment/anomaly/anomalyDispose.jsp
+END
+anomalyEntering.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/dangdang/!svn/ver/1566/bos/tenbos/src/main/webapp/jsps/transitShipment/anomaly/anomalyEntering.jsp
+END

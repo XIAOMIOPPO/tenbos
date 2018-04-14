@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.transitshipment.anomaly.AnomalyManageMapper">
+	
+	<insert id="addAnomalyManage" parameterType="AnomalyManage">
+		INSERT INTO `t_exceptionmanage`(
+		exceptionManageId,exceptionId,exceptionNo,admissibilityOfUnits,coSourcingNo,
+		productName,principal,principalOrg,exceptionType,exceptionItem,
+		carriageTo,disposeTo,actualPortReality,remarks,enteringName,enteringTime,
+		enteringUnit,processor,processingUnit,processTime,result,exceptionstatus,
+		affirmName,affirmUnit,affirmTime,affirmJobNumber,affirmFruit)
+		
+		VALUES (#{exceptionManageId}, #{exceptionId},#{exceptionNo},
+		#{admissibilityOfUnits}, #{coSourcingNo},#{productName},
+		#{principal}, #{principalOrg}, #{exceptionType}, #{exceptionItem}, 
+		#{carriageTo},#{disposeTo}, #{actualPortReality}, #{remarks},
+		#{enteringName}, #{enteringTime},#{enteringUnit},#{processor}, 
+		#{processingUnit}, #{processTime}, #{result}, #{exceptionstatus},
+		#{affirmName}, #{affirmUnit}, #{affirmTime}, #{affirmJobNumber}, #{affirmFruit})
+	</insert>	
+	
+	
+	
+	<select id="findAllAnomalyManage" resultType="AnomalyManage" >
+		select * from t_exceptionmanage where enteringUnit
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="list">
+			#{item}
+		</foreach>
+	</select>
+	
+	<select id="findAnomalyManageByPage" parameterType="hashmap" resultType="AnomalyManage">
+		select * from t_exceptionmanage where enteringUnit
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+			#{item}
+		</foreach>
+		limit ${offset},${limit}
+	</select>
+	
+	
+	<update id="updateDisposeMessage" parameterType="hashmap">
+		update t_exceptionmanage  
+		set processor = #{processor},
+		processingUnit = #{processingUnit},
+		processTime = #{processTime},
+		result = #{result},
+		exceptionstatus = #{exceptionstatus}
+		where exceptionManageId = #{exceptionManageId}
+	</update>
+	
+	<update id="updateNotarizeMessage" parameterType="hashmap">
+		update t_exceptionmanage  
+		set affirmName = #{affirmName},
+		affirmUnit = #{affirmUnit},
+		affirmTime = #{affirmTime},
+		affirmJobNumber = #{affirmJobNumber},
+		affirmFruit = #{affirmFruit},
+		exceptionstatus = #{exceptionstatus}
+		where exceptionManageId = #{exceptionManageId}
+	</update>
+	
+	<select id="findAnomalyManageByCondition" parameterType="hashmap" resultType="AnomalyManage">
+		<choose>
+			<otherwise>
+				select * from t_exceptionmanage where 1=1
+			</otherwise>
+		</choose>
+		<if test="coSourcingNo!= null and coSourcingNo!=''">
+			and  coSourcingNo = #{coSourcingNo}
+		</if>
+		<choose>
+			<when test="offset!=null and limit!=null">
+				limit ${offset},${limit}	
+			</when>
+		</choose>
+		
+	</select>
+	
+</mapper>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.basis.pickandrelaystandard.EmpMapper">
+
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true" />
+
+	<select id="findAllEmp" resultType="Emp" parameterType="Organization">
+		select * from t_employee
+		where isUse = '1' and orgName
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="list">
+			#{item}
+		</foreach>
+		order by empNum
+	</select>
+
+	<select id="findEmpByPage" resultType="Emp" parameterType="hashmap">
+		select * from t_employee where isUse = '1' 
+		and orgName
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+			#{item}
+		</foreach>
+		order by empNum limit ${offset},${limit}
+	</select>
+
+	<insert id="addEmp" parameterType="Emp">
+		insert into
+		t_employee(empId,empNum,empName,empPassword,phoneNum,isPDA,isUse,orgId,orgName,deliverId,deliverName,drawTimeId,timeName,fileId,fileName)
+		values(#{empId},#{empNum},#{empName},#{empPassword},
+		#{phoneNum},#{isPDA},#{isUse},#{orgId},
+		#{orgName},#{deliverId},#{deliverName},#{drawTimeId},#{timeName},#{fileId},#{fileName})
+	</insert>
+
+	<select id="findOrgIdByOrgName" parameterType="string"
+		resultType="String">
+		select orgId from t_organization where orgName = #{orgName}
+	</select>
+
+	<select id="findDeliverIdByDeliverName" parameterType="string"
+		resultType="String">
+		select deliverId from t_deliver_criterion where deliverName = #{deliverName}
+	</select>
+
+	<select id="findDrawTimeIdByTimeName" parameterType="string"
+		resultType="String">
+		select drawTimeId from t_drawtime where timeName = #{timeName}
+	</select>
+ 
+	<select id="findFileIdByFileName" parameterType="string"
+		resultType="String">
+		select fileId from t_help_files where fileName = #{fileName}
+	</select>
+
+	<select id="findAllOrgName" resultType="String">
+		select orgName from t_organization
+	</select>
+
+	<select id="findAllDeliverName" resultType="String">
+		select deliverName from t_deliver_criterion
+	</select>
+
+	<select id="findAllDrawTimeName" resultType="String">
+		select timeName from t_drawtime
+	</select>
+
+	<select id="findAllFileName" resultType="String">
+		select fileName from t_help_files where recordName='取派员类型'
+	</select>
+
+
+	<select id="findEmpByConditionVague" parameterType="hashmap"
+		resultType="Emp">
+		<choose>
+			<otherwise>
+				select * from t_employee where isUse = '1' and 1=1
+			</otherwise>
+		</choose>
+		<if test="empName!= null">
+			and empName like '%${empName}%'
+		</if>
+		<if test="phoneNum != null">
+			and phoneNum like '%${phoneNum}%'
+		</if>
+		<if test="orgName != null">
+			and orgName like '%${orgName}%'
+		</if>
+		<if test="deliverName != null">
+			and deliverName like '%${deliverName}%'
+		</if>
+		<if test="timeName != null">
+			and timeName like '%${timeName}%'
+		</if>
+		<if test="fileName != null">
+			and fileName like '%${fileName}%' order by empNum
+		</if>
+		<choose>
+			<when test="start!=null and end!=null">
+				and orgName
+				<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+					#{item}
+				</foreach>
+				limit ${start},${end}
+			</when>
+		</choose>
+	</select>
+
+	<select id="countEmp" resultType="int">
+		select count(*) from t_employee
+	</select>
+
+	<update id="delEmp" parameterType="string">
+		update t_employee set isUse = '0' where empId = #{empId}
+	</update>
+
+	<select id="findEmpByEmpId" parameterType="String" resultType="Emp">
+		select * from t_employee where empId = #{empId}
+	</select>
+
+	<update id="updateEmp" parameterType="hashmap">
+		update t_employee set
+		empNum = #{empNum},
+		empPassword = #{empPassword},
+		phoneNum = #{phoneNum},
+		isPDA = #{isPDA},
+		orgName = #{orgName},
+		orgId = #{orgId},
+		deliverName =#{deliverName},
+		deliverId =#{deliverId},
+		drawTimeId =#{drawTimeId},
+		timeName =#{timeName},
+		fileId = #{fileId},
+		fileName = #{fileName}
+		where empId = #{empId}
+	</update>
+
+
+	<select id="findOrgByParentId" resultType="Organization" parameterType="string">
+		select * from t_organization where parendOrgId = #{orgId}
+	</select>
+	
+	
+	
+	<select id="findOrgByOrgId" resultType="Organization" parameterType="string">
+		select * from t_organization where orgId = #{orgId}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	<select id="findAllEmp1" resultType="Emp">
+		select t1.* from t_employee t1,t_emp_fixed_area t2
+		where t1.empId=t2.empId and t2.fixedAreaId is null and isUse = '1' order by empNum
+	</select>
+
+	<select id="findEmpByPage1" resultType="Emp" parameterType="hashmap">
+		select t1.* from t_employee t1,t_emp_fixed_area t2
+		where t1.empId=t2.empId and t2.fixedAreaId is null and isUse = '1' order by empNum limit
+		${offset},${limit}
+	</select>
+
+
+</mapper>

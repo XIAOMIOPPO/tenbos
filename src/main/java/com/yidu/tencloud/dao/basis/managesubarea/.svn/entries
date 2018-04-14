@@ -1,0 +1,52 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/java/com/yidu/tencloud/dao/basis/managesubarea
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-19T05:44:42.920875Z
+1768
+yqf
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+PartitionMapper.java
+file
+
+
+
+
+2018-01-20T02:34:01.051000Z
+c9f344ddfadfa174bcf6c19712620bb7
+2018-01-18T03:09:30.242043Z
+1719
+yqf
+
+PartitionMapper.xml
+file
+
+
+
+
+2018-01-20T02:34:01.041000Z
+9652d2b946b793bdeb9fd9bbea5e8923
+2018-01-19T05:44:42.920875Z
+1768
+yqf
+

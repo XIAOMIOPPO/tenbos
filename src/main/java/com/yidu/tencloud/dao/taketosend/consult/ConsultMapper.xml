@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.taketosend.consult.ConsultMapper">
+
+	<insert id="addConsult" parameterType="Consult">
+		INSERT INTO `t_consult` (consultId,customerNo,customerName,contacts,
+		contactPhone,telephone,portraiture,contactAddress,zipCode,Email,cooperate,
+		workOrderNo,settlingAccounts,initialUnit,businessRecsiptNo,staffUnit,
+		recsiptTime,consultType,consultWay,consultTime,consultContent,consultFruit)
+		VALUES (
+		#{consultId}, #{customerNo}, #{customerName}, 
+		#{contacts}, #{contactPhone}, #{telephone}, 
+		#{portraiture}, #{contactAddress},
+		#{zipCode},#{Email}, #{cooperate},#{workOrderNo},#{settlingAccounts}, 
+		#{initialUnit},#{businessRecsiptNo},#{staffUnit}, #{recsiptTime}, 
+		#{consultType},#{consultWay}, #{consultTime}, #{consultContent},#{consultFruit})
+	</insert>
+	
+	
+	<select id="findBusReConsult" resultType="Consult">
+		select * from  t_consult where consultType = '受理咨询'
+	</select>
+	
+	<select id="findWorkOrderConsult" resultType="Consult">
+		select * from  t_consult where consultType = '工单咨询'
+	</select>
+	
+	<select id="findAllConsultByPage" resultType="Consult" parameterType="hashMap">
+		select * from  t_consult where consultType = #{consultType}
+		limit ${offset},${limit}
+	</select>
+	
+	<select id="findBusinessRecsiptNoByClient" resultType="String" parameterType="String">
+		select businessRecsiptNo from t_businessrecsipt where phoneNum = #{phoneNum}
+	</select>
+	
+	
+	<select id="findWorkOrderNoByClient" resultType="String" parameterType="String">
+		select workSheetNo from t_sender where senderPhone = #{phoneNum}
+	</select>
+</mapper>

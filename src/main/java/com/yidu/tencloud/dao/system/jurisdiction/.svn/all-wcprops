@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/dangdang/!svn/ver/1760/bos/tenbos/src/main/java/com/yidu/tencloud/dao/system/jurisdiction
+END
+RoleMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/dangdang/!svn/ver/1106/bos/tenbos/src/main/java/com/yidu/tencloud/dao/system/jurisdiction/RoleMapper.java
+END
+ResourceMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/dangdang/!svn/ver/1106/bos/tenbos/src/main/java/com/yidu/tencloud/dao/system/jurisdiction/ResourceMapper.java
+END
+RoleResMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/dangdang/!svn/ver/1760/bos/tenbos/src/main/java/com/yidu/tencloud/dao/system/jurisdiction/RoleResMapper.xml
+END
+RoleResMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/dangdang/!svn/ver/1106/bos/tenbos/src/main/java/com/yidu/tencloud/dao/system/jurisdiction/RoleResMapper.java
+END
+ResourceMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/dangdang/!svn/ver/1759/bos/tenbos/src/main/java/com/yidu/tencloud/dao/system/jurisdiction/ResourceMapper.xml
+END
+RoleMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/dangdang/!svn/ver/1760/bos/tenbos/src/main/java/com/yidu/tencloud/dao/system/jurisdiction/RoleMapper.xml
+END

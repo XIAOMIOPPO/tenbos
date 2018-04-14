@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.taketosend.workorder.WorkOrderMapper">
+
+	<!-- 添加一个新的工作单 -->
+	<insert id="addWorkOrder" parameterType="WorkOrder">
+		INSERT INTO `t_workorder` (
+			workOrderId,workOrderNo,businessRecsiptId,businessRecsiptNo,workOrderType,Wstatus,
+			noteNum,workOrderTime,traceNum,empNum,empName,takeOrgName,takeTime,sortingCode)
+		VALUES (
+		#{workOrderId}, #{workOrderNo}, #{businessRecsiptId}, #{businessRecsiptNo}, #{workOrderType},
+		#{Wstatus}, #{noteNum}, #{workOrderTime}, #{traceNum}, #{empNum}, 
+		#{empName}, #{takeOrgName}, #{takeTime}, #{sortingCode})
+
+	</insert>
+	
+	<!-- 查询所有的工作单 -->
+	<select id="findAllWorkOrders" resultType="WorkOrder">
+		select * from t_workorder 
+		where takeOrgName
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="list">
+			#{item}
+		</foreach>
+		order by workOrderTime desc
+	</select>
+	
+	
+	<!-- 分页查询所有的工作单 -->
+	<select id="findAllWorkOrdersByPage" resultType="WorkOrder" parameterType="hashmap">
+		select * from t_workorder 
+		where takeOrgName
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+			#{item}
+		</foreach>
+		order by workOrderTime desc
+		limit ${offset},${limit}
+	</select>
+	
+	<select id="findWorkOrderById" resultType="WorkOrder" parameterType="String">
+		select * from t_workorder 
+		where businessRecsiptId = #{businessRecsiptId}
+		order by workOrderTime desc
+	</select>
+	
+	
+		<!-- 修改工单状态 -->
+	<update id="updateWorkOrderStatus" parameterType="hashMap">
+		update  t_workorder 
+		set Wstatus = #{Wstatus}
+		where  workOrderId =  #{workOrderId}
+	</update>
+	
+	<select id="findBusinessRecsiptByWorkOrderId" resultType="BusinessRecsipt" parameterType="String">
+		select * from t_businessrecsipt 
+		where  businessRecsiptId =  #{businessRecsiptId}
+	</select>
+	
+	<select id="findOneWorkOrderById" resultType="WorkOrder" parameterType="String">
+		select * from t_workorder 
+		where  workOrderId =  #{workOrderId}
+	</select>
+	
+</mapper>

@@ -1,0 +1,79 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/webapp/jsps
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-20T01:37:17.528776Z
+1838
+youngboy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+TakeToSend
+dir
+
+basis
+dir
+
+css
+dir
+
+fonts
+dir
+
+images
+dir
+
+index.jsp
+file
+
+
+
+
+2017-12-01T03:36:24.193000Z
+5384368be4ec628d87b4a1ec76e16e79
+2017-11-23T01:14:30.970745Z
+683
+paopao
+
+index1.jsp
+file
+
+
+
+
+2018-01-20T02:34:03.462000Z
+8cf2336ed2c7923b2b7079560ce9d6aa
+2018-01-19T02:26:14.736131Z
+1761
+lyj
+
+js
+dir
+
+route
+dir
+
+system
+dir
+
+transitShipment
+dir
+

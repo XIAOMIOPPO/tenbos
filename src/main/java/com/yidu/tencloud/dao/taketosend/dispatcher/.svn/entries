@@ -1,0 +1,52 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/java/com/yidu/tencloud/dao/taketosend/dispatcher
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-18T00:54:24.780377Z
+1682
+ljz
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+DispatcherMapper.java
+file
+
+
+
+
+2018-01-20T02:34:00.618000Z
+cee51cfb8e532d3e10bfa04b30a90dde
+2018-01-18T00:54:24.780377Z
+1682
+ljz
+
+DispatcherMapper.xml
+file
+
+
+
+
+2018-01-20T02:34:00.625000Z
+bd5fa5199ebb527a64c85f8ad6cfa459
+2018-01-18T00:54:24.780377Z
+1682
+ljz
+

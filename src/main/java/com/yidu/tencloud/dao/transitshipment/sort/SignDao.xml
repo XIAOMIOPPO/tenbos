@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.yidu.tencloud.dao.transitshipment.sort.SignDao">
+	
+	
+	<!-- 找到入库单 -->
+	<select id="findStorages" resultType="Storagein" parameterType="hashmap" >
+		select * from t_storagein limit #{offset},#{limit}
+	</select>
+
+
+	<!-- 通过id查找入库详情 -->
+	<select id="findStorageDetailById" parameterType="hashmap"  resultType="StorageinDetail">
+		select * from t_storagein_detail 
+		<where>
+			<if test="storageinId!=null and storageinId!=''">
+				storageinId=#{storageinId} 
+			</if>
+		</where>
+		
+		limit #{offset},#{limit} 
+	</select>
+	
+	<!-- 统计入库 -->
+	<select id="countStorages" parameterType="hashmap" resultType="int">
+		select count(*) from t_storagein 
+	</select>
+
+	<!-- 统计入库详情 -->
+	<select id="countStorageDetail" parameterType="hashmap" resultType="int">
+		select count(*) from t_storagein_detail 
+		<where>
+			<if test="storageinId!=null and storageinId!=''">
+				storageinId=#{storageinId} 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 添加入库 -->
+	<insert id="addStorage" parameterType="Storagein">
+		insert into t_storagein values(#{storageinId},#{storageinNo},#{recDate},#{recPersonId},#{recPersonName},#{recOrgId},#{recOrgName},#{sendPersonId},#{sendPersonName},#{sendOrgId},#{sendOrgName})
+	</insert>
+	
+	<!-- 添加入库 -->
+	<insert id="addStorageIn" parameterType="Storagein">
+		insert into t_storagein values(#{storageinId},#{storageinNo},#{recDate},#{recPersonId},#{recPersonName},#{recOrgId},#{recOrgName},#{sendPersonId},#{sendPersonName},#{sendOrgId},#{sendOrgName})
+	</insert>
+	
+	<!-- 添加入库详情 -->
+	<insert id="addStorageInDetail" parameterType="StorageinDetail">
+		insert into t_storagein_detail values(#{sdetailId},#{sdetailNo},#{copackno},#{weight},#{storageinId},#{outstorageno},#{rstatus})
+	</insert>
+	
+	<!-- 添加出库 -->
+	<insert id="addOutStorage" parameterType="Outstorage">
+		insert into t_outstorage values(#{outdetailId},#{outdetailNo},#{copackno},#{weight},#{volume},#{scanDate},#{isScan},#{isIn},#{isReIn})
+	</insert>
+	
+	
+	<!-- 添加出库详情 -->
+	<insert id="addOutStorageDetail" parameterType="OutstorageDetail">
+		insert into t_outstorage_detail values(#{outdetailId},#{outdetailNo},#{copackno},#{weight},#{volume},#{scanDate},#{isScan},#{isIn},#{isReIn})
+	</insert>
+
+
+	<!-- 通过出库单找到出库人 -->
+	<select id="findOutPerByOutNo" parameterType="hashmap" resultType="string">
+		 select delivererName from t_outstorage tos where tos.outstorageno = #{outdetailNo}
+	</select>
+	
+	
+	<!-- 通过单号找到出库单 -->
+	<select id="findOutstorageByNo" parameterType="string" resultType="Outstorage">
+		 select * from t_outstorage tos where outstorageno = #{outdetailNo}
+	</select>
+	
+	
+	<!-- 提供出库单号找到出库详情 -->
+	<select id="findOutstorageDetailByNo" parameterType="string" resultType="OutstorageDetail">
+		 select * from t_outstorage tos join t_outstorage_detail tod on tos.outstorageId=tod.outstorageId where tos.outstorageno = #{outstorageno}
+	</select>
+	
+	
+	<!-- 获取合包详情信息 -->
+	<select id="demoPack" parameterType="string" resultType="Packagelist">
+		select tpl.* from t_packageList tpl join t_packetinfo tpi on tpl.packageId=tpi.packageId where tpi.packageNo = #{packageNo}
+	</select>
+	
+	<!-- 通过合包号查询出库信息 -->
+	<select id="findOutStoragenoByCopackNo" parameterType="string" resultType="string">
+		select tos.outstorageno from t_outstorage_detail tod join t_outstorage tos on tod.outstorageId=tos.outstorageId
+		where tod.copackno=#{copackno} limit 0,1
+	</select>
+	
+	<!-- 通过单号查询出库信息 -->
+	<select id="findOutStorageByNo" parameterType="string" resultType="OutstorageDetail">
+		select tod.* from t_outstorage_detail tod join t_outstorage tos on tod.outstorageId=tos.outstorageId
+		where tos.outstorageno = #{outstorageno}
+	</select>
+	
+	<!-- 分页查询出库单 -->
+	<select id="findPageOutstorage" parameterType="hashmap" resultType="Outstorage">
+		select * from t_outstorage
+		<where>
+			<if test="outstorageId!=null and outstorageId!=''">
+				outstorageId = #{outstorageId}
+			</if>
+		</where> 
+		limit #{offset},#{limit}
+	</select>
+	
+	<!-- 统计分页出库单详情 -->
+	<select id="countPageOutstorage" parameterType="hashmap" resultType="int">
+		select count(*) from t_outstorage
+		<where>
+			<if test="outstorageId!=null and outstorageId!=''">
+				outstorageId = #{outstorageId}
+			</if>
+		</where> 
+	</select>
+	
+	
+	
+
+
+
+</mapper>

@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/dangdang/!svn/ver/1658/bos/tenbos/src/main/webapp/jsps/route/bus
+END
+busLine.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/dangdang/!svn/ver/1493/bos/tenbos/src/main/webapp/jsps/route/bus/busLine.jsp
+END
+batch.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/dangdang/!svn/ver/1493/bos/tenbos/src/main/webapp/jsps/route/bus/batch.jsp
+END
+shuttleBus.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/dangdang/!svn/ver/1656/bos/tenbos/src/main/webapp/jsps/route/bus/shuttleBus.jsp
+END
+prioritySetting.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/dangdang/!svn/ver/1493/bos/tenbos/src/main/webapp/jsps/route/bus/prioritySetting.jsp
+END
+busStation.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 84
+/svn/dangdang/!svn/ver/1654/bos/tenbos/src/main/webapp/jsps/route/bus/busStation.jsp
+END
+exception.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svn/dangdang/!svn/ver/1493/bos/tenbos/src/main/webapp/jsps/route/bus/exception.jsp
+END
+busResource.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/dangdang/!svn/ver/1655/bos/tenbos/src/main/webapp/jsps/route/bus/busResource.jsp
+END

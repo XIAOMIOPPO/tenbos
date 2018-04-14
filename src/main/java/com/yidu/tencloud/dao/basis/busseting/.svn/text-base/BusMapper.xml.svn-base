@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.yidu.tencloud.dao.basis.busseting.BusMapper">
+  
+  	<select id="findEmp" resultType="Emp">
+		select empId,empName from t_employee
+		where isUse = '1'
+	</select>
+  	
+  	
+  	<!-- 分页查询所有班车 -->
+  	<select id="findBusPagenation" parameterType="hashMap" resultType="Bus">
+  		select * from t_bus limit #{offset},#{limit}
+  	</select>
+  	
+  	<!-- 查询所有班车的总记录数 -->
+  	<select id="countBus" resultType="int">
+  		select count(*) from t_bus
+  	</select>
+  	
+  	<!-- 条件查询 -->
+  	<select id="findBusPagenationWithCriteria" parameterType="hashmap" resultType="Bus">
+
+ 		select b.*,e.empName,h.fileName from t_bus b join t_employee e on b.empId = e.empId join t_help_files h on h.fileId=b.circuitType where 1=1 			
+
+  		<if test="licenseNum != null">
+  			and licenseNum like '%${licenseNum}%'
+  		</if>
+  		<if test="motorcycleType!=null">
+  			and motorcycleType like '%${motorcycleType}%'
+  		</if>
+  		<if test="circuitType!=null">
+  			and circuitType like '%${circuitType}%'
+  		</if>
+  		<if test="commonCarrier!=null">
+  			and commonCarrier like '%${commonCarrier}%'
+  		</if>
+  		<if test="empId !=null">
+  			and empId like '%${empId}%'
+  		</if>
+
+  		<choose>
+  			<when test="offset!=null and limit!=null">
+  				limit #{offset},#{limit}
+  			</when>
+  		</choose>
+  	</select>
+  	
+	<!-- 符合条件的总记录数 -->
+  	<select id="countBusWithCriteria" resultType="int">
+  		select count(*) from t_bus where 1=1
+  		<if test="busId !=null">
+  			and busId like '%${busId}%'
+  		</if>
+  		<if test="licenseNum !=null">
+  			and licenseNum like '%${licenseNum}%'
+  		</if>
+  	</select>
+  	
+  	<!-- 添加班车 -->
+  	<insert id="addBus" parameterType="Bus">
+  		insert into t_bus(busId,licenseNum,commonCarrier,motorcycleType,empId,tControl,circuitType,circuitName) 
+  		values(#{busId},#{licenseNum},#{commonCarrier},#{motorcycleType},#{empId},#{tControl},#{circuitType},
+  		#{circuitName})
+  	</insert>
+ 
+  	
+  	<!-- 通过busId修改班车信息 -->
+  	<update id="updateBus" parameterType="Bus">
+  		update t_bus  
+  		<set>
+  			<if test="licenseNum !=null and licenseNum !='' ">
+  				licenseNum=#{licenseNum}, 
+  			</if>
+  			<if test="commonCarrier != null and commonCarrier !=''">
+  				commonCarrier=#{commonCarrier},
+  			</if>
+  			<if test="motorcycleType !=null and motorcycleType !=''">
+  				motorcycleType=#{motorcycleType},
+  			</if>
+  			<if test="empId != null and empId !=''">
+  				empId = #{empId},
+  			</if>
+  			<if test="tControl !=null and tControl !=''">
+  				tControl=#{tControl},
+  			</if>
+  			<if test="circuitType !=null and circuitType !=''">
+  				circuitType=#{circuitType}
+  			</if>
+  		</set>
+  		where busId=#{busId}
+  	</update>
+  	
+  	<!-- 删除 -->
+  	<delete id="deleteBus">
+  		delete from t_bus where busId = #{busId}
+  	</delete>
+  	
+  </mapper>

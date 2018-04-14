@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.taketosend.pack.UserPackMapper">
+
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+	
+	<select id="findAllUserPack" resultType="com.yidu.tencloud.bean.taketosend.pack.UserPack">
+		select * from t_userpack_copy
+	</select>
+	<select id="ronesUserPack" parameterType="hashmap" resultType="UserPack">
+		select * from t_userpack_copy where 1=1
+			<if test="workSheetNo !=null and workSheetNo !=''">
+				and workSheetNo like '%${workSheetNo}%'
+			</if>
+			<if test="description != null and description">
+				and description like '%${description}%'
+			</if>
+			<if test="metHod != null and metHod !=''">
+				and metHod like '%${metHod}%'
+			</if>
+			<if test="pacKage != null and pacKage != ''">
+				and pacKage like '%${pacKage}%'
+			</if>
+			<if test="enpId != null and enpId != ''" >
+				and enpId like '%${enpId}%'
+			</if>
+			<if test="taskTime != null and taskTime != ''">
+				and taskTime like '%${taskTime}%'
+			</if>
+			<if test="folder != null and folder != ''">
+				and folder like '%${folder}%'
+			</if>
+			<if test="outId != null and outId != ''">
+				and outId like '%${outId}%'
+			</if>
+			<if test="ruKushi != null and ruKushi != ''">
+				and ruKushi like '%${ruKushi}%'
+			</if>
+			<if test="clieId != null and clieId != ''">
+				and clieId like '%${clieId}%'
+			</if>
+			<if test="packAges != null and packAges != ''">
+				and packAges like '%${packAges}%'
+			</if>
+			<if test="wegeht != null and wegeht != ''">
+				and wegeht like '%${wegeht}%'
+			</if>
+			<if test="gedweight != null and gedweight != ''">
+				and gedweight like '%${gedweight}%'
+			</if>
+			<if test="volume != null and volume != ''">
+				and volume like '%${volume}%'
+			</if>
+			<if test="expenses != null and expenses != ''">
+				and expenses like '%${expenses}%'
+			</if>
+	</select>
+	<select id="conttUserPack" resultType="UserPack">
+		<choose>
+			<otherwise>
+				select * from t_userpack_copy where 1=1
+			</otherwise>
+		</choose>
+		<if test="workSheetNo !=null and workSheetNo !=''">
+				and workSheetNo like '%${workSheetNo}%'
+		</if>
+		<if test="enpId != null and enpId != ''" >
+				and enpId like '%${enpId}%'
+		</if>
+		<if test="outId != null and outId != ''">
+				and outId like '%${outId}%'
+		</if>
+		<if test="pacKage != null and pacKage != ''">
+				and pacKage like '%${pacKage}%'
+		</if>
+		<if test="clieId != null and clieId != ''">
+				and clieId like '%${clieId}%'
+		</if>
+		<if test="folder != null and folder != ''">
+				and folder like '%${folder}%'
+		</if>
+		<choose>
+			<when test="offset != null and linit!=null">
+				limit #{offset},#{limit}
+			</when>
+		</choose>
+	</select>
+</mapper>

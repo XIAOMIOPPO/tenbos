@@ -1,0 +1,43 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/java/com/yidu/tencloud/biz/basis/basisrecordbiz
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-19T05:51:23.604793Z
+1775
+cyj
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+BasisFilesBiz.java
+file
+
+
+
+
+2017-12-25T01:50:16.559000Z
+4ce55ac2d4c4420b04009936930123d7
+2017-12-20T10:19:35.584828Z
+1146
+cyj
+
+impl
+dir
+

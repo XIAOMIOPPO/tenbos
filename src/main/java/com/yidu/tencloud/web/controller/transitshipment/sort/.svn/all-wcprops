@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 106
+/svn/dangdang/!svn/ver/1831/bos/tenbos/src/main/java/com/yidu/tencloud/web/controller/transitshipment/sort
+END
+PackageServlet.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/dangdang/!svn/ver/1526/bos/tenbos/src/main/java/com/yidu/tencloud/web/controller/transitshipment/sort/PackageServlet.java
+END
+PackageController.java
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/dangdang/!svn/ver/1831/bos/tenbos/src/main/java/com/yidu/tencloud/web/controller/transitshipment/sort/PackageController.java
+END
+Repertorycontroller.java
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/dangdang/!svn/ver/1695/bos/tenbos/src/main/java/com/yidu/tencloud/web/controller/transitshipment/sort/Repertorycontroller.java
+END
+SignController.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/dangdang/!svn/ver/1633/bos/tenbos/src/main/java/com/yidu/tencloud/web/controller/transitshipment/sort/SignController.java
+END
+Outwarehousecontroller.java
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/dangdang/!svn/ver/1694/bos/tenbos/src/main/java/com/yidu/tencloud/web/controller/transitshipment/sort/Outwarehousecontroller.java
+END

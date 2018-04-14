@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.tencloud.dao.basis.picktime.PicktimeMapper">
+	<!-- 分页查询 -->
+	<select id="findPickTimePagenation" parameterType="hashmap" resultType="Picktime">
+		select * from t_drawtime where isUse=1 limit #{offset},#{limit}
+	</select>
+	<!-- 查询总记录数 -->
+	<select id="countPickTime" resultType="int">
+		select count(*) from t_drawtime where isUse = 1
+	</select>
+	<!-- 添加 -->
+	<insert id="addPicktime" parameterType="Picktime">
+		insert into t_drawtime (drawTimeId,timeName,orgId,orgName,workTime,OffDuty,satWorkTime,satOffDuty,sunWorkTime,sunOffDuty,isUse) values(#{drawTimeId},#{timeName},#{orgId},#{orgName},#{workTime},#{offDuty},#{satWorkTime},#{satOffDuty},#{sunWorkTime},#{sunOffDuty},#{isUse});
+	</insert>
+	<!-- 带条件的分页查询 -->
+	<select id="findPickTimePagenationWithCriteria" parameterType="hashmap" resultType="Picktime">
+		<choose>
+			<otherwise>
+				select * from t_drawtime where 1=1
+			</otherwise> 
+		</choose>
+		<if test="timeName!=null and timeName!=''">
+			and timeName like '%${timeName}%'
+		</if>
+		<if test="orgName!=null and orgName!=''">
+			and orgName like '%${orgName}%'
+		</if>
+		<if test="lowWorkTime!=null and lowWorkTime!=''">
+			and workTime &gt;= #{lowWorkTime}
+		</if>
+		<if test="highWorkTime!=null and highWorkTime!=''">
+			and workTime &lt;= #{highWorkTime}
+		</if>
+		<if test="lowOffDuty!=null and lowOffDuty!=''">
+			and offDuty &gt;= #{lowOffDuty}
+		</if>
+		<if test="highOffDuty!=null and highOffDuty!=''">
+			and offDuty &lt;= #{highOffDuty}
+		</if>
+		<if test="lowSatWorkTime!=null and lowSatWorkTime!=''">
+			and satWorkTime &gt;= #{lowSatWorkTime}
+		</if>
+		<if test="highSatWorkTime!=null and highSatWorkTime!=''">
+			and satWorkTime &lt;= #{highSatWorkTime}
+		</if>
+		<if test="lowSatOffDuty!=null and lowSatOffDuty!=''">
+			and satOffDuty &gt;= #{lowSatOffDuty}
+		</if>
+		<if test="highSatOffDuty!=null and highSatOffDuty!=''">
+			and satOffDuty &lt;= #{highSatOffDuty}
+		</if>
+		<if test="lowSunWorkTime!=null and lowSunWorkTime!=''">
+			and sunWorkTime &gt;= #{lowSunWorkTime}
+		</if>
+		<if test="highSunWorkTime!=null and highSunWorkTime!=''">
+			and sunWorkTime &lt;= #{highSunWorkTime}
+		</if>
+		<if test="lowSunOffDuty!=null and lowSunOffDuty!=''">
+			and sunOffDuty &gt;= #{lowSunOffDuty}
+		</if>
+		<if test="highSunOffDuty!=null and highSunOffDuty!=''">
+			and sunOffDuty &lt;= #{highSunOffDuty}
+		</if>
+		and isUse=1
+		<choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when> 
+		</choose>
+	</select>
+	<!-- 带条件的查询总记录数 -->
+	<select id="countPickTimeWithCriteria" resultType="int">
+		select count(*) from t_drawtime where isUse=1
+		<if test="timeName!=null">
+			and timeName like '%${timeName}%'
+		</if>
+		<if test="orgName!=null">
+			and orgName like '%${orgName}%'
+		</if>
+		
+	</select>
+	<!-- 删除 -->
+	<delete id="deletePickTime" parameterType="list">
+		delete from t_drawtime 
+		<where>
+		drawTimeId 
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="list">
+			#{item}
+		</foreach>
+		
+		</where>
+	</delete>
+	<!-- 修改 -->
+	<update id="updatePickTime" parameterType="int">
+		update t_drawtime 
+		<set>
+			<if test="timeName!=null and timeName!=''">
+				timeName=#{timeName},
+			</if>
+			<if test="orgName!=null and orgName!=''">
+				orgName=#{orgName},
+			</if>
+			<if test="workTime!=null and workTime!=''">
+				workTime=#{workTime},
+			</if>
+			<if test="offDuty!=null and offDuty!=''">
+				offDuty=#{offDuty},
+			</if>
+			<if test="satWorkTime!=null and satWorkTime!=''">
+				satWorkTime=#{satWorkTime},
+			</if>
+			<if test="satOffDuty!=null and satOffDuty!=''"> 
+				satOffDuty=#{satOffDuty},
+			</if>
+			<if test="sunWorkTime!=null and sunWorkTime!=''">
+				sunWorkTime=#{sunWorkTime},
+			</if>
+			<if test="sunOffDuty!=null and sunOffDuty!=''">
+				sunOffDuty=#{sunOffDuty}, 
+			</if>
+			<if test="isUse!=null and isUse!='' ">
+			 	isUse = #{isUse}
+			</if>
+			
+		</set> 
+		<where>
+			drawTimeId=#{drawTimeId}
+		</where>
+	</update>
+	<!-- 查询组织结构表 -->
+	<select id="findAllOrganization" parameterType="hashmap" resultType="com.yidu.tencloud.bean.system.organizationchart.Organization">
+		select orgId,orgName from t_organization
+	</select>
+</mapper>  

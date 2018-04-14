@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   <mapper namespace = "com.yidu.tencloud.dao.route.bus.BusLineMapper">
+   	<!-- 添加线路资源 -->
+   	<insert id="addBusLine" parameterType = "BusLine">
+   		insert into t_bus_line(busLineId,circuitType,busLineName,busLineCode,
+   							   startCity,arriveCity,countMileage,remark,
+   							   drawerName,drawerCompany,drawerTime,
+   							   supplementName,supplementTime,isUse)
+   				values(#{busLineId},#{circuitType},#{busLineName},#{busLineCode},
+   					   #{startCity},#{arriveCity},#{countMileage},#{remark},
+   					   #{drawerName},#{drawerCompany},#{drawerTime},
+   					   #{supplementName},#{supplementTime},'0')
+   	</insert>
+   	
+   	<!-- 查找所有带条件的班车线路的总记录数 -->
+   	<select id="countBusLine"  resultType = "int" parameterType="hashMap">
+   		select count(*) from t_bus_line where isUse='0'
+  		<if test="circuitType!=null and circuitType!=''">
+  		and circuitType like '%${circuitType}%'
+  		</if>
+  		<if test="busLineName!=null and busLineName!=''">
+  		and busLineName like '%${busLineName}%'
+  		</if>
+  		<if test="startCity!=null and startCity!=''">
+  		and startCity like '%${startCity}%'
+  		</if>
+  		<if test="arriveCity!=null and arriveCity!=''">
+  		and arriveCity like '%${arriveCity}%'
+  		</if>
+  		<if test="busLineCode!=null and busLineCode!=''">
+  		and busLineCode like '%${busLineCode}%'
+  		</if>
+   	</select>
+   	
+   	<!-- 查找所有的班车线路并带条件分页 -->
+   	<select id ="findAllBusLine" parameterType = "hashMap" resultType = "BusLine">
+   		select * from t_bus_line where isUse='0'
+  		<if test="circuitType!=null and circuitType!=''">
+  		and circuitType like '%${circuitType}%'
+  		</if>
+  		<if test="busLineName!=null and busLineName!=''">
+  		and busLineName like '%${busLineName}%'
+  		</if>
+  		<if test="startCity!=null and startCity!=''">
+  		and startCity like '%${startCity}%'
+  		</if>
+  		<if test="arriveCity!=null and arriveCity!=''">
+  		and arriveCity like '%${arriveCity}%'
+  		</if>
+  		<if test="busLineCode!=null and busLineCode!=''">
+  		and busLineCode like '%${busLineCode}%'
+  		</if>
+  		limit #{offset},#{limit}
+   	</select>
+   	
+   	<!-- 修改汽车线路信息 -->
+   	<update id="updateBusLineById" parameterType="hashMap">
+   		update t_bus_line set circuitType=#{circuitType},busLineName=#{busLineName},
+   							  busLineCode=#{busLineCode},startCity=#{startCity},
+   							  arriveCity=#{arriveCity},countMileage=#{countMileage},
+   							  remark=#{remark},isUse=#{isUse}
+   			where busLineId=#{busLineId}
+   	</update>
+   	
+   	<!-- 根据Id删除班车线路 -->
+   	<update id="deleteBusLineById" parameterType="String">
+   		update t_bus_line set isUse = '1' where busLineId = #{busLineId}
+   	</update>
+   </mapper>

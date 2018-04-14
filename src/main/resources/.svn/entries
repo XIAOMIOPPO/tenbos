@@ -1,0 +1,70 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/resources
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-18T12:27:05.050549Z
+1754
+youngboy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+db.properties
+file
+
+
+
+
+2018-01-17T12:48:39.183000Z
+3908fc0d224da0b33442e7eb201353a1
+2018-01-16T03:04:57.404025Z
+1627
+lyj
+
+ehcache
+dir
+
+hessian
+dir
+
+mybatis
+dir
+
+redis.properties
+file
+
+
+
+
+2018-01-17T12:25:41.315000Z
+1dac24da0711c622c4bbfacfafe3cb31
+2018-01-17T02:40:05.830597Z
+1642
+paopao
+
+shiro
+dir
+
+spring
+dir
+
+springmvc
+dir
+

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd 
+        http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd 
+		http://www.springframework.org/schema/cache 
+		http://www.springframework.org/schema/cache/spring-cache-4.0.xsd ">
+
+
+	<context:property-placeholder location="classpath:db.properties" />
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="${MySQL.driver}" />
+		<property name="jdbcUrl" value="${MySQL.url}" />
+		<property name="user" value="${MySQL.user}" />
+		<property name="password" value="${MySQL.password}" />
+		
+		
+	</bean>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml" />
+	</bean>
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+   		<property name="basePackage" value="com.yidu.tencloud.dao..*"></property>
+   		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+   	</bean>
+	
+	<context:component-scan base-package="com.yidu.tencloud.biz.*.*.impl"/>
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 事务配置 
+		1.所有的查询以findXxx为标准 
+		2.增加以addXxx开头 
+		3.删除以delXxx开头 
+		4.修改以updateXxx开头 
+	-->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true" />
+			<tx:method name="*" />
+		</tx:attributes>
+	</tx:advice>
+
+	<aop:config>
+		<aop:pointcut id="txPointtut"
+			expression="execution(* com.yidu.tencloud.biz.*.impl..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointtut" />
+	</aop:config>
+	
+	
+	<!--异常映射-->
+    <bean  
+        class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
+        <property name="exceptionMappings">  
+            <props>  
+                <prop key="org.apache.shiro.authz.UnauthorizedException">  
+                    /shiro/unauthorized  
+                </prop>  
+                <prop key="org.apache.shiro.authz.UnauthenticatedException">  
+                    /shiro/unauthenticated  
+                </prop>  
+            </props>  
+        </property>  
+    </bean>  
+
+
+	<!-- 开启缓存注解 -->
+	<cache:annotation-driven cache-manager="cacheManager"/>
+	
+	<!-- 导入shiro的配置文件 -->
+	<import resource="classpath:shiro/shiro.xml" />	
+	
+	<!-- 导入redis缓存的配置文件 -->
+	<import resource="classpath:spring/spring-cache.xml" />	
+	
+	<!-- 导入hessian配置文件 -->
+	<!-- <import resource="classpath:hessian/hessian.xml" />	 -->
+	
+	
+	
+</beans>    

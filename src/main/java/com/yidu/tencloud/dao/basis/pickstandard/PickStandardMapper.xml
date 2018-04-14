@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.yidu.tencloud.dao.basis.pickstandard.PickStandardMapper">
+	<!-- 查找所有的收派标准带分页 -->
+	<select id="findAllDeliverPageQuery" parameterType = "hashMap" resultType = "PickStandard">
+		select * 
+		from t_deliver_criterion 
+		where isUse = '1' limit #{offset},#{limit}
+	</select>
+	
+	<!-- 根据收派标准名查找收派标准 -->
+	<select id="findDeliverCriterioByName" parameterType = "String" resultType = "String">
+		select deliverName  
+		from t_deliver_criterion 
+		where deliverName = #{deliverNa76me}
+	</select>
+	
+	<!-- 查找总记录数 -->
+	<select id = "countAllDeliverCriterion" resultType = "int">
+		select count(*) 
+		from t_deliver_criterion 
+		where isUse = '1'
+	</select>
+	
+	<!-- 条件查找总记录数-->
+	<select id="countFindAllDeliverCriterion" resultType = "int">
+		<choose>
+			<otherwise>
+				select count(*) 
+				from t_deliver_criterion 
+				where 1=1
+			</otherwise>
+		</choose>
+		
+		<!-- 条件组合查询 -->
+		<!-- 收派标准名 -->
+		<if test="deliverName != null">
+			and deliverName like '%${deliverName}%'
+		</if>
+		<!-- 最小重量 -->
+		<if test="minWeight != null">
+			and minWeight &gt;= #{minWeight}
+		</if>
+		<!-- 最大重量 -->
+		<if test="maxWeight != null">
+			and maxWeight &lt;= #{maxWeight}
+		</if>
+		<!-- 最小长度 -->
+		<if test="minLength != null">
+			and minLength &gt;= #{minLength}
+		</if>
+		<!-- 最大长度 -->
+		<if test="maxLength != null">
+			and maxLength &lt;= #{maxLength}
+		</if>
+			<!-- 禁用 -->
+			and isUse = '1'
+	</select>
+	
+	<!-- 添加收派标准 -->
+	<insert id="addDeliverCriterion" parameterType = "PickStandard">
+		<!-- 收派标准Id,收派标准名,最小重量,最大重量,最小长度,最大长度,是否禁用 -->
+		insert into t_deliver_criterion(deliverId,deliverName,minWeight,maxWeight,minLength,maxLength,isUse) 
+		values(#{deliverId},#{deliverName},#{minWeight},#{maxWeight},#{minLength},#{maxLength},1)
+	</insert>
+	
+	<!-- 根据Id修改状态 -->
+	<update id="updateIsUseById" parameterType = "hashMap">
+		update t_deliver_criterion set isUse = #{isUse} where deliverId = #{deliverId}
+	</update>
+	
+	<!-- 根据Id删除收派标准 -->
+	<delete id="deleteDeliverCriterion" parameterType = "String">
+		update t_deliver_criterion set isUse = '0' where deliverId = #{deliverId}
+	</delete>
+	
+	<!-- 模糊查询带分页 -->
+	<select id="criterDeliverCriterion" parameterType="hashMap" resultType="PickStandard">
+		<choose>
+			<otherwise>
+				select * from t_deliver_criterion where 1=1
+			</otherwise>
+		</choose>			
+		<!-- 收派标准名 -->
+		<if test="deliverName != null and deliverName!='' ">
+			and deliverName like '%${deliverName}%'
+		</if>
+		<!-- 最小重量 -->
+		<if test="minWeight != null and minWeight!='' ">
+			and minWeight &gt;= #{minWeight}
+		</if>
+		<!-- 最大重量 -->
+		<if test="maxWeight != null and maxWeight!='' ">
+			and maxWeight &lt;= #{maxWeight}
+		</if>
+		<!-- 最小长度 -->
+		<if test="minLength != null and minLength!='' ">
+			and minLength &gt;= #{minLength}
+		</if>
+		<!-- 最大长度 -->
+		<if test="maxLength != null and maxLength !='' ">
+			and maxLength &lt;= #{maxLength}
+		</if>
+		<choose>
+			<!-- 开始记录数  该页总记录数 -->
+			<when test="offset != null and limit != null">
+				limit #{offset},#{limit}
+			</when>
+		</choose>
+	</select>
+	
+</mapper>

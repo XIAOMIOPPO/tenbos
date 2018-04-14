@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/dangdang/!svn/ver/1752/bos/tenbos/src/main/java/com/yidu/tencloud/web/filter/shiro
+END
+KickoutSessionControlFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 120
+/svn/dangdang/!svn/ver/1688/bos/tenbos/src/main/java/com/yidu/tencloud/web/filter/shiro/KickoutSessionControlFilter.java
+END
+MyRolesAuthorizationFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/dangdang/!svn/ver/769/bos/tenbos/src/main/java/com/yidu/tencloud/web/filter/shiro/MyRolesAuthorizationFilter.java
+END
+MyFormAuthenticationFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/dangdang/!svn/ver/769/bos/tenbos/src/main/java/com/yidu/tencloud/web/filter/shiro/MyFormAuthenticationFilter.java
+END
+MyLogoutFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/dangdang/!svn/ver/1752/bos/tenbos/src/main/java/com/yidu/tencloud/web/filter/shiro/MyLogoutFilter.java
+END
+MyPermissionsAuthorizationFilter.java
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/dangdang/!svn/ver/839/bos/tenbos/src/main/java/com/yidu/tencloud/web/filter/shiro/MyPermissionsAuthorizationFilter.java
+END

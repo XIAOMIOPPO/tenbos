@@ -1,0 +1,52 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/webapp/jsps/TakeToSend/assignmentDetailed
+https://iversen:8888/svn/dangdang
+delete
+
+
+2018-01-18T03:19:08.581122Z
+1730
+yqf
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+assignmentDetailed.jsp
+file
+
+
+
+delete
+2018-01-20T02:34:04.358000Z
+2e0be4278a417b303bdd3f22fe0dc870
+2018-01-18T03:19:08.581122Z
+1730
+yqf
+
+assignmentPrint.jsp
+file
+
+
+
+
+2018-01-20T02:34:04.367000Z
+22122439d603a14dcf73586edc8c979b
+2018-01-18T03:19:08.581122Z
+1730
+yqf
+

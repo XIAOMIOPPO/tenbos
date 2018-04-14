@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.yidu.tencloud.dao.taketosend.propaganda.PropagandaMapper">
+  <select id="countPropaganda" parameterType="hashmap" resultType="int">
+   select count(*) from t_propaganda_task
+  </select>
+  <!-- 普通分页查询 -->
+  <select id="propagandaPageQuery" parameterType="hashmap" resultType="Propaganda"> 
+     select * from t_propaganda_task limit #{offset},#{limit}
+  </select>
+  
+  <!-- 带条件的分页查询，如果条件为空，就是查询所有用户，并做分页 -->
+  <select id="propagandaPageQueryWithCriteria" parameterType="hashmap" resultType="Propaganda">
+   <choose>
+    <otherwise>
+      select * from t_propaganda_task where 1=1
+    </otherwise>
+   </choose>
+    <if test="propagandaId!=null">
+      and propagandaId like '%${propagandaId}%'
+    </if>
+    <if test="publicityOutline!=null">
+     and publicityOutline like '%${publicityOutline}%'
+    </if>
+     <if test="propagandaContent!=null">
+     and propagandaContent like '%${propagandaContent}%'
+    </if>
+    <if test="releaseTime!=null">
+     and releaseTime like '%${releaseTime}%'
+    </if>
+    <if test="failureTime!=null">
+     and failureTime like '%${failureTime}%'
+    </if>
+    <if test="status!=null">
+     and status like '%${status}%'
+    </if>
+   
+    <choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when> 
+		</choose>
+  </select>
+  
+  <select id="countPropagandaWithCriteria" resultType="int">
+   select count(*) from t_propaganda_task where 1=1
+   <if test="propagandaId!=null">
+      and propagandaId like '%${propagandaId}%'
+    </if>
+    <if test="publicityOutline!=null">
+     and publicityOutline like '%${publicityOutline}%'
+    </if>
+    <if test="propagandaContent!=null">
+     and propagandaContent like '%${propagandaContent}%'
+    </if>
+    <if test="releaseTime!=null">
+     and releaseTime like '%${releaseTime}%'
+    </if>
+    <if test="failureTime!=null">
+     and failureTime like '%${failureTime}%'
+    </if>
+    <if test="status!=null">
+     and status like '%${status}%'
+    </if>
+    
+  </select>
+  
+  <select id="fuzzyfindPropaganda" parameterType="hashmap" resultType="Propaganda">
+   select * from t_propaganda_task where publicityOutline = #{publicityOutline} and releaseTime = #{releaseTime} and failureTime = #{failureTime}
+   and status = #{status}
+  </select>
+  
+  <insert id="addPropaganda" parameterType="Propaganda">
+   insert into t_propaganda_task (propagandaId,publicityOutline,propagandaContent,releaseTime,failureTime,updateTime,updateUnit,userId,status)values
+   (#{propagandaId},#{publicityOutline},#{propagandaContent},#{releaseTime},#{failureTime},#{updateTime},#{updateUnit},#{userId},#{status});
+  </insert>
+  <!--  -->
+  <update id="updatePropaganda" parameterType="hashMap">
+  update t_propaganda_task 
+  set publicityOutline = #{publicityOutline},
+  propagandaContent = #{propagandaContent},
+  releaseTime = #{releaseTime},
+  failureTime = #{failureTime},
+  status = #{status}
+  where   propagandaId = #{propagandaId}
+  </update>
+  
+  <delete id="deletePropaganda" parameterType="Propaganda">
+  delete from t_propaganda_task where propagandaId = #{propagandaId}
+  </delete>
+  
+  <select id="findWeekPropaganda" parameterType="hashMap" resultType="int"> 
+   select count(*) from t_propaganda_task where date_sub(curdate(), interval 30 day) &lt;= releaseTime
+  </select>
+</mapper>

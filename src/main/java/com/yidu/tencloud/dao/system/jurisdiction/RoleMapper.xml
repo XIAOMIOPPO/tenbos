@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.yidu.tencloud.dao.system.jurisdiction.RoleMapper">
+  
+  		<!-- 找到所有角色 -->
+  		<select id="findAllRole" resultType="Role">
+  			select * from t_role
+  		</select>
+  
+  		<!-- 添加角色 -->
+  		<insert id="addRole" parameterType="Role">
+  			insert into t_role(roleId,roleName,roleCode,roleTypeId,roleTypeName) values(#{roleId},#{roleName},#{roleCode},#{roleTypeId},#{roleTypeName})
+  		</insert>
+  
+  		<!-- 更新角色 -->
+  		<update id="updateRole" parameterType="Role">
+  			update t_role
+  			<set>
+  				<if test="roleName !=null and roleName !='' ">
+  					roleName=#{roleName},
+  				</if>
+  				<if test="roleCode !=null and roleCode !='' ">
+  					roleCode=#{roleCode},
+  				</if>
+  				<if test="roleTypeId !=null and roleTypeId !='' ">
+  					roleTypeId=#{roleTypeId},
+  				</if>
+  				<if test="roleTypeName !=null and roleTypeName !='' ">
+  					roleTypeName=#{roleTypeName},
+  				</if>
+  				<if test="roleTypeId !=null and roleTypeId !='' ">
+  					roleTypeId=#{roleTypeId},
+  				</if>
+  				<if test="roleTypeName !=null and roleTypeName !='' ">
+  					roleTypeName=#{roleTypeName}
+  				</if>
+  			</set>
+  			where roleId=#{roleId}
+  		</update>
+  
+  
+  		<!-- 删除角色 -->
+  		<delete id="deleteRole"  parameterType="string">
+  			delete from t_role where roleId=#{roleId} 
+  		</delete>
+  		
+  		<!-- 模糊查询角色 -->
+  		<select id="findRoleByCriteria" parameterType="hashmap" resultType="Role">
+  			select * from t_role
+  			<where>
+  				<if test="roleName!=null and roleName !='' ">
+  					roleName like '%${roleName}%'
+  				</if>
+  				<if test="roleTypeName!=null and roleTypeName !='' ">
+  					roleTypeName like #{roleTypeName}
+  				</if>
+  			</where>
+  		</select>
+  		
+  		<!-- 通过角色类型找到角色 -->
+  		<select id="findRoleByTypeId" parameterType="string" resultType="Role">
+  			select * from t_role where roleTypeId = #{roleTypeId}
+  		</select>
+  		
+  		<!-- 资源类型map -->
+  		<resultMap id="roleType" type="AuthOption">
+  			<id property="fileId" column="fileId" />
+  			<result property="recordName" column="fileName"/>
+  		</resultMap>
+  		
+  		<!-- 查询资源类型 -->
+  		<select id="findRoleType" resultMap="roleType">
+  			select * from t_help_files where recordId =(select recordId from t_basis_files where remarlk='DWLX')
+  		</select>
+  		
+  		
+  </mapper>

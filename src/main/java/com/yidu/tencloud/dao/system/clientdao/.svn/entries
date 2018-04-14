@@ -1,0 +1,52 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/java/com/yidu/tencloud/dao/system/clientdao
+https://iversen:8888/svn/dangdang
+
+
+
+2017-11-27T07:02:01.118295Z
+715
+lyt
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+ClientMapper.java
+file
+
+
+
+
+2017-11-18T13:41:05.276000Z
+499a85edc864aec875e6798be07114f5
+2017-11-17T00:44:20.164561Z
+393
+lyt
+
+ClientMapper.xml
+file
+
+
+
+
+2017-12-01T02:25:25.082000Z
+77158de858caeeecc2d98a4c5276cb3f
+2017-11-27T07:02:01.118295Z
+715
+lyt
+

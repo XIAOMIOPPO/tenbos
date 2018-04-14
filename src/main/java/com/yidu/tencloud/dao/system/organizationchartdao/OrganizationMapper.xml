@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.system.organizationchartdao.OrganizationMapper">
+
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+	
+	<select id="findAllOrg" resultType="Organization">
+		select distinct o.*,f.fileName from t_organization o,t_help_files f where o.orgType = f.fileId;
+	</select>
+	
+	<select id="findAllOrgTypeName" resultType="Organization">
+		select distinct o.*,f.fileName from t_organization o,t_help_files f where o.orgType = f.fileId group by f.fileId
+	</select>
+	
+	<insert id="addOrg" parameterType="Organization">
+		insert into t_organization values(#{orgId},#{orgName},#{orgType},#{empName},#{parendOrgId},#{location},#{orgindex})
+	</insert>
+	
+	<update id="updateOrg" parameterType="Organization">
+		update t_organization
+		<set>
+			<if test="orgName != null and orgName != ''">
+				orgName = #{orgName},
+			</if>
+			
+			<if test="empName != null and empName != ''">
+				empName = #{empName},
+			</if>
+			
+			<if test="location != null and location != ''">
+				location = #{location}
+			</if>
+		</set>
+		where orgId = #{orgId}
+	</update>
+
+
+
+</mapper>

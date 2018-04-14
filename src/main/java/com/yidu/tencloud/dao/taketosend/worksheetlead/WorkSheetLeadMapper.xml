@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.tencloud.dao.taketosend.worksheetlead.WorkSheetLeadMapper">
+	<!-- 添加工作单表 -->
+	<insert id="addWorkSheet" parameterType="WorkSheetLead">
+		insert into
+		t_worksheet(workSheetId,workSheetNo,customerListNo,product,destination,businessNoticeNo,empName,stowageRequirement,workSheetType,workSheetSource,integraliyStatus)
+		values(#{workSheetId},#{workSheetNo},#{customerListNo},#{product},#{destination},#{businessNoticeNo},#{empName},#{stowageRequirement},#{workSheetType},#{workSheetSource},#{integraliyStatus})
+	</insert>
+	<!-- 添加寄件人表 -->
+	<insert id="addSender" parameterType="Sender">
+		insert into
+		t_sender(senderId,senderNo,senderName,senderFax,senderAddress,senderCompany,senderPhone)
+		values(#{senderId},#{senderNo},#{senderName},#{senderFax},#{senderAddress},#{senderCompany},#{senderPhone})
+	</insert>
+	<!-- 添加收件人表 -->
+	<insert id="addAddresses" parameterType="Addresses">
+		insert into
+		t_addresses(addressesId,addressesName,addressesFax,addressesAddress,addressesCompany,addressesPhone)
+		values(#{addressesId},#{addressesName},#{addressesFax},#{addressesAddress},#{addressesCompany},#{addressesPhone})
+	</insert>
+	<!-- 添加规格表 -->
+	<insert id="addRule" parameterType="Rule">
+		insert into
+		t_rule(ruleId,actualWeight,productName,size,insuranceType,
+		insurancePremium,declaredValue,originalPacking,actualPacking,packingCharges,packagingRequirements,
+		productAmount,billingWeight,settlementMode,preCharge,replaceReceivables,paymentArrival
+		,feedbackSign,holidayIsCollect,serviceTimeLimit)
+		values(#{ruleId},#{actualWeight},#{productName},#{size},#{insuranceType},#{insurancePremium},#{declaredValue},
+		#{originalPacking},#{actualPacking},#{packingCharges},#{packagingRequirements},
+		#{productAmount},#{billingWeight},#{settlementMode},#{preCharge},#{replaceReceivables},#{paymentArrival},
+		#{feedbackSign},#{holidayIsCollect},#{serviceTimeLimit})
+	</insert>
+</mapper>

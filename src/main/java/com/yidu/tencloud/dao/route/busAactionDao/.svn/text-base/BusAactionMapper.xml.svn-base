@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace = "com.yidu.tencloud.dao.route.busAactionDao.BusAactionMapper">
+  	<!-- 查找数据总记录数 -->
+  	<select id="findAllBusAaction" resultType="com.yidu.tencloud.bean.route.aviation.BusAaction">
+		select * from t_plane
+	</select>
+  	
+  	<!-- 查找所有的飞机场并分页 -->
+  	<select id="findAllBusAction" parameterType = "hashMap" resultType = "BusAaction">
+  		select * from t_plane limit #{offset},#{limit}
+  	</select>
+  	<!-- 添加所有的飞机场 -->
+  	<insert id="addbusAaction">
+  		insert into t_plane(planeStationId,city,code,busStationName,address,contactNumder,remark,drawerName,drawerCompany,drawerTime,supplementName,supplementTime)values(#{planeStationId},#{city},#{code},#{dusStationName},#{address},#{contactNumber},#{rematk},#{drawerName},#{drawerCompany},#{dawerTime},#{supplementName},#{supplemetTime})
+  	</insert>
+  	<!-- 修改飞机航班 -->
+  	<update id="updbusAaction">
+		update t_plane
+		<set>
+			<if test="planeStationId !=null and planeStationId !=''">
+				planeStationId = #{planeStationId},
+			</if>
+			<if test="city !=null and city !=''">
+				city = #{city}，
+			</if>
+			<if test="code != null and code !=''">
+				code = #{code},
+			</if>
+			<if test="busStationName != null and busStationName !=''">
+				busStationName = #{busStationName},
+			</if>
+			<if test="address != null and address !=''">
+				address = #{address},
+			</if>
+			<if test="contactNumder != null and contactNumder !=''">
+				contactNumder = #{contactNumder},
+			</if>
+			<if test="drawerCompany != null and drawerCompany !=''">
+				drawerCompany = #{drawerCompany}
+			</if>
+			<if test="drawerTime != null and drawerTime !=''">
+				drawerTime = #{drawerTime}
+			</if>
+			<if test="supplementName != null and supplementName !=''">
+				supplementName = #{supplementName}
+			</if>
+			<if test="supplementTime != null and supplementTime !=''">
+				supplementTime = #{supplementTime}
+			</if>
+		</set>
+		where planeStationId = #{planeStationId}
+	</update>
+	<!-- 作废整条飞机场数据 -->
+	<delete id="delbusAaction">
+		delete from t_plane where planeStationId = #{planeStationId}
+	</delete>
+	
+	<select id="conttBusAaction" parameterType="hashmap" resultType="BusAaction">
+		selece count(*) from t_plane where 1=1
+		<if test="planeStationId !=null and planeStationId =''">
+			and planeStationId like '$%{planeStationId}%'
+		</if>
+		<if test="city !=null and city =''">
+			and city like $%{city}%
+		</if>
+		<if test="{code} !=null and {code} =''">
+			and {code} like $%{code}%
+		</if>
+		<if test="dusStationName !=null and dusStationName =''">
+			and dusStationName like $%{dusStationName}%
+		</if>
+		<if test="address !=null and address =''">
+			and address like $%{address}%
+		</if>
+		<if test="contactNumber !=null and contactNumber =''">
+			and contactNumber like $%{contactNumber}%
+		</if>
+		<if test="{remark} !=null and {remark} =''">
+			and {remark} like $%{remark}%
+		</if>
+		<if test="{drawerName} !=null and {drawerName} =''">
+			and {drawerName} like $%{drawerName}%
+		</if>
+		<if test="drawerCompany !=null and drawerCompany =''">
+			and drawerCompany like $%{drawerCompany}%
+		</if>
+		<if test="drawerTime !=null and drawerTime =''">
+			and drawerTime like $%{drawerTime}%
+		</if>
+		<if test="supplementName !=null and supplementName =''">
+			and supplementName like $%{supplementName}%
+		</if>
+		<if test="aupplementTime !=null and aupplementTime =''">
+			and aupplementTime like $%{aupplementTime}%
+		</if>
+		<choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when>
+		</choose>
+	</select>
+	<select id="ronesBusAaction" resultType="int">
+		selece count(*) from t_plane where 1=1
+		<if test="planeStationId !=null and planeStationId =''">
+			and planeStationId like '$%{planeStationId}%'
+		</if>
+		<if test="city !=null and city =''">
+			and city like $%{city}%
+		</if>
+		<if test="{code} !=null and {code} =''">
+			and {code} like $%{code}%
+		</if>
+		<if test="dusStationName !=null and dusStationName =''">
+			and dusStationName like $%{dusStationName}%
+		</if>
+		<if test="address !=null and address =''">
+			and address like $%{address}%
+		</if>
+		<if test="contactNumber !=null and contactNumber =''">
+			and contactNumber like $%{contactNumber}%
+		</if>
+		<if test="{remark} !=null and {remark} =''">
+			and {remark} like $%{remark}%
+		</if>
+		<if test="{drawerName} !=null and {drawerName} =''">
+			and {drawerName} like $%{drawerName}%
+		</if>
+		<if test="drawerCompany !=null and drawerCompany =''">
+			and drawerCompany like $%{drawerCompany}%
+		</if>
+		<if test="drawerTime !=null and drawerTime =''">
+			and drawerTime like $%{drawerTime}%
+		</if>
+		<if test="supplementName !=null and supplementName =''">
+			and supplementName like $%{supplementName}%
+		</if>
+		<if test="aupplementTime !=null and aupplementTime =''">
+			and aupplementTime like $%{aupplementTime}%
+		</if>
+	</select>
+	
+  </mapper>

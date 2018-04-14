@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.yidu.tencloud.dao.transitshipment.sort.OutwarehouseDao">
+	<!-- 分页查询 -->
+	<select id="findOutWareHousePagenation" parameterType="hashmap"
+		resultType="Outwarehouse">
+		select * from t_outwarehouse where 1=1 ORDER BY warehouseTime limit #{offset},#{limit}
+	</select>
+	<!-- 查询总条数 -->
+	<select id="outwarehousecount" resultType="int">
+		select count(*) from
+		t_outwarehouse where 1=1 ORDER BY warehouseTime
+	</select>
+    <!-- 带条件的分页查询，如果是条件为空，就是查询所有的用户，并做分页 -->
+	<select id="findOutWareHousePagenationWithCriteria" parameterType="hashmap" resultType="Outwarehouse">
+		select * from t_outwarehouse where 1=1 
+		<if test="operationUnit!=null and operationUnit!='' ">
+			and operationUnit =#{operationUnit}
+		</if>
+		<if test="warehouseTime_w!=null  and warehouseTime_w!=''" >
+			and warehouseTime &gt;= #{warehouseTime_w}
+		</if>
+		<if test="warehouseTime_t!=null  and warehouseTime_t!=''" >
+			and warehouseTime &lt;= #{warehouseTime_t}
+		</if>
+		<if test="deliveryTime_d!=null  and deliveryTime_d!=''" >
+			and deliveryTime &gt;= #{deliveryTime_d}
+		</if>
+		<if test="deliveryTime_e!=null  and deliveryTime_e!=''" >
+			and deliveryTime &lt;= #{deliveryTime_e}
+		</if>
+		<if test="operationTime_o!=null  and operationTime_o!=''" >
+			and operationTime &gt;= #{operationTime_o}
+		</if>
+		<if test="operationTime_p!=null  and operationTime_p!=''" >
+			and operationTime &lt;= #{operationTime_p}
+		</if>
+		<if test="receiptNo!=null and receiptNo!=''">
+			and receiptNo = #{receiptNo}
+		</if>
+		<if test="jobNo!=null and jobNo!=''">
+			and jobNo =#{jobNo}
+		</if>
+        <if test="AccessType!=null and AccessType!=''">
+			and AccessType =#{AccessType}
+		</if>
+		
+		<choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when>
+		</choose>
+	</select>
+	<!-- 查询满足条件的总条数 -->
+	<select id="outwareousecountWithCriteria" resultType="int">
+		select count(*) from t_outwarehouse where 1=1
+		<if test="operationUnit!=null and operationUnit!='' ">
+			and operationUnit =#{operationUnit}
+		</if>
+		<if test="warehouseTime_w!=null  and warehouseTime_w!=''" >
+			and warehouseTime &gt;= #{warehouseTime_w}
+		</if>
+		<if test="warehouseTime_t!=null  and warehouseTime_t!=''" >
+			and warehouseTime &lt;= #{warehouseTime_t}
+		</if>
+		<if test="deliveryTime_d!=null  and deliveryTime_d!=''" >
+			and deliveryTime &gt;= #{deliveryTime_d}
+		</if>
+		<if test="deliveryTime_e!=null  and deliveryTime_e!=''" >
+			and deliveryTime &lt;= #{deliveryTime_e}
+		</if>
+		<if test="operationTime_o!=null  and operationTime_o!=''" >
+			and operationTime &gt;= #{operationTime_o}
+		</if>
+		<if test="operationTime_p!=null  and operationTime_p!=''" >
+			and operationTime &lt;= #{operationTime_p}
+		</if>
+		<if test="receiptNo!=null and receiptNo!=''">
+			and receiptNo = #{receiptNo}
+		</if>
+		<if test="jobNo!=null and jobNo!=''">
+			and jobNo =#{jobNo}
+		</if>
+        <if test="AccessType!=null and AccessType!=''">
+			and AccessType =#{AccessType}
+		</if>
+	</select>
+	<select id="findOrgNameById" parameterType="string" resultType="string" >
+	select orgName from t_organization where orgId=#{orgName}
+	</select>
+	
+	<select id="findoutPrint" parameterType="string" resultType="Outwarehouse" >
+	  select * from t_outwarehouse where outwarehouseId=#{outwarehouseId}
+	</select>
+
+
+
+
+
+
+
+
+
+
+</mapper>

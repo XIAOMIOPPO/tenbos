@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.tencloud.dao.basis.regionsetting.RegionMapper">
+
+   	<select id="countArea" resultType="int" parameterType="hashmap" >
+		select count(*) from t_area where 1=1
+		
+		<!-- 条件查询 -->
+		<if test="province!=null">
+			and province like '%${province}%'
+		</if>
+		<if test="city!=null">
+			and city like '%${city}%'
+		</if>
+		<if test="county!=null">
+			and county like '%${county}%'
+		</if>
+		and isUse != '0'
+	</select>
+	
+	<select id="pageQuery" resultType="Area" parameterType="hashmap">
+		select * from t_area where 1=1
+		<!-- 条件查询 -->
+		<if test="province!=null">
+			and province like '%${province}%'
+		</if>
+		<if test="city!=null">
+			and city like '%${city}%'
+		</if>
+		<if test="county!=null">
+			and county like '%${county}%'
+		</if>
+		and isUse != '0'
+		
+		<!-- 有分页查询 -->
+		<if test="offset!=null and limit!=null">
+			limit #{offset},#{limit}
+		</if>
+	</select>
+
+	<insert id="addArea" parameterType="Area">
+		insert into t_area (areaId,province,city,county,postcode,citycode,brevitycode,isUse) values
+		 (#{areaId},#{province},#{city},#{county},#{postcode},#{citycode},#{brevitycode},#{isUse})
+	</insert>
+	
+	<delete id="deleteArea" parameterType="string">
+		update t_area set isUse='0' where areaId=#{areaId}
+		<!-- delete from t_area where areaId = #{areaId} -->
+	</delete>
+	
+	<update id="updateArea" parameterType="hashmap">
+		update t_area set province=#{province},city=#{city},county=#{county} where areaId=#{areaId}
+	</update>
+	
+	
+	
+	
+	
+	
+</mapper>  

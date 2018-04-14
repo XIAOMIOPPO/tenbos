@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.yidu.tencloud.dao.system.fixedAreaDao.FixedAreaMapper">
+    <!-- 带条件的分页查询,如果条件为空,就是查询所有用户,并做分页 -->
+	<select id="findFixedAreaByPageWithTerm" parameterType="hashmap" resultType="FixedArea">
+		select f.* from t_fixed_area f where f.status='0' and f.userName in
+		(select t.userName from t_user t where 1=1
+     	  and t.orgId
+	    	<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+			#{item}
+		    </foreach>)
+		    <!-- 条件查询 -->
+			<if test="fixedAreaName!=null">
+				and f.fixedAreaName like '%${fixedAreaName}%'
+			</if>
+			<if test="userName!=null">
+				and f.userName like '%${userName}%'
+			</if>
+			
+			<!-- 有分页查询 -->
+			<if test="start!=null and pageSize!=null">
+				 limit #{start},#{pageSize}
+			</if>
+	</select>
+	
+	<select id="findFixedAreaByPage" parameterType="hashmap" resultType="FixedArea">
+		select f.* from t_fixed_area f where f.status='0' and f.userName in
+		(select t.userName from t_user t where 1=1
+     	  and t.orgId
+	    	<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+			#{item}
+		    </foreach>) 
+			<!-- 有分页查询 -->
+			<if test="start!=null and pageSize!=null">
+				 limit #{start},#{pageSize}
+			</if>
+	</select>
+	
+	<!-- 查询定区记录数 -->
+	<select id="count" parameterType="hashmap" resultType="int">
+		select COUNT(*) from t_fixed_area f where f.status='0' and f.userName in
+		(select t.userName from t_user t where 1=1
+     	  and t.orgId
+	    	<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+			#{item}
+		    </foreach>) 
+		    <!-- 条件查询 -->
+			<if test="fixedAreaName!=null">
+				and f.fixedAreaName like '%${fixedAreaName}%'
+			</if>
+			<if test="userName!=null">
+				and f.userName like '%${userName}%'
+			</if>
+	</select>
+	
+	<!-- 根据定区Id查找客户 -->
+	<select id="findClientByFixedArea" parameterType="string" resultType="Client">
+	  select t2.* from t_client_fixed_area t3 
+	    left join t_client t2 on t3.clientId=t2.clientId 
+	    left join t_fixed_area t1 on t3.fixedAreaId=t1.fixedAreaId 
+	    where t3.fixedAreaId=#{fixedAreaId}
+	</select>
+	<!-- 找到不在本定区的客户 -->
+	<select id="findClientNotInFixedArea" parameterType="hashMap" resultType="Client">
+		select c.* from t_client c where c.clientId not in (select t2.clientId from t_client_fixed_area t3 
+	    left join t_client t2 on t3.clientId=t2.clientId
+	    left join t_fixed_area t1 on t3.fixedAreaId=t1.fixedAreaId 
+	    where  t3.fixedAreaId=#{fixedAreaId})
+	    <if test="clientName!=null and clientName!=''">
+	      and c.clientName like '%${clientName}%'
+	    </if>
+	</select>
+	
+	<!-- 根据定区Id查找分区 -->
+	<select id="findPartitionByFixedArea" parameterType="string" resultType="Partition">
+	  select t1.* from t_partition t1,t_fixed_area t2 
+	    where t1.fixedAreaId=t2.fixedAreaId
+	    and t2.fixedAreaId=#{fixedAreaId} 
+	</select>
+	
+	<!-- 找到不在此定区的分区 -->
+	<select id="findPartitionNotInFixedArea" parameterType="hashMap" resultType="Partition">
+	  select p.* from t_partition p where p.partitionId not in(select t1.partitionId from t_partition t1,t_fixed_area t2 
+	    where t1.fixedAreaId=t2.fixedAreaId
+	    and t2.fixedAreaId=#{fixedAreaId})
+	    <if test="county!=null and county!=''">
+	      and p.addressKey like '%${addressKey}%'
+	    </if>
+	</select>
+	
+	<!-- 根据定区Id查找职员 -->
+	<select id="findEmpByFixedArea" parameterType="string" resultType="Emp">
+	  select t2.* from t_emp_fixed_area t3 
+	    left join t_employee t2 on t3.empId=t2.empId
+	    left join t_fixed_area t1 on t3.fixedAreaId=t1.fixedAreaId 
+	    where t3.fixedAreaId=#{fixedAreaId}
+	</select>
+	
+	<!-- 找到不在本定区的职员 -->
+	<select id="findEmpNotInFixedArea" parameterType="hashMap" resultType="Emp">
+		select e.* from t_employee e where e.empId not in (select empId from t_emp_fixed_area)
+	    and e.orgName
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+			#{item}
+		</foreach>
+	    <if test="empName!=null and empName!=''">
+	      and e.empName like '%${empName}%'
+	    </if>
+	</select>
+	
+	<!-- 查找用户Id -->
+	<select id="findUserId" resultType="String" parameterType="hashmap">
+	  select userId from t_user where 1=1
+	  <if test="userName!=null and userName!=''">
+			and userName =#{userName}
+	  </if>
+	</select>
+	
+	<!-- 查找用户名 -->
+	<select id="findUserName" resultType="String">
+	  select t.userName from t_user t where 1=1
+	  and t.orgId
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="list">
+			#{item}
+		</foreach>
+	</select>
+    
+    <!-- 添加定区 -->
+    <insert id="addFixedArea" parameterType="FixedArea">
+      insert into t_fixed_area(fixedAreaId,fixedAreaName,fixedAreaNum,userId,userName,status) values(#{fixedAreaId},#{fixedAreaName},#{fixedAreaNum},#{userId},#{userName},#{status})
+    </insert>
+    
+    <!-- 添加定区职员 -->
+    <insert id="addFixedAreaEmp" parameterType="FixedAreaEmp">
+      insert into t_emp_fixed_area(fixedAreaId,empId) values(#{fixedAreaId},#{empId})
+    </insert>
+    
+    <!-- 添加定区客户 -->
+    <insert id="addFixedAreaClient" parameterType="FixedAreaClient">
+      insert into t_client_fixed_area(fixedAreaId,clientId) values(#{fixedAreaId},#{clientId})
+    </insert>
+    
+    <!-- 删除定区 -->
+    <update id="deleteFixedArea" parameterType="FixedArea">
+      update t_fixed_area set status=#{status} where fixedAreaId=#{fixedAreaId}
+    </update>
+    
+    <!-- 删除定区职员 -->
+    <delete id="deleteFixedAreaEmp" parameterType="String">
+      delete from t_emp_fixed_area where empId = #{empId}
+    </delete>
+    
+    <!-- 删除定区职员 -->
+    <delete id="deleteFixedAreaClient" parameterType="String">
+      delete from t_client_fixed_area where clientId = #{clientId}
+    </delete>
+    
+    <!-- 修改定区 -->
+    <update id="updateFixedArea" parameterType="hashmap">
+      update t_fixed_area set fixedAreaName = #{fixedAreaName} , fixedAreaNum=#{fixedAreaNum} where fixedAreaId= #{fixedAreaId}
+    </update>
+    
+    <!-- 修改定区编号 -->
+    <update id="updateFixedAreaNum" parameterType="hashmap">
+      update t_fixed_area set fixedAreaNum=#{fixedAreaNum} where fixedAreaId= #{fixedAreaId}
+    </update>
+    
+    <!-- 修改分区 -->
+    <update id="updatePartition" parameterType="hashmap">
+      update t_partition set fixedAreaId=#{fixedAreaId} where partitionId=#{partitionId}
+    </update>
+  </mapper>                                                             
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

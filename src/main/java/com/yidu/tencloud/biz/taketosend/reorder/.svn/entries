@@ -1,0 +1,43 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/java/com/yidu/tencloud/biz/taketosend/reorder
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-11T12:06:41.623853Z
+1573
+lyj
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+GenerrateInvoiceBiz.java
+file
+
+
+
+
+2018-01-08T10:41:37.925000Z
+deee04df2d33e0338a3f461cf7b8b31d
+2017-12-28T07:16:27.665317Z
+1336
+lyj
+
+impl
+dir
+

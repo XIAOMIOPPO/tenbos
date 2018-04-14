@@ -1,0 +1,67 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/webapp/jsps/TakeToSend/dispatch
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-09T08:19:18.144599Z
+1538
+dzm
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+checkMachineTurnSingle
+dir
+
+control.jsp
+file
+
+
+
+
+2017-12-25T01:49:52.963000Z
+11156c761210cc2390b07dabbbc824e1
+2017-12-21T08:29:55.501910Z
+1253
+dzm
+
+dispatch.jsp
+file
+
+
+
+
+2018-01-10T01:05:02.704000Z
+0012abe55aba99c70645d8b126e96769
+2018-01-09T08:19:18.144599Z
+1538
+dzm
+
+permission.jsp
+file
+
+
+
+
+2018-01-10T01:05:03.218000Z
+59fa0ebf578c3fedc0c6f8b9b0c7891c
+2018-01-04T06:30:17.342052Z
+1400
+dzm
+

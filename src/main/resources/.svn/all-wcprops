@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/dangdang/!svn/ver/1754/bos/tenbos/src/main/resources
+END
+db.properties
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/dangdang/!svn/ver/1627/bos/tenbos/src/main/resources/db.properties
+END
+redis.properties
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/dangdang/!svn/ver/1642/bos/tenbos/src/main/resources/redis.properties
+END

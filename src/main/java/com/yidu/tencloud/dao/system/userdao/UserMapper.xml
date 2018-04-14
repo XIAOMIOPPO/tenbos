@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.system.userdao.UserMapper">
+
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+	
+	<select id="findAllUser" resultType="com.yidu.tencloud.bean.system.user.User">
+		select u.*,o.orgName,h.fileName from t_user u join t_organization o on u.orgId=o.orgId join t_help_files h on h.fileId=o.orgType
+	</select>
+	
+	<select id="login" resultType="com.yidu.tencloud.bean.system.user.User">
+		select * from t_user where userName=#{userName} and pwd=#{pwd}
+	</select>
+	
+	<insert id="addUser" parameterType="User">
+		insert into t_user(userId,userName,pwd,age,sex,phoneNum,orgId,isUse) values(#{userId},#{userName},#{pwd},#{age},#{sex},#{phoneNum},#{orgId},#{isUse})
+	</insert>
+	
+	<update id="updateUser" parameterType="User">
+		update t_user
+		<set>
+			<if test="userName !=null and userName !=''">
+				userName = #{userName},
+			</if>
+			<if test="pwd !=null and pwd !=''">
+				pwd = #{pwd}，
+			</if>
+			<if test="age != null and age !=''">
+				age = #{age},
+			</if>
+			<if test="sex != null and sex !=''">
+				sex = #{sex},
+			</if>
+			<if test="orgId != null and orgId !=''">
+				orgId = #{orgId},
+			</if>
+			<if test="phoneNum != null and phoneNum !=''">
+				phoneNum = #{phoneNum},
+			</if>
+			<if test="isUse != null and isUse !=''">
+				isUse = #{isUse}
+			</if>
+		</set>
+		where userId = #{userId}
+	</update>
+	<delete id="deleteUser" parameterType="string">
+		delete from t_user where userId = #{userId}
+	</delete>
+	<select id="conttUser" parameterType="hashmap" resultType="User">
+		<choose>
+			<otherwise>
+				select u.*,o.orgName,h.fileName from t_user u join t_organization o on u.orgId=o.orgId join t_help_files h on h.fileId=o.orgType where 1=1
+			</otherwise>
+		</choose>
+		<if test="userName !=null and userName !=''">
+			and userName like '%${userName}%'
+		</if>
+		<if test="phoneNum !=null and phoneNum !=''">
+			and phoneNum like '%${phoneNum}%'
+		</if>
+		<if test="orgId !=null and orgId !=''">
+			and orgId like '%${orgId}%'
+		</if>
+		<if test="isUse !=null and isUse !=''">
+			and isUse like '%${isUse}%'
+		</if>
+		<if test="minage !=null and minage !=''">
+			and age> #{minage}
+			
+		</if>
+		<if test="maxage !=null and maxage !=''">
+			and age&lt;#{maxage}
+			
+		</if>
+		<choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when>
+		</choose>
+	</select>
+	<select id="ronesUser" resultType="int" parameterType="hashmap">
+		select count(*) from t_user where 1=1
+		<if test="userName !=null and userNmae!=''">
+			and userName like '%${userName}%'
+		</if>
+		<if test="phoneNum != null and phoneNum!='' ">
+			and phoneNum like '%${phoneNum}%'
+		</if>
+		<if test="orgId !=null and orgId !=''">
+			and orgId like '%${orgId}%'
+		</if>
+		<if test="isUse !=null and isUse !=''">
+			and isUse like '%${isUse}%'
+		</if>
+		<if test="minage !=null and minage !=''">
+			and age>#{minage}
+			
+		</if>
+		<if test="maxage !=null and maxage !=''">
+			and age&lt;#{maxage}
+			
+		</if>
+	</select>
+	
+	<select id="findUserByName" parameterType="string" resultType="User">
+		select u.*,o.orgName,h.fileName from t_user u join t_organization o on u.orgId=o.orgId join t_help_files h on h.fileId=o.orgType where u.userName = #{userName}
+	</select>
+	
+	<select id="findRoleByName" parameterType="string" resultType="Role">
+		SELECT roleCode 
+		from t_user_role tur
+		left join 
+		t_role tr on tur.roleId = tr.roleId left join 
+		t_user tu on tur.userId=tu.userId
+		where tu.userName=#{userName}
+	</select>
+	
+	<select id="findResourceByName" parameterType="string" resultType="URLResource">
+		SELECT resourceCode,resourceUrl 
+		FROM t_role_resource trs left join 
+		t_role tr
+		on trs.roleId=tr.roleId 
+		left join 
+		t_resource tre 
+		on tre.resourceId=trs.resourceId
+		left join t_user_role tur on tur.roleId=trs.roleId 
+		left join t_user tu on tu.userId = tur.userId 
+		where tu.userName=#{userName}
+	</select>
+	
+
+
+</mapper>

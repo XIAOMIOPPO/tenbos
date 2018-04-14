@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.yidu.tencloud.dao.taketosend.dispatcher.DispatcherMapper">
+  	<!-- 记录总数 -->
+  	<select id="countNum" resultType="int" parameterType="hashmap" >
+		select count(*) from t_businessrecsipt b
+		left join t_workorder w 
+		on b.businessRecsiptId=w.businessRecsiptId
+		<!-- 模糊查询条件（取件地址，分拣编码） -->
+		<where>
+			<if test="arrivalCity!=null">
+				and b.arrivalCity like '%${arrivalCity}%'
+			</if>
+			<if test="fetchAddress!=null">
+				and b.fetchAddress like '%${fetchAddress}%'
+			</if>
+		</where>
+	</select> 
+	
+	<!-- 查询所有需要进行调度的工单信息 -->
+	<select id="findAllNeedDispatcherWorkOrder" resultType="BusinessRecsipt" parameterType="hashmap">
+		select * from t_businessrecsipt b
+		left join t_workorder w 
+		on b.businessRecsiptId=w.businessRecsiptId
+		<!-- 模糊查询条件（取件地址，分拣编码） -->
+		<where>
+			<if test="arrivalCity!=null">
+				and b.arrivalCity like '%${arrivalCity}%'
+			</if>
+			<if test="fetchAddress!=null">
+				and b.fetchAddress like '%${fetchAddress}%'
+			</if>
+		</where>
+		
+		<!-- 有分页查询 -->
+		<if test="offset!=null and limit!=null">
+			<!-- 对数据进行筛选，不同的用户登陆看到不同的数据 -->			and operatorOrg
+			<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+				#{item}
+			</foreach>
+			limit #{offset},#{limit}
+		</if>
+	</select>
+	
+	<!-- 记录所有需要调度的工单 -->
+	<select id="countNeedDispatcherOrder" resultType="int">
+		select count(*) from t_businessrecsipt where type='1'
+	</select> 
+	
+	<!-- 查询所有调度历史 -->
+	<select id="findAllDispatcherAnnals" resultType="DispatcherAnnals" parameterType="string">
+		select d.*,b.operator,b.operatorOrg,
+			b.operatorTime,b.commonRemarks,w.takeOrgName,w.empName
+		from t_dispatcherhistory d
+		left join t_businessrecsipt b on d.businessRecsiptId = b.businessRecsiptId
+		left join t_workorder w on w.businessRecsiptId = b.businessRecsiptId
+		where b.businessRecsiptId=#{businessRecsiptId}
+	</select>
+	
+	
+	<!-- 查询所有组织结构-->	
+	<select id="findAllOrg" resultType="Organization">
+		select orgName from t_organization where orgName like '%加盟商%'
+	</select>
+	
+	<!-- 通过定区名查询定区信息 -->
+	<select id="findFetchAddress" parameterType="hashmap" resultType="FixedArea">
+		select * from t_fixed_area 
+		where fixedAreaName like '%${address}%'
+	</select>
+	
+	<!-- 通过定区编码查询定区Id -->
+	<select id="findFixedAreaIdByNum" parameterType="hashmap" resultType="FixedArea"> 
+		select fixedAreaId from t_fixed_area where fixedAreaNum=#{fixedAreaNum}
+	</select>
+	
+	<!-- 通过定区Id查询正在上班的职员 -->
+	<select id="findAllFixedAreaEmpIdByFixedAreaId" resultType="string" parameterType="hashmap">
+		select distinct r.replaceName,f.empId from t_emp_fixed_area f, t_relay r
+		where fixedAreaId = #{fixedAreaId}
+		and f.empId = r.replaceId 
+		and r.endTime > now()
+	</select>
+	
+	<!-- 通过职员名查询职员信息 -->
+	<select id="findEmpByEmpId" parameterType="hashmap" resultType="Emp">
+		select *  from t_employee where empName = #{empName}
+	</select>
+	
+	<!-- 通过通知单Id修改通知单状态为“2” -->
+	<update id="updateTypeById" parameterType="hashmap">
+		update t_businessrecsipt set type='2' where businessRecsiptId = #{businessRecsiptId}
+	</update>
+	
+	<!-- 通过通知单Id查询通知单Id，通知单编号，分拣编码 -->
+	<select id="findBusinessRecsiptNo" parameterType="string" resultType="String">
+		select businessRecsiptId,businessRecsiptNo,assignCode from t_businessrecsipt 
+		where businessRecsiptId=#{businessRecsiptId}
+	</select>
+	
+	<!-- 通过通知单Id查询预约取件时间 -->
+	<select id="findTakeTimeById" parameterType="string" resultType="Date">
+		select appointmentDispatchTime from t_businessrecsipt where businessRecsiptId=#{businessRecsiptId}
+	</select>
+	
+	<!-- 添加工单 -->
+	<insert id="addWorkOrder" parameterType="WorkOrder">
+		INSERT INTO `t_workorder` (
+			workOrderId,workOrderNo,businessRecsiptId,businessRecsiptNo,workOrderType,Wstatus,
+			noteNum,workOrderTime,traceNum,empId,empNum,empName,takeOrgName,takeTime,sortingCode)
+		VALUES (
+		#{workOrderId}, #{workOrderNo}, #{businessRecsiptId}, #{businessRecsiptNo}, #{workOrderType},
+		#{Wstatus},#{noteNum}, #{workOrderTime}, #{traceNum},#{empId}, #{empNum}, 
+		#{empName}, #{takeOrgName}, #{takeTime}, #{sortingCode})
+	</insert>
+	
+	<!-- 添加调度历史 -->
+	<insert id="addDispatcherAnnals" parameterType="DispatcherAnnals">
+		insert into t_dispatcherhistory (dispatcherAnnalsId,dispatcherNum,status,operatorTime,businessRecsiptId)
+		values (#{dispatcherAnnalsId},#{dispatcherNum},#{status},#{operatorTime},#{businessRecsiptId})
+	</insert>
+	
+	<!-- 添加工单详情 -->
+	<insert id="addWorkOrderDetail" parameterType="WorkOrderDetail">
+		INSERT INTO `t_workorderdetail`(workOrderDetailId,workOrderDetailNo,
+		formerId,formerNo,cause,remark) 
+		VALUES (#{workOrderDetailId},#{workOrderDetailNo},#{formerId} , 
+		#{formerNo}, #{cause}, #{remark})
+	</insert>
+	
+	<!-- 通过通知单Id修改销单原因 -->
+	<update id="updateDestoryCause" parameterType="hashmap">
+		update t_businessrecsipt
+		set destoryCause=#{destoryCause}
+		where businessRecsiptId=#{businessRecsiptId}
+	</update>
+	
+	<!-- 通过通知单Id查询所有工单信息 -->
+	<select id="findWorkOrderById" parameterType="string" resultType="WorkOrder">
+		select w.* from t_businessrecsipt b, t_workorder w
+		where b.businessRecsiptId=w.businessRecsiptId and b.businessRecsiptId=#{businessRecsiptId}
+	</select>
+	
+	<!-- 通过通知单Id修改工单表的工单类型为“销工单”，取件状态为“已取消”-->
+	<delete id="deleteWorkOrder" parameterType="string">
+   		update t_workorder t1, t_businessrecsipt t2
+		set t1.workOrderType='销工单' , t1.Wstatus='已取消'
+		where t1.businessRecsiptId=t2.businessRecsiptId and t2.businessRecsiptId=#{businessRecsiptId}
+   	</delete>
+	
+	<!-- 通过受理单Id修改调度历史表返回原因-->
+	<update id="updateReturnCause" parameterType="hashmap">
+		update t_dispatcherhistory d,t_businessrecsipt b
+		set d.returnCause=#{returnCause}
+		where d.businessRecsiptId = b.businessRecsiptId and b.businessRecsiptId=#{businessRecsiptId}
+	</update>
+	
+	<!-- 通过所属单位查询正在上班的职员
+		参数类型为map类型，返回值类型为String类型
+	 -->
+	<select id="findEmpNameByOrgName" resultType="string" parameterType="hashmap">
+		select distinct r.replaceName from t_employee e, t_relay r
+		where e.orgName = #{orgName}
+		and e.empId = r.replaceId 
+		and r.endTime > now()
+	</select>
+	
+	<!-- 记录受理单表的类型
+		参数类型为map类型，返回值类型为int
+	 -->
+	<select id="countBusinessRecsipt" parameterType="hashmap" resultType="int">
+		select count(*) from t_businessrecsipt
+		<where>
+			<!-- 对数据进行筛选，不同的用户登陆看到不同的数据 -->
+			operatorOrg
+			<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+				#{item}
+			</foreach>
+			
+			<if test="type!=null and type!='' ">
+				and type=#{type}
+			</if>
+		</where>
+	</select>
+  </mapper>                                                             
+ 

@@ -1,0 +1,75 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/webapp/jsps/route
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-17T07:27:59.677722Z
+1666
+ct
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+assignmentDetailed
+dir
+
+
+
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+copied
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/webapp/jsps/TakeToSend/assignmentDetailed
+1551
+
+bus
+dir
+
+css
+dir
+
+js
+dir
+
+prioritySetting.jsp
+file
+
+
+
+
+2018-01-10T01:05:08.678000Z
+27f3a6631610219a80f0cb28b922b9e0
+2018-01-02T07:02:36.185025Z
+1361
+lxc
+
+train
+dir
+

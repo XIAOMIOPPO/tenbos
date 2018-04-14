@@ -1,0 +1,52 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/webapp/static/slide
+https://iversen:8888/svn/dangdang
+
+
+
+2017-12-20T07:27:49.812372Z
+1124
+youngboy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+jquery.slideunlock.js
+file
+
+
+
+
+2017-12-18T06:08:44.511000Z
+08003ba87fa89079faf21f691fa7e76d
+2017-12-18T03:12:50.244363Z
+1066
+youngboy
+
+slide-unlock.css
+file
+
+
+
+
+2017-12-19T07:56:17.175000Z
+b94832218b6ab83940b0e9ce1e8b570a
+2017-12-20T07:27:49.812372Z
+1124
+youngboy
+

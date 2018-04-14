@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/dangdang/!svn/ver/1649/bos/tenbos/src/main/java/com/yidu/tencloud/dao/route/train
+END
+TrainMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/dangdang/!svn/ver/1598/bos/tenbos/src/main/java/com/yidu/tencloud/dao/route/train/TrainMapper.java
+END
+TrainMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/dangdang/!svn/ver/1598/bos/tenbos/src/main/java/com/yidu/tencloud/dao/route/train/TrainMapper.xml
+END
+RouteMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/dangdang/!svn/ver/1649/bos/tenbos/src/main/java/com/yidu/tencloud/dao/route/train/RouteMapper.xml
+END
+RouteMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/dangdang/!svn/ver/1649/bos/tenbos/src/main/java/com/yidu/tencloud/dao/route/train/RouteMapper.java
+END

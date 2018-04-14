@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/dangdang/!svn/ver/135/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/less
+END
+site.less
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/dangdang/!svn/ver/135/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/less/site.less
+END
+mixins.less
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/dangdang/!svn/ver/135/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/less/mixins.less
+END
+sticky-footer.less
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/dangdang/!svn/ver/135/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/less/sticky-footer.less
+END
+responsive-767px-max.less
+K 25
+svn:wc:ra_dav:version-url
+V 121
+/svn/dangdang/!svn/ver/135/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/less/responsive-767px-max.less
+END
+responsive-navbar.less
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/dangdang/!svn/ver/135/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/less/responsive-navbar.less
+END
+responsive.less
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/dangdang/!svn/ver/135/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/less/responsive.less
+END
+variables.less
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/dangdang/!svn/ver/135/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/less/variables.less
+END
+lazy.less
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svn/dangdang/!svn/ver/135/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/less/lazy.less
+END
+responsive-768px-979px.less
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/svn/dangdang/!svn/ver/135/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/less/responsive-768px-979px.less
+END
+responsive-1200px-min.less
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/dangdang/!svn/ver/135/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/less/responsive-1200px-min.less
+END

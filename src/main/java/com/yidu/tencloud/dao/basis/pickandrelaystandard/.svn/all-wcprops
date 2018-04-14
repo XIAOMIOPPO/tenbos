@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svn/dangdang/!svn/ver/1568/bos/tenbos/src/main/java/com/yidu/tencloud/dao/basis/pickandrelaystandard
+END
+EmpMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/dangdang/!svn/ver/1378/bos/tenbos/src/main/java/com/yidu/tencloud/dao/basis/pickandrelaystandard/EmpMapper.java
+END
+EmpMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/dangdang/!svn/ver/1568/bos/tenbos/src/main/java/com/yidu/tencloud/dao/basis/pickandrelaystandard/EmpMapper.xml
+END
+RelayMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 117
+/svn/dangdang/!svn/ver/1478/bos/tenbos/src/main/java/com/yidu/tencloud/dao/basis/pickandrelaystandard/RelayMapper.xml
+END
+RelayMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 118
+/svn/dangdang/!svn/ver/1478/bos/tenbos/src/main/java/com/yidu/tencloud/dao/basis/pickandrelaystandard/RelayMapper.java
+END

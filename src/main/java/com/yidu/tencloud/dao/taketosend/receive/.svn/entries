@@ -1,0 +1,52 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/java/com/yidu/tencloud/dao/taketosend/receive
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-20T01:10:33.773434Z
+1835
+dzm
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+ReceiveMapper.java
+file
+
+
+
+
+2018-01-09T13:22:01.818000Z
+ee2f99bfe9861410257109b16d0210ab
+2018-01-09T08:53:20.864977Z
+1540
+dzm
+
+ReceiveMapper.xml
+file
+
+
+
+
+2018-01-20T02:33:58.456000Z
+a8cb56347562234a361e443fe6eb65ed
+2018-01-20T01:10:33.773434Z
+1835
+dzm
+

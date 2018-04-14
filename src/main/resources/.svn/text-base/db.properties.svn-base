@@ -1,0 +1,4 @@
+MySQL.driver=com.mysql.jdbc.Driver
+MySQL.url=jdbc:mysql://www.youngboy.vip/tencloud
+MySQL.user=lyj
+MySQL.password=123

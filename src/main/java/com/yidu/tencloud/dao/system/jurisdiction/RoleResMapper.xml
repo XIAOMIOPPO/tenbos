@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.tencloud.dao.system.jurisdiction.RoleResMapper">
+
+	<!-- 添加角色资源 -->
+	<insert id="addRoleRes" parameterType="list">
+		insert into t_role_resource(roleResourceId,roleId,resourceId) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.primaryId},#{item.beanId},#{item.obeanId})
+		</foreach>
+	</insert>
+	
+	<!-- 添加用户角色 -->
+	<insert id="addUserRole" parameterType="list">
+		insert into t_user_role(userRoleId,roleId,userId) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.primaryId},#{item.beanId},#{item.obeanId})
+		</foreach>
+	</insert>
+	
+	<!-- 删除角色资源 -->
+	<delete id="deleteRoleRes" parameterType="string">
+		delete from t_role_resource where roleResourceId=#{roleResourceId}
+	</delete>
+	
+	<!-- 删除角色 -->
+	<delete id="delRoleByRoleIdInRes" parameterType="string">
+		delete from t_user_role where roleId=#{roleId}
+	</delete>
+	
+	<!-- 通过用户删除用户角色 -->
+	<delete id="delRoleByUserId" parameterType="list">
+		delete from t_user_role
+		<where>
+		userId
+		<foreach collection="list" open="in (" close=")" item="item" separator="," >
+			#{item}
+		</foreach>
+		</where>
+	</delete>
+	
+	<!-- 通过角色id删除角色资源 -->
+	<delete id="deleteResByRoleId" parameterType="list">
+		delete from t_role_resource
+		<where>
+		roleId
+		<foreach collection="list" open="in (" close=")" item="item" separator="," >
+			#{item}
+		</foreach>
+		</where>
+	</delete>
+	
+	
+	<!-- 通过角色id删除角色资源 -->
+	<delete id="delRoleByRoleId" parameterType="string">
+		delete from t_role_resource where roleId=#{roleId}
+	</delete>
+	
+	
+	<!-- 通过资源id删除角色资源 -->
+	<delete id="delResByResId" parameterType="string">
+		delete from t_role_resource where resourceId=#{resourceId}
+	</delete>
+	
+	
+	<!-- 通过用户角色id删除用户角色 -->
+	<delete id="deleteUserRole" parameterType="string">
+		delete from t_user_role where userRoleId=#{userRoleId}
+	</delete>
+	
+	
+	<!-- 通过用户id找到角色id -->
+	<select id="selectRoleIdByUserId" parameterType="string" resultType="Role">
+		select roleId from t_user_role where userId=#{userId}
+	</select>
+	
+	
+	<!-- 通过角色id找到资源id -->
+	<select id="selectResIdByRoleId" parameterType="string" resultType="URLResource">
+		select resourceId from t_role_resource where roleId=#{roleId}
+	</select>
+
+</mapper>

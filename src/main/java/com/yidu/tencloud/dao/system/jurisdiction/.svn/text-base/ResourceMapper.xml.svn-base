@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.yidu.tencloud.dao.system.jurisdiction.ResourceMapper">
+  	
+  	<!-- 找到所有资源 -->
+  	<select id="findAllResource" resultType="URLResource">
+  		select r.*,h.fileName from t_resource r left join t_help_files h on r.resourceType=h.fileId 
+  	</select>
+  	
+  	
+  	<!-- 通过id找资源 -->
+  	<select id="findResourceById" parameterType="string" resultType="URLResource">
+  		select * from t_resource where parentResId=#{parentResId}
+  	</select>
+  	
+  	<!-- 找到所有父类 -->
+  	<select id="findAllResParent" resultType="URLResource">
+  		select * from t_resource where parentResId = ''
+  	</select>
+	
+	<!-- 更新资源 -->
+	<update id="updateResource">
+		update t_resource 
+		<set>
+			<if test="resourceName!=null and resourceName!='' ">
+				resourceName=#{resourceName},
+			</if>
+			<if test="resourceCode!=null and resourceCode!='' ">
+				resourceCode=#{resourceCode},
+			</if>
+			<if test="resourceUrl!=null and resourceUrl!='' ">
+				resourceUrl=#{resourceUrl},
+			</if>
+			<if test="resourceType!=null and resourceType!='' ">
+				resourceType=#{resourceType},
+			</if>
+			<if test="rindex!=null and rindex!='' ">
+				rindex=#{rindex},
+			</if>
+			<if test="parentResId!=null and parentResId!='' ">
+				parentResId=#{parentResId}
+			</if>
+		</set>
+		where resourceId=#{resourceId}
+	</update>
+
+	<!-- 删除资源 -->
+	<delete id="deleteResource">
+		delete from t_resource where resourceId = #{resourceId}
+	</delete>
+	
+  
+  	<!-- 添加资源 -->
+  	<insert id="addResource">
+  		insert into t_resource(resourceId,resourceName,resourceCode,resourceUrl,resourceType,parentResId,rindex) values(#{resourceId},#{resourceName},#{resourceCode},#{resourceUrl},#{resourceType},#{parentResId},#{rindex})
+  	</insert>
+  	
+  	
+  	<!-- 找到所有选项 -->
+  	<select id="findAllOption" resultType="AuthOption">
+  		select fileId,recordName from t_help_files where recordId = (select recordId from t_basis_files where recordName='资源类型')
+  	</select>
+  	
+  	<!-- 通过用户找到被授权的资源 -->
+  	<select id="findGrantedResourceByUserId" parameterType="string" resultType="URLResource">
+  		SELECT *
+		FROM (
+			SELECT *
+			FROM t_resource
+			WHERE resourceId IN (
+				SELECT parentResId
+				FROM t_resource
+				WHERE resourceId IN (
+					SELECT DISTINCT parentResId
+					FROM t_resource tr
+						JOIN t_role_resource trr ON tr.resourceId = trr.resourceId
+						JOIN t_user_role tur ON tur.roleId = trr.roleId
+						LEFT JOIN t_user tu ON tu.userId = tur.userId
+					WHERE tu.userName = #{userName}
+				)
+			)
+			UNION
+			SELECT *
+			FROM t_resource
+			WHERE resourceId IN (
+				SELECT DISTINCT parentResId
+				FROM t_resource tr
+					JOIN t_role_resource trr ON tr.resourceId = trr.resourceId
+					JOIN t_user_role tur ON tur.roleId = trr.roleId
+					LEFT JOIN t_user tu ON tu.userId = tur.userId
+				WHERE tu.userName = #{userName}
+			)
+			UNION
+			SELECT tr.*
+			FROM t_resource tr
+				JOIN t_role_resource trr ON tr.resourceId = trr.resourceId
+				JOIN t_user_role tur ON tur.roleId = trr.roleId
+				LEFT JOIN t_user tu ON tu.userId = tur.userId
+			WHERE tu.userName = #{userName}
+		) t
+	    where t.resourceType=(select fileId from t_help_files where mnemonicCode='ZYCD')
+	    ORDER BY t.rindex
+  	</select>
+  	
+  </mapper>

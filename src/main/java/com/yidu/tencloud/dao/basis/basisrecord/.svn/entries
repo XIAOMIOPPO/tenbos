@@ -1,0 +1,52 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/java/com/yidu/tencloud/dao/basis/basisrecord
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-19T05:50:31.148793Z
+1774
+cyj
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+BasisFilesMapper.java
+file
+
+
+
+
+2017-11-18T13:41:05.683000Z
+b1bc2adc42148e09ea049a9741a150dc
+2017-11-18T03:51:21.305241Z
+546
+cyj
+
+BasisFilesMapper.xml
+file
+
+
+
+
+2018-01-20T02:34:00.959000Z
+12e96a198d717888c6f0f3730a20a8dc
+2018-01-19T05:50:31.148793Z
+1774
+cyj
+

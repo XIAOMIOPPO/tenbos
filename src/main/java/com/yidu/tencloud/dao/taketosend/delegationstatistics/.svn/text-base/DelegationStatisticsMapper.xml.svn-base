@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.yidu.tencloud.dao.taketosend.delegationstatistics.DelegationStatisticsMapper">
+  <select id="countDelegationStatistics" parameterType="hashmap" resultType="int">
+   select count(*) from t_delegation_statistics
+  </select>
+  <!-- 普通分页查询 -->
+  <select id="findDelegationStatisticsQuery" parameterType="hashmap" resultType="DelegationStatistics"> 
+     select * from t_delegation_statistics limit #{offset},#{limit}
+  </select>
+  
+  <!-- 带条件的分页查询，如果条件为空，就是查询所有用户，并做分页 -->
+  <select id="findDelegationStatisticsQueryWithCriteria" parameterType="hashmap" resultType="DelegationStatistics">
+    <choose>
+    <otherwise>
+      select * from t_delegation_statistics where 1=1
+    </otherwise>
+   </choose>
+    <if test="orgId!=null">
+      and orgId like '%${orgId}%'
+    </if>
+    <if test="pickup!=null">
+     and pickup like '%${pickup}%'
+    </if>
+     <if test="votes!=null">
+     and votes like '%${votes}%'
+    </if>
+    <if test="delivered!=null">
+     and delivered like '%${delivered}%'
+    </if>
+    <if test="notDelivered!=null">
+     and notDelivered like '%${notDelivered}%'
+    </if>
+    <if test="returnNum!=null">
+     and returnNum like '%${returnNum}%'
+    </if>
+    <if test="delayRate!=null">
+     and delayRate like '%${delayRate}%'
+    </if>
+    <if test="returnRate!=null">
+     and returnRate like '%${returnRate}%'
+    </if>
+    <choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when> 
+		</choose>
+  </select>
+  
+  <select id="countDelegationStatisticsWithCriteria" resultType="int">
+   select count(*) from t_delegation_statistics where 1=1
+   <if test="orgId!=null">
+      and orgId like '%${orgId}%'
+    </if>
+    <if test="pickup!=null">
+     and pickup like '%${pickup}%'
+    </if>
+     <if test="votes!=null">
+     and votes like '%${votes}%'
+    </if>
+    <if test="delivered!=null">
+     and delivered like '%${delivered}%'
+    </if>
+    <if test="notDelivered!=null">
+     and notDelivered like '%${notDelivered}%'
+    </if>
+    <if test="returnNum!=null">
+     and returnNum like '%${returnNum}%'
+    </if>
+    <if test="delayRate!=null">
+     and delayRate like '%${delayRate}%'
+    </if>
+    <if test="returnRate!=null">
+     and returnRate like '%${returnRate}%'
+    </if>
+  </select>
+  
+  <select id="PrintDelegationStatistics" parameterType="hashmap" resultType="DelegationStatistics">
+    select * from t_delegation_statistics where orgId=#{orgId}
+  </select>
+  
+  
+  
+</mapper>

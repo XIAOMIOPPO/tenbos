@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace ="com.yidu.tencloud.dao.taketosend.signin.SignInMapper">
+	<!-- 分页查询所有签收录入并模糊查询 -->
+	<select id="findSignPagenation" parameterType="hashMap" resultType="SignIn">
+		select * from t_sign_in s,t_worksheet w,t_employee e where 
+		s.workSheetId = w.workSheetId and 
+		s.empId = e.empId
+		<if test="search_drawerName != null and search_drawerName != ''">
+			and s.drawerName like '%${search_drawerName}%'
+		</if>
+		<if test="search_workSheetNo != null and search_workSheetNo != ''">
+			and s.workSheetNo like '%${search_workSheetNo}%'
+		</if>
+		<if test="search_signType != null and search_signType != ''">
+			and s.signType like '%${search_signType}%'
+		</if>
+		<if test="search_empNo != null and search_empNo != ''">
+			and s.empNo like '%${search_empNo}%'
+		</if>
+		<if test="search_sendUnit != null and search_sendUnit != ''">
+			and s.sendUnit like '%${search_sendUnit}%'
+		</if>
+	</select>
+	<!-- 查询总记录数 -->
+	<select id="countSignIn" parameterType="hashMap" resultType="int">
+		select COUNT(*) from t_sign_in s,t_worksheet w,t_employee e
+		where s.workSheetId = w.workSheetId 
+		and s.empId = e.empId
+		<if test="search_drawerName != null and search_drawerName != ''">
+			and s.drawerName like '%${search_drawerName}%'
+		</if>
+		<if test="search_workSheetNo != null and search_workSheetNo != ''">
+			and s.workSheetNo like '%${search_workSheetNo}%'
+		</if>
+		<if test="search_signType != null and search_signType != ''">
+			and s.signType like '%${search_signType}%'
+		</if>
+		<if test="search_empNo != null and search_empNo != ''">
+			and s.empNo like '%${search_empNo}%'
+		</if>
+		<if test="search_sendUnit != null and search_sendUnit != ''">
+			and s.sendUnit like '%${search_sendUnit}%'
+		</if>
+	</select>
+	
+	<!-- 添加签收录入 -->
+	<insert id="addSignIn" parameterType="SignIn">
+		insert into t_sign_in(signId,workSheetId,workSheetNo,cargoReturnSign,workSheetType
+		signType,verificationMark,addressesName,empId,empNo,empName,sendUnit,signTime,drawerName
+		drawerCompany,drawerTime,abnormalRemarks)
+		values(#{signId},#{workSheetId},#{workSheetNo},#{cargoReturnSign},#{workSheetType},
+		#{signType},#{verificationMark},#{addressesName},#{empId},#{empName},#{sendUnit},
+		#{signTime},#{drawerName},#{drawerCompany},#{drawerTime},#{abnormalRemarks})
+	</insert>
+	
+	<!-- 查询所有员工 -->
+	<select id="findEmp" resultType="Emp">
+		select * from t_employee
+	</select>
+	
+	<!-- 查询工作单 -->
+	<select id="findWorkSheet" resultType="WorkSheet">
+		select * from t_worksheet
+	</select>
+	
+	<!-- 通过员工Id查询员工号和员工姓名 -->
+	<select id="findEmpNoAndEmpNameByEmpId" parameterType="String" resultType="Emp">
+		select empNo,empName from t_employee where empId = #{empId}
+	</select>
+	
+	<!-- 通过工作单号查询签收人 -->
+	<select id="findAddressNameByWorkSheetNo" parameterType="String" resultType="Addresses">
+		select addressesName from t_worksheet where workSheetNo =
+		(select workSheetNo from t_worksheet where workSheetId = #{workSheetId})
+	</select>
+	
+	<!-- 通过工作单号查询工作单类型 -->
+	<select id="findWorkSheetTypeByWorkSheetNo" parameterType="String" resultType="WorkSheet">
+		select workSheetType from t_worksheet where workSheetNo = #{workSheetNo}
+	</select>
+	
+	<!-- 删除未保存的签收录入 -->
+	<delete id="deleteSignIn" parameterType="String">
+		delete from t_sign_in where signId = #{signId}
+	</delete>
+	
+	<!-- 修改签收人 -->
+	<update id="updateSignIn" parameterType="String">
+		update t_sign_in set addressesName  = #{addressesName} where signId = #{signId}
+	</update>
+</mapper>

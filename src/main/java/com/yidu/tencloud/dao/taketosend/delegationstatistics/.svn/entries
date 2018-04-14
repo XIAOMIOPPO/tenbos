@@ -1,0 +1,52 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/java/com/yidu/tencloud/dao/taketosend/delegationstatistics
+https://iversen:8888/svn/dangdang
+
+
+
+2018-01-18T03:10:32.890627Z
+1721
+yqf
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+DelegationStatisticsMapper.java
+file
+
+
+
+
+2018-01-20T02:34:00.406000Z
+117cb6ee3778ff0a8c1f58c2275d94a2
+2018-01-18T03:10:32.890627Z
+1721
+yqf
+
+DelegationStatisticsMapper.xml
+file
+
+
+
+
+2017-12-25T01:50:09.913000Z
+201ec8d9ef641d6d86d2a7822e4fa17d
+2017-12-21T06:07:35.682986Z
+1214
+yqf
+

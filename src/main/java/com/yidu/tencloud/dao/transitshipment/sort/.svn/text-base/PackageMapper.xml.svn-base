@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.transitshipment.sort.PackageMapper">
+	
+	<!-- 根据合包状态分页查询合包主表  -->
+	<select id="findPackageinfoPagenation" resultType="Packageinfo" parameterType="hashmap">
+		select * 
+		from t_packetinfo 
+		<!-- 状态为0 -->
+		where status='0' 
+		limit #{offset},#{limit}
+	</select>
+	
+	<!-- 根据合包状态查询合包数量 -->
+	<select id="countPackageinfo" resultType="int">
+		select COUNT(*) 
+		from t_packetinfo 
+		<!-- 状态为0 -->
+		where status='0'
+	</select>
+	
+	<!-- 添加合包主表 -->
+	<insert id="addPackageinfo" parameterType="Packageinfo">
+		insert into t_packetinfo(packageId,packageNo,packageUnit,packageName,sealNumber,destination,computationalArrival,serviceTimeLimit,packageTime,votes,totalPackages,totalWeight,totalVolume,pstatus,status,stowageRequirement) 
+		values(#{packageId},#{packageNo},#{packageUnit},#{packageName},#{sealNumber},#{destination},#{computationalArrival},#{serviceTimeLimit},#{packageTime},#{votes},#{totalPackages},#{totalWeight},#{totalVolume},#{pstatus},#{status},#{stowageRequirement})
+	</insert>
+	
+	<!-- 添加合包明细 -->
+	<insert id="addPackagelist" parameterType="Packagelist">
+		insert into t_packagelist(packListId,oddNo,productName,destination,vote,productAmount,number,actualWeight,volume,serviceTimeLimit,importantTips,stowageRequirement,inputType,workSheetNo,packageId)
+		values(#{packListId},#{oddNo},#{productName},#{destination},#{vote},#{productAmount},#{number},#{actualWeight},#{volume},#{serviceTimeLimit},#{importantTips},#{stowageRequirement},#{inputType},#{workSheetNo},#{packageId})
+	</insert>
+	
+	<!-- 根据工作单号查找相关信息 -->
+	<select id="findPackagelistByOddNo" resultType="Packagelist" parameterType="hashmap">
+		<!-- 品名，到达地，实际件数，件数，重量，体积，送达时限，重要提示，配载要求 -->
+		select r.productName,w.destination,r.productAmount,r.billingQuantity,r.actualWeight,
+			   u.volume,r.serviceTimeLimit,r.importantTips,w.stowageRequirement
+		<!--作脸接查询工作单表，规则表，包装表 -->
+		from t_worksheet w left join  t_rule r on w.workSheetNo = r.workSheetNo
+			 LEFT JOIN t_userpack u on w.workSheetNo = u.ordId
+		<!-- 条件为工作单号 -->
+		where w.workSheetNo=#{workSheetNo}
+	</select>
+	
+	<!-- 查询合包时间数量 -->
+	<select id="datePackageSizeQuery" parameterType="string" resultType="int">
+		select count(*) 
+		from t_packetinfo 
+		<!-- 根据合包号模糊查询 -->
+		where packgeNo like '%${value}%'
+	</select>
+	
+	<!-- 修改合包状态根据合包号 -->
+	<update id="deletePackageStatus" parameterType="list">
+		<!-- 在合包主表，将状态设置为1 -->
+		update t_packetinfo set status="1" 
+		<where>
+			packageNo
+			<foreach item="item" index="index"  open="in (" close=")" separator="," collection="list">
+				#{item}
+			</foreach>
+		</where>
+	</update>
+	<!-- 根据合包Id查询相关信息 -->
+	<select id="findPackageinfoById" parameterType="string" resultType="Packageinfo">
+		select * 
+		from t_packetinfo 
+		<!-- 合包主Id -->
+		where packageId=#{packageId}
+	</select>
+	<!-- 根据合包主Id查询子表相关信息 -->
+	<select id="findPackagelistByPackageId" parameterType="string" resultType="Packagelist">
+		select * 
+		from t_packagelist 
+		<!-- 合包主Id -->
+		where packageId=#{packageId}
+	</select>
+	<!-- 根据合包Id修改相关信息 -->
+	<update id="updatePackageinfo" parameterType="int">
+		update t_packetinfo 
+		<set>
+			<!-- 到达地 -->
+			<if test="destination!=null and destination!=''">
+				destination=#{destination},
+			</if>
+			<!-- 送达时限 -->
+			<if test="serviceTimeLimit!=null and serviceTimeLimit!=''">
+				serviceTimeLimit=#{serviceTimeLimit}
+			</if>
+		</set>
+		<!-- 合包号 -->
+		<where>
+			packageNo=#{packageNo}
+		</where>
+	</update>
+	<!-- 查询合包数 -->
+	<select id="countPackageNumber" resultType="int">
+		select COUNT(*) 
+		from t_packetinfo 
+		<!-- 合包时间是否是今天合包 -->
+		where TO_DAYS(packageTime) = TO_DAYS(NOW()) 
+	</select>
+</mapper>

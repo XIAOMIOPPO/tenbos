@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/dangdang/!svn/ver/1820/bos/tenbos/src/main/java/com/yidu/tencloud/dao/transitshipment/sort
+END
+SignDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/dangdang/!svn/ver/1630/bos/tenbos/src/main/java/com/yidu/tencloud/dao/transitshipment/sort/SignDao.java
+END
+OutwarehouseDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/dangdang/!svn/ver/1612/bos/tenbos/src/main/java/com/yidu/tencloud/dao/transitshipment/sort/OutwarehouseDao.java
+END
+RepertoryDao.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/dangdang/!svn/ver/1696/bos/tenbos/src/main/java/com/yidu/tencloud/dao/transitshipment/sort/RepertoryDao.java
+END
+PackageMapper.xml
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/dangdang/!svn/ver/1820/bos/tenbos/src/main/java/com/yidu/tencloud/dao/transitshipment/sort/PackageMapper.xml
+END
+PackageMapper.java
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/dangdang/!svn/ver/1783/bos/tenbos/src/main/java/com/yidu/tencloud/dao/transitshipment/sort/PackageMapper.java
+END
+OutwarehouseDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/dangdang/!svn/ver/1614/bos/tenbos/src/main/java/com/yidu/tencloud/dao/transitshipment/sort/OutwarehouseDao.xml
+END
+SignDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/dangdang/!svn/ver/1763/bos/tenbos/src/main/java/com/yidu/tencloud/dao/transitshipment/sort/SignDao.xml
+END
+RepertoryDao.xml
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/dangdang/!svn/ver/1615/bos/tenbos/src/main/java/com/yidu/tencloud/dao/transitshipment/sort/RepertoryDao.xml
+END

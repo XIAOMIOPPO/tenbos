@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.system.logdao.LogMapper">
+
+	<!-- 带条件的分页查询,如果条件为空，就是查询所有用户，并做分页 -->
+	<select id="logPageQuery" parameterType="hashmap" resultType="Log">
+		select * from t_log
+		<where>
+			<!-- 条件查询 -->
+			<!-- 操作用户名 -->
+			<if test="userName!=null">
+				and userName like '%${userName}%'
+			</if>
+			<!-- 开始时间 -->
+			<if test="lowDate!=null and visitDate!=''">
+				and visitDate &gt;= #{lowDate}
+			</if>
+			<!-- 截止时间 -->
+			<if test="highDate!=null and highDate!=''">
+				and visitDate &lt;= #{highDate}
+			</if>
+			<!-- 开始记录数,该页总记录数 -->
+			<if test="offset!=null and limit!=null">
+				order by visitDate limit #{offset},#{limit}
+			</if>
+		</where>
+
+	</select>
+
+	<!-- 计算总记录数 -->
+	<select id="logCountPageQuery" parameterType="hashmap"
+		resultType="int">
+		select COUNT(*) from t_log
+		<where>
+			<!-- 条件查询 -->
+			<!-- 操作用户名 -->
+			<if test="userName!=null">
+				and userName like '%${userName}%'
+				
+			</if>
+			<!-- 开始时间 -->
+			<if test="lowDate!=null and lowDate!=''">
+				and visitDate &gt;= #{lowDate}
+			</if>
+			<!-- 截止时间 -->
+			<if test="highDate!=null and highDate!=''">
+				and visitDate &lt;= #{highDate}
+			</if>
+		</where>
+	</select>
+
+	<!-- 添加日志 -->
+	<insert id="addLog" parameterType="Log">
+		insert into
+		t_log(logId,userName,visitDate,visitResource,visitResult)
+		values(#{logId},#{userName},#{visitDate},#{visitResource},#{visitResult})
+	</insert>
+
+	<!-- 删除日志 -->
+	<delete id="deleteLogByLogId" parameterType="Log">
+		delete from t_log
+		where logId = #{logId}
+	</delete>
+
+	<!-- 根据资源查找日志 -->
+	<select id="findLogByResource" parameterType="hashMap"
+		resultType="Log">
+		select * from t_log where visitResource = #{visitResource}
+	</select>
+
+</mapper>

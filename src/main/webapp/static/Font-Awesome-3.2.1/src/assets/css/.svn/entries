@@ -1,0 +1,52 @@
+8
+
+dir
+1842
+https://iversen:8888/svn/dangdang/bos/tenbos/src/main/webapp/static/Font-Awesome-3.2.1/src/assets/css
+https://iversen:8888/svn/dangdang
+
+
+
+2017-11-06T02:07:34.157316Z
+135
+youngboy
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+1410bee2-d183-9740-ad5c-d5962dd074c0
+
+prettify.css
+file
+
+
+
+
+2017-11-11T07:46:20.857000Z
+365cab8d7f30e6fb74a6426275837bc2
+2017-11-06T02:07:34.157316Z
+135
+youngboy
+
+pygments.css
+file
+
+
+
+
+2017-11-11T07:46:20.869000Z
+647d9638f283dce3dcc45254f9105b70
+2017-11-06T02:07:34.157316Z
+135
+youngboy
+

@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.taketosend.worksheetDao.WorkSheetMapper">
+	<!-- 查找业务通知单编号 -->
+	<select id="findBusinessNoticeNo" parameterType="hashmap" resultType="string">
+	<!-- 工作单表 右连接业务通知单表 -->
+	  select t2.businessRecsiptNo from t_worksheet t1 
+	    right join t_businessrecsipt t2 on t1.businessNoticeNo=t2.businessRecsiptNo 
+	  <where>
+	    <!-- 工作单编号 -->
+        <if test="workSheetNo!=null and workSheetNo!=''">
+         t1.workSheetNo=#{workSheetNo}
+        </if>
+	  </where>
+	</select>
+	
+	<!-- 根据业务通知单号查询业务通知单 -->
+	<select id="findBusinessRecsiptByBus" resultType="BusinessRecsipt">
+	  select * from t_businessrecsipt where businessRecsiptNo=#{businessRecsiptNo}
+	</select>
+	
+	<!-- 根据业务通知单号查询工单 -->
+	<select id="findWorkOrderByBus" resultType="WorkOrder">
+	<!-- 业务通知单表 工单表  工单类型为新单 -->
+	  select w.empName,w.takeOrgName from t_businessrecsipt b,t_workorder w  
+	  where b.businessRecsiptNo=w.businessRecsiptNo and w.workOrderType='新单' and
+	  b.businessRecsiptNo=#{businessRecsiptNo}
+	</select>
+	
+	<!-- 根据基础档案名查询辅助档案名 -->
+	<select id="findHelpFile" resultType="String">
+	  select fileName from t_help_files where recordName = #{recordName}
+	</select>
+	
+	<!-- 添加工作单 -->
+	<insert id="addWorkSheet" parameterType="WorkSheet">
+	<!-- 工作单Id，工作单编号，工作单来源，产品，业务通知单编号，职员名，受理单位，配载要求，完整性状态 -->
+	  insert into t_worksheet
+	  (workSheetId,workSheetNo,workSheetSource,product,
+	  businessNoticeNo,empName,pickup,
+	  stowageRequirement,integraliyStatus) 
+	  values(#{workSheetId},#{workSheetNo},#{workSheetSource},#{product},
+	  #{businessNoticeNo},#{empName},#{pickup},
+	  #{stowageRequirement},#{integraliyStatus})
+	</insert>
+	
+	<!-- 添加寄件人 -->
+	<insert id="addSender" parameterType="Sender">
+	<!-- 寄件人Id，寄件人编号，寄件人名，寄件人传真，寄件人地址，寄件人单位，寄件人电话 ，工作单编号 -->
+	  insert into t_sender(senderId,senderNo,senderName,senderFax,
+	  senderAddress,senderCompany,senderPhone,workSheetNo)
+	  values(#{senderId},#{senderNo},#{senderName},#{senderFax},
+	  #{senderAddress},#{senderCompany},#{senderPhone},#{workSheetNo}) 
+	</insert> 
+   
+    <!-- 添加收件人 -->	
+	<insert id="addAddresses" parameterType="Addresses">
+	<!-- 收件人Id，收件人编号，收件人名，收件人传真，收件人地址，收件人单位，收件人电话，工作单编号 -->
+	  insert into t_addresses(addressesId,addressesNo,addressesName,
+	  addressesFax,addressesAddress,addressesCompany,addressesPhone,workSheetNO)
+      values(#{addressesId},#{addressesNo},#{addressesName},
+	  #{addressesFax},#{addressesAddress},#{addressesCompany},#{addressesPhone},#{workSheetNo});
+	</insert>
+   
+    <!-- 添加规则 -->
+    <insert id="addRule" parameterType="Rule">
+    <!-- 规则Id，计费数量，实际重量，产品名，尺寸，保险类型，声明价值，保险费，原包装，实际包装，保险费，包装要求
+               实际件数，计费重量，计算方式，预收费，代收费，到付款，反馈签收，是否节假日，送达时限，处理方式，签单返回，重要提示，工作单编号 -->
+      insert into t_rule(ruleId,billingQuantity,actualWeight,productName,size
+      ,insuranceType,declaredValue,insurancePremium,originalPacking,actualPacking
+      ,packingCharges,packagingRequirements,productAmount,billingWeight
+      ,settlementMode,preCharge,replaceReceivables,paymentArrival
+      ,feedbackSign,holidayIsCollect,serviceTimeLimit,processingMethod,signBack
+      ,importantTips,workSheetNo)
+      values(#{ruleId},#{billingQuantity},#{actualWeight},#{productName},#{size}
+      ,#{insuranceType},#{declaredValue},#{insurancePremium},#{originalPacking},#{actualPacking}
+      ,#{packingCharges},#{packagingRequirements},#{productAmount},#{billingWeight}
+      ,#{settlementMode},#{preCharge},#{replaceReceivables},#{paymentArrival}
+      ,#{feedbackSign},#{holidayIsCollect},#{serviceTimeLimit},#{processingMethod},#{signBack}
+      ,#{importantTips},#{workSheetNo})
+    </insert>
+    
+    <!-- 添加开单人 -->
+    <insert id="addDrawer" parameterType="Drawer">
+    <!-- 开单Id，开单编号，开单人名，开单人单位，开单时间，工作单编号 -->
+      insert into t_drawer(drawerId,drawerNo,drawerName,drawerOperationCompany,
+      drawerTime,workSheetNo) values(#{drawerId},#{drawerNo},#{drawerName},
+      #{drawerOperationCompany},#{drawerTime},#{workSheetNo})
+    </insert>
+    
+    <!-- 添加补单人 -->
+    <insert id="addSupplement" parameterType="Supplement">
+    <!-- 补单Id，补单编号，补单人名，补单人单位，补单人时间，工作单编号 -->
+      insert into t_supplement(supplementId,supplementNo,supplementName,
+      supplementCompany,supplementTime,workSheetNo) 
+      values(#{supplementId},#{supplementNo},#{supplementName},
+      #{supplementCompany},#{supplementTime},#{workSheetNo})
+    </insert>
+    
+    <!-- 根据工作单Id修改完整性状态 -->
+    <update id="updateStatus" parameterType="WorkSheet">
+      update t_worksheet set integraliyStatus = #{integraliyStatus} 
+      where workSheetId =#{workSheetId}
+    </update>
+    
+    <!-- 修改工作单 -->
+    <update id="updateWorksheet" parameterType="WorkSheet">
+       update t_worksheet
+  			<set>
+  			    <!-- 产品 -->
+  			    <if test="product !=null and product !='' ">
+  			        product=#{product},
+  			    </if>
+  			    <!-- 目的地 -->
+  			    <if test="destination !=null and destination !='' ">
+  			        destination=#{destination},
+  			    </if>
+  			    <!-- 职员名 -->
+  			    <if test="empName !=null and empName !='' ">
+  			        empName=#{empName},
+  			    </if>
+  			    <!-- 受理单位 -->
+  			    <if test="pickup !=null and pickup !='' ">
+  			        pickup=#{pickup},
+  			    </if>
+  			    <!-- 分拣单位 -->
+  			    <if test="fixedAreaNo !=null and fixedAreaNo !='' ">
+  			        fixedAreaNo=#{fixedAreaNo},
+  			    </if>
+  			    <!-- 配载要求 -->
+  			    <if test="stowageRequirement !=null and stowageRequirement !='' ">
+  			        stowageRequirement=#{stowageRequirement},
+  			    </if>
+  			    <!-- 完整性状态 -->
+  			    <if test="integraliyStatus !=null and integraliyStatus !='' ">
+  			        integraliyStatus=#{integraliyStatus},
+  			    </if>
+  			</set>
+  	   <!-- 工作单编号 -->
+  	   where workSheetNo=#{workSheetNo}
+    </update>
+    
+    <!-- 修改寄件人 -->
+    <update id="updateSender" parameterType="Sender">
+       update t_sender
+  			<set>
+  			    <!-- 寄件人名 -->
+  			    <if test="senderName !=null and senderName !='' ">
+  			        senderName=#{senderName},
+  			    </if>
+  			    <!-- 寄件人编号 -->
+  			    <if test="senderNo !=null and senderNo !='' ">
+  			        senderNo=#{senderNo},
+  			    </if>
+  			    <!-- 寄件人地址 -->
+  			    <if test="senderAddress !=null and senderAddress !='' ">
+  			        senderAddress=#{senderAddress},
+  			    </if>
+  			    <!-- 寄件人单位 -->
+  			    <if test="senderCompany !=null and senderCompany !='' ">
+  			        senderCompany=#{senderCompany},
+  			    </if>
+  			    <!-- 寄件人电话 -->
+  			    <if test="senderPhone !=null and senderPhone !='' ">
+  			        senderPhone=#{senderPhone},
+  			    </if>
+  			    <!-- 寄件人传真 -->
+  			    <if test="senderFax !=null and senderFax !='' ">
+  			        senderFax=#{senderFax},
+  			    </if>
+  			</set>
+  	   <!-- 工作单编号 -->
+  	   where workSheetNo=#{workSheetNo}
+    </update>
+    
+    <!-- 修改收件人 -->
+    <update id="updateAddresses" parameterType="Addresses">
+       update t_addresses
+  			<set>
+  			    <!-- 收件人名 -->
+  			    <if test="addressesName !=null and addressesName !='' ">
+  			        addressesName=#{addressesName},
+  			    </if>
+  			    <!-- 收件人编号 -->
+  			    <if test="addressesNo !=null and addressesNo !='' ">
+  			        addressesNo=#{addressesNo},
+  			    </if>
+  			    <!-- 收件人地址 -->
+  			    <if test="addressesAddress !=null and addressesAddress !='' ">
+  			        addressesAddress=#{addressesAddress},
+  			    </if>
+  			    <!-- 收件人单位 -->
+  			    <if test="addressesCompany !=null and addressesCompany !='' ">
+  			        addressesCompany=#{addressesCompany},
+  			    </if>
+  			    <!-- 收件人电话 -->
+  			    <if test="addressesPhone !=null and addressesPhone !='' ">
+  			        addressesPhone=#{addressesPhone},
+  			    </if>
+  			    <!-- 收件人传真 -->
+  			    <if test="addressesFax !=null and addressesFax !='' ">
+  			        addressesFax=#{addressesFax},
+  			    </if>
+  			</set>
+  	   <!-- 工作单编号 -->
+  	   where workSheetNo=#{workSheetNo}
+    </update>
+    
+    <!-- 修改规则 -->
+    <update id="updateRule" parameterType="Rule">
+       update t_rule
+  			<set>
+  			    <!-- 计费数量 -->
+  			    <if test="billingQuantity !=null and billingQuantity !='' ">
+  			        billingQuantity=#{billingQuantity},
+  			    </if>
+  			    <!-- 实际重量 -->
+  			    <if test="actualWeight !=null and actualWeight !='' ">
+  			        actualWeight=#{actualWeight},
+  			    </if>
+  			    <!-- 产品名 -->
+  			    <if test="productName !=null and productName !='' ">
+  			        productName=#{productName},
+  			    </if>
+  			    <!-- 尺寸 -->
+  			    <if test="size !=null and size !='' ">
+  			        size=#{size},
+  			    </if>
+  			    <!-- 保险类型 -->
+  			    <if test="insuranceType !=null and insuranceType !='' ">
+  			        insuranceType=#{insuranceType},
+  			    </if>
+  			    <!--声明价值  -->
+  			    <if test="declaredValue !=null and declaredValue !='' ">
+  			        declaredValue=#{declaredValue},
+  			    </if>
+  			    <!--保险费  -->
+  			    <if test="insurancePremium !=null and insurancePremium !='' ">
+  			        insurancePremium=#{insurancePremium},
+  			    </if>
+  			    <!--原包装  -->
+  			    <if test="originalPacking !=null and originalPacking !='' ">
+  			        originalPacking=#{originalPacking},
+  			    </if>
+  			    <!--实际包装  -->
+  			    <if test="actualPacking !=null and actualPacking !='' ">
+  			        actualPacking=#{actualPacking},
+  			    </if>
+  			    <!--保险费  -->
+  			    <if test="packingCharges !=null and packingCharges !='' ">
+  			        packingCharges=#{packingCharges},
+  			    </if>
+  			    <!--包装要求 -->
+  			    <if test="packagingRequirements !=null and packagingRequirements !='' ">
+  			        packagingRequirements=#{packagingRequirements},
+  			    </if>
+  			    <!--实际件数 -->
+  			    <if test="productAmount !=null and productAmount !='' ">
+  			        productAmount=#{productAmount},
+  			    </if>
+  			    <!--计费重量  -->
+  			    <if test="billingWeight !=null and billingWeight !='' ">
+  			        billingWeight=#{billingWeight},
+  			    </if>
+  			    <!--计算方式  -->
+  			    <if test="settlementMode !=null and settlementMode !='' ">
+  			        settlementMode=#{settlementMode},
+  			    </if>
+  			    <!--预收费  -->
+  			    <if test="preCharge !=null and preCharge !='' ">
+  			        preCharge=#{preCharge},
+  			    </if>
+  			    <!--代收费 -->
+  			    <if test="replaceReceivables !=null and replaceReceivables !='' ">
+  			        replaceReceivables=#{replaceReceivables},
+  			    </if>
+  			    <!--到付款 -->
+  			    <if test="paymentArrival !=null and paymentArrival !='' ">
+  			        paymentArrival=#{paymentArrival},
+  			    </if>
+  			    <!--反馈签收 -->
+  			    <if test="feedbackSign !=null and feedbackSign !='' ">
+  			        feedbackSign=#{feedbackSign},
+  			    </if>
+  			    <!--是否节假日 -->
+  			    <if test="holidayIsCollect !=null and holidayIsCollect !='' ">
+  			        holidayIsCollect=#{holidayIsCollect},
+  			    </if>
+  			    <!--送达时限 -->
+  			    <if test="serviceTimeLimit !=null and serviceTimeLimit !='' ">
+  			        serviceTimeLimit=#{serviceTimeLimit},
+  			    </if>
+  			    <!--处理方式 -->
+  			    <if test="processingMethod !=null and processingMethod !='' ">
+  			        processingMethod=#{processingMethod},
+  			    </if>
+  			    <!--签单返回 -->
+  			    <if test="signBack !=null and signBack !='' ">
+  			        signBack=#{signBack},
+  			    </if>
+  			    <!-- 重要提示 -->
+  			    <if test="importantTips !=null and importantTips !='' ">
+  			        importantTips=#{importantTips},
+  			    </if>
+  			</set>
+  	   <!-- 工作单编号 -->
+  	   where workSheetNo=#{workSheetNo}
+    </update>
+    
+    <!-- 修改补单人 -->
+    <update id="updateSupplement" parameterType="Supplement">
+    <!-- 开单人名，开单人时间，开单人单位        工作单编号 -->
+      update t_supplement set supplementName = #{supplementName}
+      ,supplementTime =#{supplementTime},supplementCompany=#{supplementCompany} 
+      where workSheetNo=#{workSheetNo}
+    </update>
+    
+    <!-- 模糊查找工作单信息和开单时间 -->
+	<select id="findAllWorkSheet" parameterType="hashmap" resultType="WorkTime">
+	<!-- 工作单表 连接开单表 -->
+		select w.*,d.drawerTime from t_worksheet w join t_drawer d on w.workSheetNo=d.workSheetNo 
+		<!-- 受理单位循环 -->
+		and w.pickup
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+			#{item}
+		</foreach>
+		    <!-- 完整性状态 -->
+			<if test="integraliyStatus!=null and integraliyStatus!=''">
+				and w.integraliyStatus like '%${integraliyStatus}%'
+			</if>
+			<!-- 工作单来源 -->
+			<if test="workSheetSource!=null and workSheetSource!=''">
+				and w.workSheetSource like '%${workSheetSource}%'
+			</if>
+			<!-- 开单时间 -->
+			<if test="drawerTime!=null and drawerTime!=''">
+				and d.drawerTime like '%${drawerTime}%'
+			</if>
+			<!-- 根据时间排序 -->
+			ORDER BY d.drawerTime DESC
+	</select>
+	
+	<!-- 查找工作单4表 -->
+	<select id="findFour" resultMap="fourResult">
+	<!-- 工作单表，寄件人表，收件人表，规则表 -->
+	  select w.*,s.*,a.*,r.* from t_worksheet w,t_sender s,t_addresses a,t_rule r 
+	  where w.workSheetNo = s.workSheetNo and w.workSheetNo = a.workSheetNo
+	  and w.workSheetNo = r.workSheetNo
+	</select>
+	<!-- 工作单结果集 -->
+	<resultMap type="WorkSheet" id="fourResult"> 
+	    <!-- 工作单Id -->
+        <id property="workSheetId" column="workSheetId"/>  
+	    <!-- 工作单编号 -->
+	    <result property="workSheetNo" column="workSheetNo"/>
+        <!-- 产品 -->
+        <result property="product" column="product"/>  
+        <!-- 配载要求 -->
+        <result property="stowageRequirement" column="stowageRequirement"/>
+        <!--a 寄件人对象 -->
+        <association property="sender" resultMap="senderResult1"/>
+        <!-- 收件人对象 -->
+        <association property="addresses" resultMap="addressesResult1"/>  
+        <!-- 规则对象 -->
+        <association property="rule" resultMap="ruleResult1"/>
+    </resultMap>
+    
+    <!-- 寄件人结果集 -->
+    <resultMap type="Sender" id="senderResult1">  
+        <!-- 寄件人名 -->
+        <result property="senderName" column="senderName"/>  
+        <!-- 寄件人编号 -->
+        <result property="senderNo" column="senderNo"/>
+        <!-- 寄件人地址 -->
+        <result property="senderAddress" column="senderAddress"/>
+        <!-- 寄件人电话 -->
+        <result property="senderPhone" column="senderPhone"/>
+    </resultMap>
+    
+    <!-- 收件人结果集 -->
+    <resultMap type="Addresses" id="addressesResult1"> 
+        <!-- 收件人名 -->
+        <result property="addressesName" column="addressesName"/>  
+        <!-- 收件人地址 -->
+        <result property="addressesAddress" column="addressesAddress"/>
+        <!-- 收件人电话 -->
+        <result property="addressesPhone" column="addressesPhone"/> 
+    </resultMap>
+    
+    <!-- 规则结果集 -->
+    <resultMap type="Rule" id="ruleResult1">  
+        <!-- 产品名 -->
+        <result property="productName" column="productName"/>
+        <!-- 实际件数 -->
+        <result property="productAmount" column="productAmount"/>  
+        <!-- 实际重量 -->
+        <result property="actualWeight" column="actualWeight"/> 
+    </resultMap>
+    
+    <!-- 快速录入，工作单导入带入数据 -->
+	<select id="findWorkSheet" resultMap="workSheetResult">
+	<!-- 根据工作单边编号找到工作单信息，寄件人信息，收件人信息，规则信息，开单人信息 -->
+	  select w.*,s.*,a.*,r.*,d.* from t_worksheet w,t_sender s,t_addresses a,t_rule r,t_drawer d 
+	  where w.workSheetNo = s.workSheetNo and w.workSheetNo = a.workSheetNo and w.workSheetNo = d.workSheetNo
+	  and w.workSheetNo = r.workSheetNo and w.workSheetNo=#{workSheetNo}
+	</select>
+	
+	<!-- 工作单结果集 -->
+	<resultMap type="WorkSheet" id="workSheetResult">  
+	    <!-- 工作单编号 -->
+        <id property="workSheetNo" column="workSheetNo"/>
+        <!-- 业务通知单编号 -->
+        <result property="businessNoticeNo" column="businessNoticeNo"/>
+        <!-- 产品 -->
+        <result property="product" column="product"/>
+        <!-- 配载要求 -->
+        <result property="stowageRequirement" column="stowageRequirement"/>
+        <!-- 职员名 -->
+        <result property="empName" column="empName"/>  
+        <!-- 受理单位 -->
+        <result property="pickup" column="pickup"/>
+        <!--a 寄件人对象 -->
+        <association property="sender" resultMap="senderResult"/>
+        <!-- 收件人 -->
+        <association property="addresses" resultMap="addressesResult"/>
+        <!-- 规则 -->
+        <association property="rule" resultMap="ruleResult"/>
+        <!-- 开单 -->
+        <association property="drawer" resultMap="drawerResult"/>  
+    </resultMap>
+    
+    <!-- 寄件人结果集 -->
+    <resultMap type="Sender" id="senderResult">  
+        <!-- 寄件人名 -->
+        <result property="senderName" column="senderName"/>  
+        <!-- 寄件人编号 -->
+        <result property="senderNo" column="senderNo"/>
+        <!-- 寄件人地址 -->
+        <result property="senderAddress" column="senderAddress"/>
+        <!-- 寄件人单位 -->
+        <result property="senderCompany" column="senderCompany"/>
+        <!-- 寄件人电话 -->
+        <result property="senderPhone" column="senderPhone"/>
+        <!-- 寄件人传真 -->
+        <result property="senderFax" column="senderFax"/>
+    </resultMap>
+    
+    <!-- 收件人结果集 -->
+    <resultMap type="Addresses" id="addressesResult"> 
+        <!-- 收件人名 -->
+        <result property="addressesName" column="addressesName"/>  
+        <!-- 收件人编号 -->
+        <result property="addressesNo" column="addressesNo"/>
+        <!-- 收件人地址 -->
+        <result property="addressesAddress" column="addressesAddress"/>
+        <!-- 收件人单位 -->
+        <result property="addressesCompany" column="addressesCompany"/>
+        <!-- 收件人电话 -->
+        <result property="addressesPhone" column="addressesPhone"/> 
+        <!-- 收件人传真 -->
+        <result property="addressesFax" column="addressesFax"/>
+    </resultMap>
+    
+    <!-- 规则结果集 -->
+    <resultMap type="Rule" id="ruleResult">  
+        <!-- 产品名 -->
+        <result property="productName" column="productName"/>
+        <!-- 实际件数 -->
+        <result property="productAmount" column="productAmount"/>
+        <!-- 计费数量 -->
+        <result property="billingQuantity" column="billingQuantity"/>
+        <!-- 尺寸 -->
+        <result property="size" column="size"/>  
+        <!-- 实际重量 -->
+        <result property="actualWeight" column="actualWeight"/>
+        <!-- 计费重量 -->
+        <result property="billingWeight" column="billingWeight"/>
+        <!-- 声明价值 -->
+        <result property="declaredValue" column="declaredValue"/>
+        <!-- 保险类型 -->
+        <result property="insuranceType" column="insuranceType"/>
+        <!-- 保险费 -->
+        <result property="insurancePremium" column="insurancePremium"/>
+        <!-- 原包装 -->
+        <result property="originalPacking" column="originalPacking"/>
+        <!-- 实际包装 -->
+        <result property="actualPacking" column="actualPacking"/>
+        <!-- 包装费 -->
+        <result property="packingCharges" column="packingCharges"/>
+        <!-- 包装要求 -->
+        <result property="packagingRequirements" column="packagingRequirements"/>
+        <!-- 计算方式 -->
+        <result property="settlementMode" column="settlementMode"/>
+        <!-- 代收费 -->
+        <result property="replaceReceivables" column="replaceReceivables"/>
+        <!-- 到付款 -->
+        <result property="paymentArrival" column="paymentArrival"/>
+        <!-- 预收费 -->
+        <result property="preCharge" column="preCharge"/>
+        <!-- 反馈签收 -->
+        <result property="feedbackSign" column="feedbackSign"/>
+        <!-- 是否节假日 -->
+        <result property="holidayIsCollect" column="holidayIsCollect"/>
+        <!-- 送达时限 -->
+        <result property="serviceTimeLimit" column="serviceTimeLimit"/>
+        <!-- 处理方式 -->
+        <result property="processingMethod" column="processingMethod"/>
+        <!-- 签单返回 -->
+        <result property="signBack" column="signBack"/>
+        <!-- 重要提示 -->
+        <result property="importantTips" column="importantTips"/>
+    </resultMap>
+    
+    <!-- 开单人结果集 -->
+    <resultMap type="Drawer" id="drawerResult"> 
+        <!-- 开单人名 -->
+        <result property="drawerName" column="drawerName"/> 
+        <!-- 开单时间 --> 
+        <result property="drawerTime" column="drawerTime"/>
+    </resultMap>
+</mapper>

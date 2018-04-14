@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.taketosend.pack.UserUnclMapper">
+
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+	
+	<select id="findAllUserUncl" resultType="UserUncl">
+		select * from t_nuclear_weight_information
+	</select>
+	
+	<select id="ronseUserUncl" parameterType="hashmap" resultType="UserUncl">
+		select tnw.*,tu.productAmount,tu.actualWeight,tu.billingWeight from t_nuclear_weight_information tnw join tb_worksheet tws on tws.worksheetId = tnw.workSheetNo join tb_rule tu on tu.ruleId
+			<if test="workSheetNo !=null and workSheetNo !=''">
+				and workSheetNo like '%${workSheetNo}%'
+			</if>
+			<if test="nucLear != null and nucLear">
+				and nucLear like '%${nucLear}%'
+			</if>
+			<if test="productAmount != null and productAmount != ''">
+				and productAmount like '%${productAmount}%'
+			</if>
+			<if test="addresseeAddress != null and addresseeAddress !=''">
+				and addresseeAddress like '%${addresseeAddress}%'
+			</if>
+			<if test="billingWeight != null and billingWeight != ''" >
+				and billingWeight like '%${billingWeight}%'
+			</if>
+			<if test="actualWeight != null and actualWeight != ''">
+				and actualWeight like '%${actualWeight}'
+			</if>
+			<if test="geweRenz != null and geweRenz != ''">
+				and geweRenz like '%${geweRenz}%'
+			</if>
+			
+			<if test="unit != null and unit != ''">
+				and unit like '%${unit}%'
+			</if>
+			<if test="weigHing != null and weigHing != ''">
+				and weigHing like '%${weigHing}%'
+			</if>
+			
+	</select>
+
+	<select id="contUserUncl" resultType="UserUncl">
+		<choose>
+			<otherwise>
+				select * from t_nuclear_weight_information where 1=1
+			</otherwise>
+		</choose>
+		<if test="nucLear !=null and nucLear !=''">
+				and nucLear like '%${nucLear}%'
+		</if>
+		
+		<if test="end != null and end != ''">
+				and weigHing&lt;#{weigHing}
+		</if>
+		
+		<if test="geweRenz != null and geweRenz != ''">
+				and geweRenz like '%${geweRenz}'
+		</if>
+		<if test="unit != null and unit != ''">
+				and unit like '%${unit}'
+		</if>
+		
+		<choose>
+			<when test="offset != null and linit!=null">
+				limit #{offset},#{limit}
+			</when>
+		</choose>
+	</select>
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.basis.pickandrelaystandard.RelayMapper">
+
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="true"/>
+	
+	
+	<select id="findAllRelay" resultType="Relay">
+		select * from t_relay where isUse='1' order by endTime desc
+	</select>	
+	
+	<insert id="addRelay" parameterType="Relay">
+		insert into t_relay values(#{relayId},#{replaceId},#{replacedId},
+		#{startTime},#{endTime},#{replaceName}
+		,#{replacedName},'1',#{remake})
+	</insert>
+	
+	<select id="findEmpIdByEmpName" resultType="String" parameterType="String">
+		select empId from t_employee where empName = #{empName}
+	</select>
+	
+	<select id="findRealyByPage" resultType="Relay" parameterType="hashmap">
+		select * from t_relay where isUse = '1' order by endTime desc limit ${offset},${limit}
+	</select>
+	
+	<select id="findRelayByCondition" resultType="Relay" parameterType="hashmap">
+		<choose>
+			<otherwise>
+				select * from t_relay where isUse = '1' and 1=1
+			</otherwise>
+		</choose>
+		<if test="replaceName != null and replaceName!=''">
+			and replaceName like '%${replaceName}%' 
+		</if>
+		<if test="startTime != null and startTime!=''">
+			and startTime  >  #{startTime}
+		</if>
+		<if test="endTime != null and endTime!=''">
+			and endTime &lt;  #{endTime}
+		</if>
+		<choose>
+			<when test="start!=null and end!=null">
+				limit ${start},${end}
+			</when>
+		</choose>
+	</select>
+	
+	<select id="findAllEmpName" resultType="String">
+		select empName from t_employee where isUse = '1' and orgName
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="list">
+			#{item}
+		</foreach>
+	</select>
+	
+	<update id="delRelay">
+		update t_relay set isUse = '0' where relayId = #{relayId}
+	</update>
+	
+	<update id="updateRelay" parameterType="Relay">
+		update t_relay set
+		replaceName = #{replaceName},
+		replacedName = #{replacedName},
+		startTime=#{startTime},
+		endTime = #{endTime},
+		remake=#{remake}
+		where relayId = #{relayId}
+	</update>
+	
+</mapper>

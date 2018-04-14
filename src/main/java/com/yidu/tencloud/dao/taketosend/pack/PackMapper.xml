@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yidu.tencloud.dao.taketosend.pack.PackMapper">
+
+	<!-- 核重操作的添加包装 -->
+	<insert id="addPack" parameterType="Pack">
+		insert into
+		t_load(packageId,jobListNo,stripeCode,thisWeight,operateTime,operatingPer,packagesNum,storageTime,nucleatedParts,nucleatedHeavy,gewichtsdifferenz,nuclearWeightUnit,userName,whither,factWeight,orgName)
+		values(#{packageId},#{jobListNo},#{stripeCode},#{thisWeight},#{operateTime},#{operatingPer},#{packagesNum},#{storageTime},#{nucleatedParts},#{nucleatedHeavy},#{gewichtsdifferenz},#{nuclearWeightUnit},#{userName},#{whither},#{factWeight},#{orgName})
+	</insert>
+
+	<!-- 核重监控的模糊查询(带分页) -->
+	<select id="packPageQuery" parameterType="hashMap"
+		resultType="Pack">
+		select p.* from t_load p where 1=1
+		<if test='nuclearWeightUnit != null and nuclearWeightUnit != "" '>
+			and p.nuclearWeightUnit like '%${nuclearWeightUnit}%'
+		</if>
+		<if test="startTime!=null and startTime!=''">
+			and p.operateTime>= #{startTime}
+		</if>
+		<if test="endTime!=null and endTime!=''">
+			and p.operateTime &lt;= #{endTime}
+		</if>
+		<if test="maxWeight!=null and maxWeight!=''">
+			and p.gewichtsdifferenz>= #{maxWeight}
+		</if>
+		<if test="minWeight!=null and minWeight!=''">
+			and p.gewichtsdifferenz &lt;= #{minWeight}
+		</if>
+		<if test='gewichtsdifferenz != null and gewichtsdifferenz != "" '>
+			and p.gewichtsdifferenz like '%${gewichtsdifferenz}%'
+		</if>
+		<if test='jobListNo != null and jobListNo != "" '>
+			and p.jobListNo like '%${jobListNo}%'
+		</if>
+		<if test='orgName != null and orgName != "" '>
+			and p.orgName = #{orgName}
+		</if>
+		<if test="pageNumber != null and pageSize != null">
+			limit #{offset},#{limit}
+		</if>
+	</select>
+
+	<!-- 核重监控的计数(带分页) -->
+	<select id="countPackPageQuery" parameterType="hashmap"
+		resultType="int">
+		select count(*) from t_load
+		<where>
+			<if test='nuclearWeightUnit != null and nuclearWeightUnit != "" '>
+				and nuclearWeightUnit like '%${nuclearWeightUnit}%'
+			</if>
+			<if test="operateTime != null and operateTime != '' ">
+				and operateTime like '%${operateTime}%'
+			</if>
+			<if test='gewichtsdifferenz != null and gewichtsdifferenz != "" '>
+				and gewichtsdifferenz like '%${gewichtsdifferenz}%'
+			</if>
+			<if test='orgName != null and orgName != "" '>
+				and p.orgName = #{orgName}
+			</if>
+			<if test="jobListId != null and jobListId != null">
+				limit #{jobListId},#{jobListId}
+			</if>
+		</where>
+	</select>
+
+	<!-- 查询组织结构表的组织名 -->
+	<select id="findOrgNameByOrg" parameterType="String" resultType="string">
+		select orgName from t_organization where orgId=#{orgId}
+	</select>
+
+	
+	<!-- 包装信息的计数(带分页) -->
+	<select id="countPackPageAllQuery" parameterType="hashmap"
+		resultType="int">
+		select COUNT(*)
+		from t_pack p,t_basic_joblist
+		bj,t_charging_info ci,t_openUp_jobList oj,t_user u
+		where p.jobListId =
+		bj.jobListId and
+		p.jobListId = ci.jobListId and
+		p.jobListId = oj.jobListId and
+		p.operatingPer = u.userId and
+		storageTime is not null
+		<where>
+			<if test='nameOfAPart != null and nameOfAPart != "" '>
+				and ci.nameOfAPart like '%${nameOfAPart}%'
+			</if>
+			<if test="operateTime != null and operateTime != '' ">
+				and operateTime like '%${operateTime}%'
+			</if>
+			<if test="userName!=null and userName!=''">
+				and u.userName like '%${userName}%'
+			</if>
+			<if test="getProductManName!=null and getProductManName!=''">
+				and bj.getProductManName like '%${getProductManName}%'
+			</if>
+			<if test='nuclearWeightUnit != null and nuclearWeightUnit != "" '>
+				and p.nuclearWeightUnit like '%${nuclearWeightUnit}%'
+			</if>
+			<if test="jobListId != null and jobListId != null">
+				limit #{jobListId},#{jobListId}
+			</if>
+		</where>
+	</select>
+
+	<!-- 修改包装表的入库时间 -->
+	<update id="updatePack" parameterType="Pack">
+		update t_pack
+		set
+		storageTime =#{storageTime}
+		where jobListNo =#{jobListNo}
+	</update>
+
+
+</mapper>

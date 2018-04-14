@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/dangdang/!svn/ver/781/bos/tenbos/src/main/webapp/shiro
+END
+unauthenticated.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/dangdang/!svn/ver/781/bos/tenbos/src/main/webapp/shiro/unauthenticated.jsp
+END
+unauthorized.jsp
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/dangdang/!svn/ver/781/bos/tenbos/src/main/webapp/shiro/unauthorized.jsp
+END

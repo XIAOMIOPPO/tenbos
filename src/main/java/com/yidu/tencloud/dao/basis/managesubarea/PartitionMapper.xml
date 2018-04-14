@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.yidu.tencloud.dao.basis.managesubarea.PartitionMapper">
+  <!-- 查询分区的记录总数 -->
+  <select id="countPartition" parameterType="hashmap" resultType="int">
+   select count(*) from t_partition
+  </select>
+  <!-- 普通分页查询 -->
+  <select id="partitionPageQuery" parameterType="hashmap" resultType="Partition"> 
+     select * from t_partition limit #{offset},#{limit}
+  </select>
+  
+  <!-- 带条件的分页查询，如果条件为空，就是查询所有用户，并做分页 -->
+  <select id="partitionPageQueryWithCriteria" parameterType="hashmap" resultType="Partition">
+   <choose>
+    <otherwise>
+       select * from t_partition where 1=1
+    </otherwise>
+   </choose>
+    <if test="partitionId!=null">
+      and partitionId like '%${partitionId}%'
+    </if>
+    <if test="addressKey!=null">
+     and addressKey like '%${addressKey}%'
+    </if>
+    <choose>
+			<when test="offset!=null and limit!=null">
+				limit #{offset},#{limit}
+			</when> 
+		</choose>
+  </select>
+  
+  <!-- 查询符合条件的分区记录总数 -->
+  <select id="countPatitionWithCriteria" resultType="int">
+   select count(*) from t_partition where 1=1
+   <if test="partitionId!=null">
+    and partitionId like '%${partitionId}%'
+   </if>
+   <if test="addressKey!=null">
+    and addressKey like '%${addressKey}%'
+   </if>
+  </select>
+  
+  <!-- 通过分区ID和关键字查询分区 -->
+  <select id="findPartitionByIdAndAddressKey" parameterType="hashmap" resultType="Partition">
+   select * from t_partition where partitionId = #{partitionId} and addressKey = #{addressKey}
+  </select>
+  
+  <!-- 添加分区 -->
+  <insert id="addPartition" parameterType="Partition">
+   insert into t_partition (partitionId,province,city,county,property,addressKey,startNum,endNum,single,
+   secondaryKey)values
+   (#{partitionId},#{province},#{city},#{county},#{property},#{addressKey},#{startNum},#{endNum},#{single},#{secondaryKey});
+  </insert>
+  
+  <!-- 修改分区属性 -->
+  <update id="updatePartitionpeoperty" parameterType="hashMap">
+  update t_partition 
+   set   property = #{property}
+  where partitionId = #{partitionId}
+  </update>
+  
+  <!-- 删除分区 -->
+  <delete id="deletePartition" parameterType="Partition">
+  delete from t_partition where partitionId = #{partitionId}
+  </delete>
+</mapper>

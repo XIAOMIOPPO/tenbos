@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yidu.tencloud.dao.taketosend.workSheetSearch.WorkSheetSearchMapper">
+	<!-- 查询部分工作单 -->
+	
+	<select id="findSubJobList" resultType="WorkSheetSearch" parameterType="hashMap">
+		select w.*,r.*,d.*,s.*,p.*,a.* 
+		    from t_worksheet w
+			join t_rule r on w.workSheetNo=r.workSheetNo
+			join t_addresses a on w.workSheetNo=a.workSheetNo
+			join t_sender s on w.workSheetNo=s.workSheetNo
+			join t_supplement p on w.workSheetNo=p.workSheetNo
+			join t_drawer d on w.workSheetNo=d.workSheetNo
+	 	 and w.pickup
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+			#{item}
+		</foreach>
+		<if test="workSheetNo!=null and workSheetNo !=''">
+			and w.workSheetNo like '%${workSheetNo}%'
+		</if>
+		<if test="integraliyStatus!=null and integraliyStatus !=''">
+			and w.integraliyStatus like '%${integraliyStatus}%'
+		</if>
+		<if test="pickup!=null and pickup !=''">
+			and w.pickup like '%${pickup}%'
+		</if>
+		limit #{offset},#{limit}
+	</select>
+	
+	<select id="count" resultType="int" parameterType="hashMap">
+		select count(*) 
+		    from t_worksheet w
+			join t_rule r on w.workSheetNo=r.workSheetNo
+			join t_addresses a on w.workSheetNo=a.workSheetNo
+			join t_sender s on w.workSheetNo=s.workSheetNo
+			join t_supplement p on w.workSheetNo=p.workSheetNo
+			join t_drawer d on w.workSheetNo=d.workSheetNo
+	 	  and w.pickup
+		<foreach item="item" index="index"  open="in (" close=")" separator="," collection="orgList">
+			#{item}
+		</foreach>
+		<if test="workSheetNo!=null and workSheetNo !=''">
+			and w.workSheetNo like '%${workSheetNo}%'
+		</if>
+		<if test="integraliyStatus!=null and integraliyStatus !=''">
+			and w.integraliyStatus like '%${integraliyStatus}%'
+		</if>
+		<if test="pickup!=null and pickup !=''">
+			and w.pickup like '%${pickup}%'
+		</if>
+		<if test="drawerTime!=null and drawerTime!='' ">
+			and s.drawerTime like '%${drawerTime}%'
+		</if>
+		<if test="senderCompany!=null and senderCompany!='' ">
+			and s.senderCompany like '%${senderCompany}%'
+		</if>
+	</select>
+	
+	<update id="updateStatus" parameterType="WorkSheet">
+      update t_worksheet set cancelStatus = #{cancelStatus} 
+      where workSheetNo =#{workSheetNo}
+    </update>
+	
+</mapper>
